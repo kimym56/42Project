@@ -1,21 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 import { StyleSheet, Text, View } from 'react-native';
+import Loading from './components/Loading.js';
+import Register from './components/Register';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+export class App extends Component {
+  state = {
+    isLoading: true
+  };
+  componentDidMount = async () => {
+    setTimeout(() => { this.setState({ isLoading: false }) }, 2000);
+  };
+
+  render() {
+    if (this.state.isLoading) {
+      return <Loading />
+    }
+    else {
+      return <Register />;
+    }
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
