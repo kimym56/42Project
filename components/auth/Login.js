@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { View, Button, TextInput } from "react-native";
+import { StyleSheet, View, Button, TextInput } from "react-native";
 
-import firebase from "firebase";
 export class Login extends Component {
   constructor(props) {
     super(props);
@@ -10,8 +9,9 @@ export class Login extends Component {
       email: "",
       password: "",
     };
-    this.onSignUp = this.onSignUp.bind(this);
+    // this.onSignUp = this.onSignUp.bind(this);
   }
+  /*
   onSignUp() {
     const { email, password } = this.state;
     firebase
@@ -24,23 +24,45 @@ export class Login extends Component {
         console.log(error);
       });
   }
+  <Button onPress={() => this.onSignUp()} title="Sign Up" />
+  */
+
   render() {
     return (
-      <View>
+      <View style={style.container}>
         <TextInput
-          placeholder="email"
+          style={style.input}
+          placeholder="이메일 주소"
           onChangeText={(email) => this.setState({ email })}
         />
         <TextInput
-          placeholder="password"
+          style={style.input}
+          placeholder="비밀번호"
           secureTextEntry={true}
           onChangeText={(password) => this.setState({ password })}
         />
 
-        <Button onPress={() => this.onSignUp()} title="Sign Up" />
+        <Button title="Sign Up" />
       </View>
     );
   }
 }
+
+const style = StyleSheet.create({
+  input: {
+    margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingHorizontal: 10,
+    borderRadius: 3,
+    borderColor: "gray",
+    borderWidth: 2,
+    padding: 10,
+  },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default Login;
