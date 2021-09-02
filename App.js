@@ -10,6 +10,8 @@ import Register from "./components/auth/Register";
 import Landing from "./components/auth/Landing";
 import Login from "./components/auth/Login";
 
+import Daily from "./components/main/Daily"
+
 const Stack = createStackNavigator();
 
 export class App extends Component {
@@ -41,6 +43,8 @@ export class App extends Component {
             />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
+
+            <Stack.Screen name="Daily" component={Daily} />
           </Stack.Navigator>
         </NavigationContainer>
       );

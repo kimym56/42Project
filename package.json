@@ -8,18 +8,31 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@emotion/native": "^11.0.0",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/stack": "^6.0.6",
+    "@types/react": "^17.0.19",
+    "@types/react-native": "^0.64.13",
+    "babel-preset-es2015": "^6.24.1",
+    "dooboo-ui": "^0.1.25",
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
+    "intl": "^1.2.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-datepicker": "^1.7.2",
+    "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.9.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "babel-preset-react": "^6.24.1",
+    "typescript": "~4.0.0",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
   },
   "private": true
 }
