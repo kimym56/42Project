@@ -163,7 +163,7 @@ function CalendarCarousel({
   onDateChanged,
   selectDate,
   selectedDate,
-  markedDayEvents = [],
+  
   monthFormatter = new Intl.DateTimeFormat('en', {month: 'long'}),
 }: PropsWithChildren<Props>): ReactElement {
   const scrollRef = useRef<ScrollView>(null);
@@ -182,7 +182,12 @@ function CalendarCarousel({
     currentDate.getMonth() + 1,
     currentDate.getDate(),
   );
-
+  const markedDayEvents = [
+    {
+      selectedEventDate: new Date(2021, 9, 13),
+      events: 'react'
+    }
+  ];
   const scrollToMiddleCalendar = (): void => {
     scrollRef.current?.scrollTo({
       x: Math.floor(layoutWidth),

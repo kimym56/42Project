@@ -1,19 +1,13 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Button, TextInput,ScrollView } from "react-native";
-import CalendarCarousel from './CalendarCarousel';
-
+import { StyleSheet, View, Button, TextInput, ScrollView } from "react-native";
+import CalendarCarousel from "./CalendarCarousel";
 
 export class Daily extends Component {
-
   render() {
     return (
         <ScrollView horizontal>
-    <CalendarCarousel
-      date={new Date()}
-      
-    />
-  </ScrollView>
-
+          <CalendarCarousel />
+        </ScrollView>
     );
   }
 }
