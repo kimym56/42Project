@@ -112,8 +112,8 @@ export class Daily extends Component {
             //onPress={() => this._onPress(item)}
             onPress={() => {
               this._onPress2(item),
-                alert(item),
-                alert(this.state.activeDate.getDate());
+                alert(item)
+                //alert(this.state.activeDate.getDate());
             }}
           >
             {item != -1 ? item : ""}
