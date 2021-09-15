@@ -9,8 +9,8 @@ import Loading from "./components/auth/Loading";
 import Register from "./components/auth/Register";
 import Landing from "./components/auth/Landing";
 import Login from "./components/auth/Login";
-
-import Daily from "./components/main/Daily"
+import Daily from "./components/main/Daily";
+import Add_schedule from "./components/main/Add_schedule";
 
 const Stack = createStackNavigator();
 
@@ -43,8 +43,8 @@ export class App extends Component {
             />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
-
             <Stack.Screen name="Daily" component={Daily} />
+            <Stack.Screen name="Add_schedule" component={Add_schedule} />
           </Stack.Navigator>
         </NavigationContainer>
       );
