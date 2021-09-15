@@ -9,10 +9,15 @@ import Loading from "./components/auth/Loading";
 import Register from "./components/auth/Register";
 import Landing from "./components/auth/Landing";
 import Login from "./components/auth/Login";
+<<<<<<< HEAD
 
 import SelfCalendar from "./components/main/SelfCalendar"
 
 import AddEvent from "./components/main/AddEvent"
+=======
+import Daily from "./components/main/Daily";
+import Add_schedule from "./components/main/Add_schedule";
+>>>>>>> 29f70c53ecdb2ee147e17848cac9fa53782cb4f1
 
 const Stack = createStackNavigator();
 
@@ -45,9 +50,14 @@ export class App extends Component {
             />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
+<<<<<<< HEAD
 
             <Stack.Screen name="SelfCalendar" component={SelfCalendar} />
             <Stack.Screen name="AddEvent_DateTimePicker" component={AddEvent} />
+=======
+            <Stack.Screen name="Daily" component={Daily} />
+            <Stack.Screen name="Add_schedule" component={Add_schedule} />
+>>>>>>> 29f70c53ecdb2ee147e17848cac9fa53782cb4f1
           </Stack.Navigator>
         </NavigationContainer>
       );
