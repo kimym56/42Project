@@ -31,8 +31,8 @@ export class Daily extends Component {
     matrix[0] = this.weekDays;
 
     // More code here
-    var year = this.state.activeDate.getFullYear();
-    var month = this.state.activeDate.getMonth();
+    var year = this.state.selectDate.getFullYear();
+    var month = this.state.selectDate.getMonth();
     var firstDay = new Date(year, month, 1).getDay();
     var maxDays = this.nDays[month];
     if (month == 1) {
@@ -85,7 +85,7 @@ export class Daily extends Component {
 
   changeMonth = (n) => {
     this.setState(() => {
-      this.state.activeDate.setMonth(this.state.activeDate.getMonth() + n);
+      //this.state.activeDate.setMonth(this.state.activeDate.getMonth() + n);
       this.state.selectDate.setMonth(this.state.selectDate.getMonth() + n);
       return this.state;
     });
@@ -110,27 +110,28 @@ export class Daily extends Component {
               // Highlight current date
 
               //fontWeight: item == this.state.activeDate.getDate() ? "bold" : "",
-              color: item == this.state.activeDate.getDate() ? "blue" : "",
+              color:
+                item == this.state.activeDate.getDate() &&
+                this.state.activeDate.getMonth() ==
+                  this.state.selectDate.getMonth()
+                  ? "blue"
+                  : "black",
 
               fontWeight:
-                item == this.state.selectDate.getDate() ||
-                item == this.state.activeDate.getDate()
+                item == this.state.activeDate.getDate() &&
+                this.state.activeDate.getMonth() ==
+                  this.state.selectDate.getMonth()
                   ? "bold"
                   : "",
             }}
             //onPress={() => this._onPress(item)}
+            
             onPress={() => {
-<<<<<<< HEAD
-              this._onPress2(item),
-                alert(item)
-                //alert(this.state.activeDate.getDate());
-=======
               this._onPress2(item);
               //alert(item),
               //alert(this.state.activeDate.getDate());
->>>>>>> 29f70c53ecdb2ee147e17848cac9fa53782cb4f1
             }}
-          >
+          >{console.log(item)}
             {item != -1 ? item : ""}
           </Text>
         );
@@ -162,8 +163,8 @@ export class Daily extends Component {
             textAlign: "center",
           }}
         >
-          {this.months[this.state.activeDate.getMonth()]} &nbsp;
-          {this.state.activeDate.getFullYear()}
+          {this.months[this.state.selectDate.getMonth()]} &nbsp;
+          {this.state.selectDate.getFullYear()}
         </Text>
         {rows}
       </View>
@@ -171,7 +172,7 @@ export class Daily extends Component {
   }
   //render 끝나는 부분
   goAddSchedule() {
-    this.props.navigation.navigate("Add_schedule", {
+    this.props.navigation.navigate("AddEvent", {
       dateValue: this.state.selectDate,
       //monthValue: this.state.selectDate.getMonth()
     });
