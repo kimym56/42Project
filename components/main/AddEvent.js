@@ -7,11 +7,12 @@ import {
   Switch,
   Text,
   TextInput,
+  Alert
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 Date.prototype.format = function (f) {
   if (!this.valueOf()) return " ";
-
   var weekName = [
     "일요일",
     "월요일",
@@ -22,7 +23,6 @@ Date.prototype.format = function (f) {
     "토요일",
   ];
   var d = this;
-
   return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function ($1) {
     switch ($1) {
       case "yyyy":
@@ -67,161 +67,179 @@ Number.prototype.zf = function (len) {
 
 export default function AddEvent(props) {
   const [contents, setContents] = useState("");
-  const [date, setDate] = useState(
+  const [startDate, setStartDate] = useState(
     new Date(props.route.params.dateValue.setMinutes(0))
   );
-  const [date2, setDate2] = useState(
+  const [endDate, setEndDate] = useState(
     new Date(props.route.params.dateValue.setMinutes(0))
   );
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+  const [startDateVisible, setStartDateVisible] = useState(false);
+  const [startTimeVisible, setStartTimeVisible] = useState(false);
+  const [endDateVisible, setEndDateVisible] = useState(false);
+  const [endTimeVisible, setEndTimeVisible] = useState(false);
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isDatePickerVisible2, setDatePickerVisibility2] = useState(false);
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
+  const showStartDatePicker = () => {
+    setStartDateVisible(true);
   };
-  const showDatePicker2 = () => {
-    setDatePickerVisibility2(true);
+  const showStartTimePicker = () => {
+    setStartTimeVisible(true);
   };
-
-  const [text, onChangeText] = useState("");
-
-  const [text2, onChangeText2] = useState("");
-  const placeholder = "날짜를 입력해주세요";
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
+  const showEndDatePicker = () => {
+    setEndDateVisible(true);
   };
-  const hideDatePicker2 = () => {
-    setDatePickerVisibility2(false);
+  const showEndTimePicker = () => {
+    setEndTimeVisible(true);
   };
 
+  const [startDateText, onChangeSDText] = useState("");
+  const [startTimeText, onChangeSTText] = useState("");
+  const [endDateText, onChangeEDText] = useState("");
+  const [endTimeText, onChangeETText] = useState("");
 
-  const handleConfirm = (date) => {
-    //console.warn("dateFormat: ", date.format("yyyy/MM/dd"));
-    hideDatePicker();
-    setDate(date);
-    onChangeText(date.format("yyyy/MM/dd"));
+  const hideStartDatePicker = () => {
+    setStartDateVisible(false);
   };
-  const handleConfirm2 = (date) => {
-    console.warn("timeFormat: ", date.format("a/p  hh:mm"));
-    hideDatePicker2();
-    onChangeText2(date.format("a/p  hh:mm"));
-    setDate(date);
+  const hideStartTimePicker = () => {
+    setStartTimeVisible(false);
   };
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate);
+  const hideEndDatePicker = () => {
+    setEndDateVisible(false);
   };
-  const onChange2 = (event2, selectedDate2) => {
-    const currentDate2 = selectedDate2 || date2;
-    setDate2(currentDate2);
+  const hideEndTimePicker = () => {
+    setEndTimeVisible(false);
   };
 
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
+  const SDhandleConfirm = (date) => {
+    hideStartDatePicker();
+    setStartDate(date);
+    onChangeSDText(date.format("yyyy/MM/dd"));
+  };
+  const SThandleConfirm = (date) => {
+    hideStartTimePicker();
+    setStartDate(date);
+    onChangeSTText(date.format("a/p  hh:mm"));
+    
+  };
+  const EDhandleConfirm = (date) => {
+    hideEndDatePicker();
+    setEndDate(date);
+    onChangeEDText(date.format("yyyy/MM/dd"));
+  };
+  const EThandleConfirm = (date) => {
+    hideEndTimePicker();
+    setEndDate(date);
+    onChangeETText(date.format("a/p  hh:mm"));
   };
 
-  const showDatepicker = () => {
-    showMode("date");
-  };
 
-  const showTimepicker = () => {
-    showMode("time");
-  };
+
   return (
     <View style={{ flex: 1 }}>
-      {/* 
-      <View>
-        <Text>시작 시간:</Text>
-        <Text>{props.route.params.dateValue.getMonth()}</Text>
-        <Text>{props.route.params.dateValue.getDate()} </Text>
-        <Text>{} </Text>
-        <Text>끝 시간:</Text>
-
-        <Text>내용:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="내용"
-          //secureTextEntry={true}
-          onChangeText={(contents) => setContents(contents)}
-        />
-      </View>
-      */}
       <View style={styles.container}>
-        <Text style={{ color: "purple", flex: 1 }}>Start:</Text>
-      </View>
-      <View style={styles.container}>
-        <Text style={{ color: "purple", flex: 0.5 }}>End:</Text>
-
-        {/*{show && (
-          <DateTimePicker
-            style={styles.item2}
-            testID="dateTimePicker"
-            value={date2}
-            mode={"time"}
-            is24Hour={true}
-            display="spinner"
-            onChange={onChange2}
-          />
-        )}
-        <Button
-          title="bb"
-          onPress={() => {
-            setShow(true);
-          }}
-        />*/}
-        <TouchableOpacity onPress={showDatePicker} style={{ flex: 1 }}>
+        <Text style={{ color: "purple", flex: 0.5 }}>Start:</Text>
+        <TouchableOpacity onPress={showStartDatePicker} style={{ flex: 1 }}>
           <TextInput
             pointerEvents="none"
             style={styles.textInput}
-            placeholder={date.format("yyyy/MM/dd")}
+            placeholder={startDate.format("yyyy/MM/dd")}
             placeholderTextColor="#000000"
             underlineColorAndroid="transparent"
             editable={false}
-            value={text}
+            value={startDateText}
           />
           <DateTimePickerModal
-            date={date}
-            isVisible={isDatePickerVisible}
+            date={startDate}
+            isVisible={startDateVisible}
             mode="date"
-            display="inline"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
+            display={Platform.OS == 'ios' ? "inline" : "default"}
+            onConfirm={SDhandleConfirm}
+            onCancel={hideStartDatePicker}
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={showDatePicker2}>
-        <TextInput
-          pointerEvents="none"
-          style={styles.textInput}
-          placeholder={date.format("hh/mm a/p")}
-          placeholderTextColor="#000000"
-          underlineColorAndroid="transparent"
-          editable={false}
-          value={text2}
-        />
-        <DateTimePickerModal
-          date={date}
-          isVisible={isDatePickerVisible2}
-          mode="time"
-          display="spinner"
-          onConfirm={handleConfirm2}
-          onCancel={hideDatePicker2}
-        />
-      </TouchableOpacity>
-
+        <TouchableOpacity onPress={showStartTimePicker}>
+          <TextInput
+            pointerEvents="none"
+            style={styles.textInput}
+            placeholder={startDate.format("a/p  hh:mm")}
+            placeholderTextColor="#000000"
+            underlineColorAndroid="transparent"
+            editable={false}
+            value={startTimeText}
+          />
+          <DateTimePickerModal
+            date={startDate}
+            isVisible={startTimeVisible}
+            mode="time"
+            display="spinner"
+            onConfirm={SThandleConfirm}
+            onCancel={hideStartTimePicker}
+          />
+        </TouchableOpacity>
       </View>
-      <View style={{ backgroundColor: "yellow", flex: 10 }}>
+      <View style={styles.container}>
+        <Text style={{ color: "purple", flex: 0.5 }}>End:</Text>
+        <TouchableOpacity onPress={showEndDatePicker} style={{ flex: 1 }}>
+          <TextInput
+            pointerEvents="none"
+            style={styles.textInput}
+            placeholder={endDate.format("yyyy/MM/dd")}
+            placeholderTextColor="#000000"
+            underlineColorAndroid="transparent"
+            editable={false}
+            value={endDateText}
+          />
+          <DateTimePickerModal
+          minimumDate = {startDate}
+            date={endDate}
+            isVisible={endDateVisible}
+            mode="date"
+            display={Platform.OS == 'ios' ? "inline" : "default"}
+            onConfirm={EDhandleConfirm}
+            onCancel={hideEndDatePicker}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={showEndTimePicker}>
+          <TextInput
+            pointerEvents="none"
+            style={styles.textInput}
+            placeholder={endDate.format("a/p  hh:mm")}
+            placeholderTextColor="#000000"
+            underlineColorAndroid="transparent"
+            editable={false}
+            value={endTimeText}
+          />
+          <DateTimePickerModal
+            date={endDate}
+            isVisible={endTimeVisible}
+            mode="time"
+            display="spinner"
+            onConfirm={EThandleConfirm}
+            onCancel={hideEndTimePicker}
+          />
+        </TouchableOpacity>
+
+        
+      </View>
+      <View style={{ backgroundColor: "yellow", flex: 3 }}>
         <TextInput
           style={styles.input}
           placeholder="내용"
           //secureTextEntry={true}
           onChangeText={(contents) => setContents(contents)}
         />
+      </View>
+      <View style={{backgroundColor: "skyblue", flex: 7}}>
+          {(startDate.format("yyyyMMddHHmm") == endDate.format("yyyyMMddHHmm")) && <Text>
+            {console.log(startDate.format("yyyyMMddHHmm"))}
+              same
+          </Text>}
+          {(startDate.format("yyyyMMddHHmm") != endDate.format("yyyyMMddHHmm"))&& <Text>
+              different
+             
+          </Text>}
+          <Button title={"AddEvent"} onPress={()=>{Alert.alert("hi")}}/>
       </View>
     </View>
   );
