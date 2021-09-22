@@ -8,9 +8,7 @@ export default function Landing({ navigation }) {
         onPress={() => navigation.navigate("Register")}
       />
       <Button title="Login" onPress={() => navigation.navigate("Login")} />
-      <Button title="SelfCalendar" onPress={() => navigation.navigate("SelfCalendar")} />
-      <Button title="AddEvent" onPress={() => navigation.navigate("AddEvent")} />
-    
+      <Button title="Monthly" onPress={() => navigation.navigate("Monthly")} />
     </View>
   );
 }

@@ -7,9 +7,10 @@ import {
   Switch,
   Text,
   TextInput,
-  Alert
+  Alert,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Toast from "react-native-simple-toast";
 
 Date.prototype.format = function (f) {
   if (!this.valueOf()) return " ";
@@ -118,7 +119,6 @@ export default function AddEvent(props) {
     hideStartTimePicker();
     setStartDate(date);
     onChangeSTText(date.format("a/p  hh:mm"));
-    
   };
   const EDhandleConfirm = (date) => {
     hideEndDatePicker();
@@ -131,7 +131,12 @@ export default function AddEvent(props) {
     onChangeETText(date.format("a/p  hh:mm"));
   };
 
-
+  function isCorrect(n) {
+    if (n == 1) {
+      Toast.show("Success");
+      props.navigation.goBack();
+    }
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -148,10 +153,11 @@ export default function AddEvent(props) {
             value={startDateText}
           />
           <DateTimePickerModal
+            minimumDate={new Date()}
             date={startDate}
             isVisible={startDateVisible}
             mode="date"
-            display={Platform.OS == 'ios' ? "inline" : "default"}
+            display={Platform.OS == "ios" ? "inline" : "default"}
             onConfirm={SDhandleConfirm}
             onCancel={hideStartDatePicker}
           />
@@ -190,11 +196,11 @@ export default function AddEvent(props) {
             value={endDateText}
           />
           <DateTimePickerModal
-          minimumDate = {startDate}
+            minimumDate={startDate}
             date={endDate}
             isVisible={endDateVisible}
             mode="date"
-            display={Platform.OS == 'ios' ? "inline" : "default"}
+            display={Platform.OS == "ios" ? "inline" : "default"}
             onConfirm={EDhandleConfirm}
             onCancel={hideEndDatePicker}
           />
@@ -219,8 +225,6 @@ export default function AddEvent(props) {
             onCancel={hideEndTimePicker}
           />
         </TouchableOpacity>
-
-        
       </View>
       <View style={{ backgroundColor: "yellow", flex: 3 }}>
         <TextInput
@@ -230,16 +234,24 @@ export default function AddEvent(props) {
           onChangeText={(contents) => setContents(contents)}
         />
       </View>
-      <View style={{backgroundColor: "skyblue", flex: 7}}>
-          {(startDate.format("yyyyMMddHHmm") == endDate.format("yyyyMMddHHmm")) && <Text>
+      <View style={{ backgroundColor: "skyblue", flex: 7 }}>
+        {startDate.format("yyyyMMddHHmm") == endDate.format("yyyyMMddHHmm") && (
+          <Text>
             {console.log(startDate.format("yyyyMMddHHmm"))}
-              same
-          </Text>}
-          {(startDate.format("yyyyMMddHHmm") != endDate.format("yyyyMMddHHmm"))&& <Text>
-              different
-             
-          </Text>}
-          <Button title={"AddEvent"} onPress={()=>{Alert.alert("hi")}}/>
+            same
+          </Text>
+        )}
+        {startDate.format("yyyyMMddHHmm") != endDate.format("yyyyMMddHHmm") && (
+          <Text>different</Text>
+        )}
+        <Button
+          title={"AddEvent"}
+          onPress={() => {
+            isCorrect(
+              startDate.format("yyyyMMddHHmm") != endDate.format("yyyyMMddHHmm")
+            );
+          }}
+        />
       </View>
     </View>
   );

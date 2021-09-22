@@ -10,9 +10,9 @@ import Register from "./components/auth/Register";
 import Landing from "./components/auth/Landing";
 import Login from "./components/auth/Login";
 
-import SelfCalendar from "./components/main/SelfCalendar"
+import Monthly from "./components/main/Monthly";
 
-import AddEvent from "./components/main/AddEvent"
+import AddEvent from "./components/main/AddEvent";
 
 const Stack = createStackNavigator();
 
@@ -46,7 +46,7 @@ export class App extends Component {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
 
-            <Stack.Screen name="SelfCalendar" component={SelfCalendar} />
+            <Stack.Screen name="Monthly" component={Monthly} />
             <Stack.Screen name="AddEvent" component={AddEvent} />
           </Stack.Navigator>
         </NavigationContainer>

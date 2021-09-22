@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, Button, Text } from "react-native";
 
-export class Daily extends Component {
+export class Monthly extends Component {
   months = [
     "January",
     "February",
@@ -125,13 +125,14 @@ export class Daily extends Component {
                   : "",
             }}
             //onPress={() => this._onPress(item)}
-            
+
             onPress={() => {
               this._onPress2(item);
               //alert(item),
               //alert(this.state.activeDate.getDate());
             }}
-          >{console.log(item)}
+          >
+            {console.log(item)}
             {item != -1 ? item : ""}
           </Text>
         );
@@ -178,4 +179,4 @@ export class Daily extends Component {
     });
   }
 }
-export default Daily;
+export default Monthly;
