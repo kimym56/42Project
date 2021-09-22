@@ -130,7 +130,9 @@ export default function AddEvent(props) {
     setEndDate(date);
     onChangeETText(date.format("a/p  hh:mm"));
   };
-
+  const StEqualEnd = () =>{
+      return (startDate.format("yyyyMMddHHmm") == endDate.format("yyyyMMddHHmm"));
+  }
 
 
   return (
@@ -231,15 +233,15 @@ export default function AddEvent(props) {
         />
       </View>
       <View style={{backgroundColor: "skyblue", flex: 7}}>
-          {(startDate.format("yyyyMMddHHmm") == endDate.format("yyyyMMddHHmm")) && <Text>
+          { StEqualEnd()&& <Text>
             {console.log(startDate.format("yyyyMMddHHmm"))}
               same
           </Text>}
-          {(startDate.format("yyyyMMddHHmm") != endDate.format("yyyyMMddHHmm"))&& <Text>
+          {!StEqualEnd()&& <Text>
               different
              
           </Text>}
-          <Button title={"AddEvent"} onPress={()=>{Alert.alert("hi")}}/>
+          <Button title={"AddEvent"} onPress={()=>{(startDate.format("yyyyMMddHHmm") > endDate.format("yyyyMMddHHmm") || contents == "" ) ? Alert.alert("error") : Alert.alert("good")}}/>
       </View>
     </View>
   );

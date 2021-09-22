@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, Button, Text } from "react-native";
 
-export class Daily extends Component {
+export class Monthly extends Component {
   months = [
     "January",
     "February",
@@ -178,4 +178,4 @@ export class Daily extends Component {
     });
   }
 }
-export default Daily;
+export default Monthly;
