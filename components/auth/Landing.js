@@ -8,7 +8,8 @@ export default function Landing({ navigation }) {
         onPress={() => navigation.navigate("Register")}
       />
       <Button title="Login" onPress={() => navigation.navigate("Login")} />
-      <Button title="Monthly" onPress={() => navigation.navigate("Monthly")} />
+      <Button title="home" onPress={() => navigation.navigate("home")} />
+      <Button title="TabNav" onPress={() => navigation.navigate("TabNav")} />
     </View>
   );
 }

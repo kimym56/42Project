@@ -135,6 +135,8 @@ export default function AddEvent(props) {
     if (n == 1) {
       Toast.show("Success");
       props.navigation.goBack();
+    } else {
+      Alert.alert("error");
     }
   }
 
@@ -248,7 +250,8 @@ export default function AddEvent(props) {
           title={"AddEvent"}
           onPress={() => {
             isCorrect(
-              startDate.format("yyyyMMddHHmm") != endDate.format("yyyyMMddHHmm")
+              startDate.format("yyyyMMddHHmm") <=
+                endDate.format("yyyyMMddHHmm") && contents != ""
             );
           }}
         />
