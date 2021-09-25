@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import Toast from "react-native-simple-toast";
+//import Toast from "react-native-simple-toast";
 
 Date.prototype.format = function (f) {
   if (!this.valueOf()) return " ";
@@ -133,7 +133,7 @@ export default function AddEvent(props) {
 
   function isCorrect(n) {
     if (n == 1) {
-      Toast.show("Success");
+      //Toast.show("Success");
       props.navigation.goBack();
     } else {
       Alert.alert("error");
@@ -239,7 +239,7 @@ export default function AddEvent(props) {
       <View style={{ backgroundColor: "skyblue", flex: 7 }}>
         {startDate.format("yyyyMMddHHmm") == endDate.format("yyyyMMddHHmm") && (
           <Text>
-            {console.log(startDate.format("yyyyMMddHHmm"))}
+            
             same
           </Text>
         )}

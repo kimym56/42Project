@@ -132,7 +132,6 @@ export class Monthly extends Component {
               //alert(this.state.activeDate.getDate());
             }}
           >
-            {console.log(item)}
             {item != -1 ? item : ""}
           </Text>
         );
