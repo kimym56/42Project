@@ -13,7 +13,6 @@ import Login from "./components/auth/Login";
 import home from "./components/main/home";
 
 import AddEvent from "./components/main/AddEvent";
-import TabNav from "./components/main/TabNav";
 
 const Stack = createStackNavigator();
 
@@ -49,7 +48,6 @@ export class App extends Component {
 
             <Stack.Screen name="home" component={home} />
             <Stack.Screen name="AddEvent" component={AddEvent} />
-            <Stack.Screen name="TabNav" component={TabNav} />
           </Stack.Navigator>
         </NavigationContainer>
       );

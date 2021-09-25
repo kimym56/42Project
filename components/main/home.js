@@ -1,14 +1,14 @@
 import React from "react";
-import Monthly from "./Monthly";
-import AddEvent from "./AddEvent";
-import Weekly from "./Weekly";
-import Daily from "./Daily";
+
+import Calendar from "./Calendar";
+import Catch from "./Catch";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 const Tab = createBottomTabNavigator();
-export default function home(props) {
+
+export default function home() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -16,9 +16,9 @@ export default function home(props) {
         tabBarActiveTintColor: "#e91e63",
       }}
     >
-      <Tab.Screen name="Monthly" component={Monthly} />
-      <Tab.Screen name="Weekly" component={Weekly} />
-      <Tab.Screen name="Daily" component={Daily} />
+      <Tab.Screen name="Calendar" component={Calendar} />
+
+      <Tab.Screen name="Catch" component={Catch} />
     </Tab.Navigator>
   );
 }

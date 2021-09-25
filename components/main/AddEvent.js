@@ -239,7 +239,7 @@ export default function AddEvent(props) {
       <View style={{ backgroundColor: "skyblue", flex: 7 }}>
         {startDate.format("yyyyMMddHHmm") == endDate.format("yyyyMMddHHmm") && (
           <Text>
-            {console.log(startDate.format("yyyyMMddHHmm"))}
+            
             same
           </Text>
         )}
