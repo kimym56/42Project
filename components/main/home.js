@@ -1,7 +1,7 @@
 import React from "react";
 
 import Calendar from "./Calendar";
-import Catch from "./Catch"
+import Catch from "./Catch";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";

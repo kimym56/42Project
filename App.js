@@ -48,7 +48,6 @@ export class App extends Component {
 
             <Stack.Screen name="home" component={home} />
             <Stack.Screen name="AddEvent" component={AddEvent} />
-            
           </Stack.Navigator>
         </NavigationContainer>
       );
