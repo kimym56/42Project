@@ -5512,6 +5512,11 @@
   dependencies:
     "buffer-alloc" "^1.1.0"
 
+"memoize-one@^5.1.1":
+  "integrity" "sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q=="
+  "resolved" "https://registry.npmjs.org/memoize-one/-/memoize-one-5.2.1.tgz"
+  "version" "5.2.1"
+
 "merge-stream@^1.0.1":
   "integrity" "sha1-QEEgLVCKNCugAXQAjfDCUbjBNeE="
   "resolved" "https://registry.npmjs.org/merge-stream/-/merge-stream-1.0.1.tgz"
@@ -5894,7 +5899,7 @@
   dependencies:
     "minimist" "^1.2.5"
 
-"moment@^2.22.0":
+"moment@^2.19.3", "moment@^2.22.0":
   "integrity" "sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ=="
   "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
   "version" "2.29.1"
@@ -6765,6 +6770,13 @@
   dependencies:
     "moment" "^2.22.0"
 
+"react-native-draggable@^3.3.0":
+  "integrity" "sha512-aU20CaKBmzXrwE9eTJZ+GDOr52mXLchg5Vydbx5rz8nYXlN+ppHIoTPgyXduyWNwpZ/DR6tyFtMwdgUHpuN6oA=="
+  "resolved" "https://registry.npmjs.org/react-native-draggable/-/react-native-draggable-3.3.0.tgz"
+  "version" "3.3.0"
+  dependencies:
+    "prop-types" "^15.7.2"
+
 "react-native-easy-toast@^2.0.0":
   "integrity" "sha512-mLvHOy/slCJfgrLfOercIhVKslTF6D7NrJ7XLTRK3BCim7kNO1JdAgQ5+IF6bqdcUcFMIW/GwiauUbnSpynr8Q=="
   "resolved" "https://registry.npmjs.org/react-native-easy-toast/-/react-native-easy-toast-2.0.0.tgz"
@@ -6819,7 +6831,7 @@
   dependencies:
     "hoist-non-react-statics" "^2.3.1"
 
-"react-native-screens@>= 3.0.0", "react-native-screens@>=1.0.0 || >= 2.0.0-alpha.0 || >= 2.0.0-beta.0 || >= 2.0.0":
+"react-native-screens@^3.7.2", "react-native-screens@>= 3.0.0", "react-native-screens@>=1.0.0 || >= 2.0.0-alpha.0 || >= 2.0.0-beta.0 || >= 2.0.0":
   "integrity" "sha512-TUmCE2ZIr6SFCUqsUqLsYQZ7EWo+tKyxSVFj3G5BCkGFOl3MwXEPgT/ihNCnL1aUAgr6TEMWVHg+awLkkQgYyQ=="
   "resolved" "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.7.2.tgz"
   "version" "3.7.2"
@@ -6879,6 +6891,15 @@
     "normalize-css-color" "^1.0.2"
     "prop-types" "^15.6.0"
     "react-timer-mixin" "^0.13.4"
+
+"react-native-week-view@^0.6.1":
+  "integrity" "sha512-/X3hQC+UQhZWLPaYuhsAIozW+ZYy1YNj7MHKUJ0XkUK4xHU0074V1+1EF2O0957dT/F7AeaVNCcuHqSOnuyx0Q=="
+  "resolved" "https://registry.npmjs.org/react-native-week-view/-/react-native-week-view-0.6.1.tgz"
+  "version" "0.6.1"
+  dependencies:
+    "memoize-one" "^5.1.1"
+    "moment" "^2.19.3"
+    "prop-types" "^15.7.2"
 
 "react-native@*", "react-native@>=0.14.0 <1", "react-native@>=0.20.0", "react-native@>=0.42.0", "react-native@>=0.58", "react-native@>=0.62.0-rc.0 <0.64.0", "react-native@>=0.65.0", "react-native@https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz":
   "integrity" "sha512-qWR6pcG4yDu/Rthm+DvAS017rL38LbZFnJv/k4HL4ZUH/WhKuqC+stD7TlpaOBb3N2bkydm9s+GCa14T41MLEg=="
