@@ -1,13 +1,18 @@
 // @flow
 
-import React, { Component } from 'react';
-import { View, FlatList, TouchableWithoutFeedback, PanResponder, Vibration } from 'react-native';
+import React, { Component } from "react";
+import {
+  View,
+  FlatList,
+  TouchableWithoutFeedback,
+  PanResponder,
+  Vibration,
+} from "react-native";
 
 const LONG_PRESS_TIMEOUT = 400;
 const VIBRATION_DURATION = 500;
 const SCROLL_INCREMENTATION = 20;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
-
 
 export default class Test extends Component {
   panResponder;
@@ -36,7 +41,8 @@ export default class Test extends Component {
   };
 
   componentDidUpdate() {
-    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } = this.state;
+    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
+      this.state;
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
         offset: Math.max(scrollOffset - SCROLL_INCREMENTATION, 0),
@@ -59,7 +65,7 @@ export default class Test extends Component {
   startMultiSelection = (cellIndex) => {
     const isCellAlreadyActive = this.isCellActive(cellIndex);
     this.setState({
-      multiSelectionMode: isCellAlreadyActive ? 'deselect' : 'select',
+      multiSelectionMode: isCellAlreadyActive ? "deselect" : "select",
       initialSelectedCellIndex: cellIndex,
     });
 
@@ -68,10 +74,13 @@ export default class Test extends Component {
 
   selectSingleCell = (cellIndex) => this.props.onSingleCellSelection(cellIndex);
 
-  handlePanResponderEnd = nativeEvent => {
+  handlePanResponderEnd = (nativeEvent) => {
     this.setState({ shouldScrollDown: false, shouldScrollUp: false });
     if (this.state.multiSelectionMode) {
-      this.props.onMultiSelectionEnd(this.state.multiSelectionMode, this.state.currentSelection);
+      this.props.onMultiSelectionEnd(
+        this.state.multiSelectionMode,
+        this.state.currentSelection
+      );
       this.setState({
         multiSelectionMode: null,
         initialSelectedCellIndex: null,
@@ -87,19 +96,33 @@ export default class Test extends Component {
     } = this.state;
 
     const cellToRight = Math.floor(locationX / width);
-    console.log(locationX,width,cellToRight)
+    console.log(cellToRight, locationX, width);
     const cellToBottom = Math.floor(locationY / height);
-
+    //console.log(locationX);
+    //console.log(locationY);
     const currentcellIndex =
-      initialSelectedCellIndex + cellToRight + this.props.cellsPerRow * cellToBottom;
+      initialSelectedCellIndex +
+      cellToRight +
+      this.props.cellsPerRow * cellToBottom;
+
+    console.log(
+      initialSelectedCellIndex,
+      cellToRight,
+      this.props.cellsPerRow,
+      cellToBottom
+    );
     return currentcellIndex;
   };
 
   handleMultiSelection = (locationX, locationY) => {
+    //alert("hello");
     const { initialSelectedCellIndex } = this.state;
     const currentcellIndex = this.findCellIndex(locationX, locationY);
 
-    const startIndex = Math.max(Math.min(initialSelectedCellIndex, currentcellIndex), 0);
+    const startIndex = Math.max(
+      Math.min(initialSelectedCellIndex, currentcellIndex),
+      0
+    );
     const endIndex = Math.min(
       Math.max(initialSelectedCellIndex, currentcellIndex),
       this.props.days.length - 1
@@ -114,6 +137,7 @@ export default class Test extends Component {
   };
 
   handleScroll = (locationY) => {
+    //alert("hello");
     const calendarRelativePositionY =
       Math.floor(this.state.initialSelectedCellIndex / this.props.cellsPerRow) *
         this.state.cellLayout.height +
@@ -136,15 +160,20 @@ export default class Test extends Component {
     this.panResponder = PanResponder.create({
       
       onMoveShouldSetPanResponder: () => this.state.multiSelectionMode,
-      onPanResponderMove: (evt,gestureState) => {
-        const locationX = evt.nativeEvent.locationX+gestureState.dx;
-        const locationY = evt.nativeEvent.locationY+gestureState.dy;
+
+      onPanResponderMove: (evt, gestureState) => {
+        //const { locationX, locationY } = evt.nativeEvent;
+        const locationX = evt.nativeEvent.locationX + gestureState.dx;
+        const locationY = evt.nativeEvent.locationY + gestureState.dy;
 
         this.handleMultiSelection(locationX, locationY);
         this.handleScroll(locationY);
       },
-      onPanResponderTerminate: evt => this.handlePanResponderEnd(evt.nativeEvent),
-      onPanResponderRelease: evt => this.handlePanResponderEnd(evt.nativeEvent),
+
+      onPanResponderTerminate: (evt) =>
+        this.handlePanResponderEnd(evt.nativeEvent),
+      onPanResponderRelease: (evt) =>
+        this.handlePanResponderEnd(evt.nativeEvent),
     });
   }
 
@@ -161,11 +190,13 @@ export default class Test extends Component {
     });
   };
 
-  isCellSelected = index =>
-    this.state.currentSelection.includes(index) && this.state.multiSelectionMode === 'select';
+  isCellSelected = (index) =>
+    this.state.currentSelection.includes(index) &&
+    this.state.multiSelectionMode === "select";
 
-  isCellDeselected = index =>
-    this.state.currentSelection.includes(index) && this.state.multiSelectionMode === 'deselect';
+  isCellDeselected = (index) =>
+    this.state.currentSelection.includes(index) &&
+    this.state.multiSelectionMode === "deselect";
 
   renderCell = ({ index, item }) => {
     item.selected = this.isCellSelected(index);
@@ -216,7 +247,11 @@ export default class Test extends Component {
         last: false,
       };
 
-      if (renderedCell.active || renderedCell.selected || renderedCell.deselected) {
+      if (
+        renderedCell.active ||
+        renderedCell.selected ||
+        renderedCell.deselected
+      ) {
         if (
           index === 0 ||
           (!this.isCellSelected(index - 1) &&
@@ -241,13 +276,13 @@ export default class Test extends Component {
     return (
       <View {...this.panResponder.panHandlers} style={{marginBottom:80}}>
         <FlatList
-          ref={ref => (this.flatList = ref)}
+          ref={(ref) => (this.flatList = ref)}
           onLayout={this.onCalendarLayout}
           data={renderedCells}
           onScroll={this.onScroll}
           renderItem={this.renderCell}
           numColumns={cellsPerRow}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={(item) => item.id.toString()}
           scrollEnabled={this.state.initialSelectedCellIndex === null}
         />
       </View>

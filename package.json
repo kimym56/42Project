@@ -30,6 +30,7 @@
     "react-native-easy-toast": "^2.0.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-modal-datetime-picker": "^11.0.0",
+    "react-native-pager-view": "^5.4.4",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "^3.7.2",
     "react-native-simple-toast": "^1.1.3",
