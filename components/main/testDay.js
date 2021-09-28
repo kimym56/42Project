@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50,
-    marginVertical: 10,
+    height: 30,
+    marginVertical: 0,
   },
   firstActiveDayContainer: {
     borderTopLeftRadius: 10,

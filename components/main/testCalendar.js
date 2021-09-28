@@ -3,9 +3,9 @@
 import React, { Component } from 'react';
 import { View, FlatList, TouchableWithoutFeedback, PanResponder, Vibration } from 'react-native';
 
-const LONG_PRESS_TIMEOUT = 500;
+const LONG_PRESS_TIMEOUT = 400;
 const VIBRATION_DURATION = 500;
-const SCROLL_INCREMENTATION = 10;
+const SCROLL_INCREMENTATION = 20;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
 
 
@@ -14,7 +14,7 @@ export default class Test extends Component {
   flatList;
 
   static defaultProps = {
-    cellsPerRow: 7,
+    cellsPerRow: 1,
   };
 
   state = {
@@ -87,6 +87,7 @@ export default class Test extends Component {
     } = this.state;
 
     const cellToRight = Math.floor(locationX / width);
+    console.log(locationX,width,cellToRight)
     const cellToBottom = Math.floor(locationY / height);
 
     const currentcellIndex =
@@ -133,9 +134,11 @@ export default class Test extends Component {
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
+      
       onMoveShouldSetPanResponder: () => this.state.multiSelectionMode,
-      onPanResponderMove: evt => {
-        const { locationX, locationY } = evt.nativeEvent;
+      onPanResponderMove: (evt,gestureState) => {
+        const locationX = evt.nativeEvent.locationX+gestureState.dx;
+        const locationY = evt.nativeEvent.locationY+gestureState.dy;
 
         this.handleMultiSelection(locationX, locationY);
         this.handleScroll(locationY);
@@ -236,7 +239,7 @@ export default class Test extends Component {
     });
 
     return (
-      <View {...this.panResponder.panHandlers}>
+      <View {...this.panResponder.panHandlers} style={{marginBottom:80}}>
         <FlatList
           ref={ref => (this.flatList = ref)}
           onLayout={this.onCalendarLayout}
