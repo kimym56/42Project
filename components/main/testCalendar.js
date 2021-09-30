@@ -7,11 +7,12 @@ import {
   TouchableWithoutFeedback,
   PanResponder,
   Vibration,
+  Text,
 } from "react-native";
 
-const LONG_PRESS_TIMEOUT = 500;
-const VIBRATION_DURATION = 500;
-const SCROLL_INCREMENTATION = 10;
+const LONG_PRESS_TIMEOUT = 100;
+const VIBRATION_DURATION = 300;
+const SCROLL_INCREMENTATION = 40;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
 
 export default class Test extends Component {
@@ -19,10 +20,12 @@ export default class Test extends Component {
   flatList;
 
   static defaultProps = {
-    cellsPerRow: 7,
+    cellsPerRow: 1,
   };
 
   state = {
+    sequentialTouchnum: 0,
+    sequentialTouchfromto: [],
     multiSelectionMode: null,
     initialSelectedCellIndex: null,
     currentSelection: [],
@@ -72,8 +75,38 @@ export default class Test extends Component {
     Vibration.vibrate(VIBRATION_DURATION);
   };
 
-  selectSingleCell = (cellIndex) => this.props.onSingleCellSelection(cellIndex);
+  selectSingleCell = (cellIndex) => {
+    this.props.onSingleCellSelection(cellIndex);
+    this.state.sequentialTouchnum += 1;
+    this.state.sequentialTouchfromto.push(cellIndex);
+    if (this.state.sequentialTouchnum == 2) {
+      start = Math.min(
+        this.state.sequentialTouchfromto[0],
+        this.state.sequentialTouchfromto[1]
+      );
+      end = Math.max(
+        this.state.sequentialTouchfromto[0],
+        this.state.sequentialTouchfromto[1]
+      );
 
+      for (let i = start + 1; i <= end - 1; i++) {
+        this.props.onSingleCellSelection(i);
+      }
+    }
+  };
+  /*
+  selectTouchrange = () => {
+    if (this.state.sequentialTouchnum == 2) {
+      for (
+        let i = this.state.sequentialTouchfromto[0];
+        i <= this.state.sequentialTouchfromto[1];
+        i++
+      ) {
+        this.selectSingleCell(i);
+      }
+    }
+  };
+*/
   handlePanResponderEnd = (nativeEvent) => {
     this.setState({ shouldScrollDown: false, shouldScrollUp: false });
     if (this.state.multiSelectionMode) {
@@ -210,6 +243,7 @@ export default class Test extends Component {
       >
         <View style={{ flex: 1 }} pointerEvents="box-only">
           {this.props.renderCell(item)}
+          {/*<Text>hi</Text>*/}
         </View>
       </TouchableWithoutFeedback>
     );

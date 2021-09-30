@@ -1,7 +1,7 @@
 // @flow
 
-import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { PureComponent } from "react";
+import { View, Text, StyleSheet } from "react-native";
 
 export default class CalendarDay extends PureComponent {
   render() {
@@ -11,9 +11,12 @@ export default class CalendarDay extends PureComponent {
     if (!active && !selected && !deselected) {
       dayContainerStyle = styles.dayContainer;
     } else {
-      if (deselected) dayContainerStyle = [styles.dayContainer, { backgroundColor: 'red' }];
-      else if (selected) dayContainerStyle = [styles.dayContainer, { backgroundColor: 'green' }];
-      else if (active) dayContainerStyle = [styles.dayContainer, { backgroundColor: 'blue' }];
+      if (deselected)
+        dayContainerStyle = [styles.dayContainer, { backgroundColor: "red" }];
+      else if (selected)
+        dayContainerStyle = [styles.dayContainer, { backgroundColor: "green" }];
+      else if (active)
+        dayContainerStyle = [styles.dayContainer, { backgroundColor: "blue" }];
 
       if (first) {
         dayContainerStyle.push(styles.firstActiveDayContainer);
@@ -33,10 +36,11 @@ export default class CalendarDay extends PureComponent {
 const styles = StyleSheet.create({
   dayContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 50,
-    marginVertical: 10,
+    //alignItems: "center",
+    justifyContent: "center",
+    height: 30,
+    marginVertical: 0,
+    marginLeft: 10,
   },
   firstActiveDayContainer: {
     borderTopLeftRadius: 10,

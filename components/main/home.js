@@ -12,7 +12,7 @@ export default function home() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: { position: "absolute" },
+        tabBarStyle: { position: "relative" },
         tabBarActiveTintColor: "#e91e63",
       }}
     >

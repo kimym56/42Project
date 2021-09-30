@@ -5,23 +5,23 @@ import React, { Component } from "react";
 import Test from "./testCalendar";
 import TestDay from "./testDay";
 
-
 export default class App extends Component {
   state = {
-    days: []
+    days: [],
   };
 
   componentWillMount() {
-    for (let i = 1; i <= 357; i++) {
-      this.state.days.push({ id: i, number: i, active: Math.random() >= 0.5 });
+    for (let i = 1; i <= 48; i++) {
+      this.state.days.push({ id: i, number: i, active: false });
     }
   }
 
   onSingleCellSelection = (dayIndex) => {
     const days = this.state.days;
-    days[dayIndex].active = !days[dayIndex].active;
+    //days[dayIndex].active = !days[dayIndex].active;
+    days[dayIndex].active = true;
     this.setState({
-      days
+      days,
     });
   };
 
