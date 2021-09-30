@@ -4,12 +4,10 @@ import React, { Component } from "react";
 
 import Test from "./testCalendar";
 import TestDay from "./testDay";
-
 export default class App extends Component {
   state = {
     days: [],
   };
-
   componentWillMount() {
     for (let i = 1; i <= 48; i++) {
       this.state.days.push({ id: i, number: i, active: false });

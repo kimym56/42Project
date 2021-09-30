@@ -33,6 +33,7 @@ export default function Calendar(props) {
 }
 
 const styles = StyleSheet.create({
+
   TabBar: {
     color: "red",
   },

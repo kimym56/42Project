@@ -17,7 +17,6 @@ export default function home() {
       }}
     >
       <Tab.Screen name="Calendar" component={Calendar} />
-
       <Tab.Screen name="Catch" component={Catch} />
     </Tab.Navigator>
   );

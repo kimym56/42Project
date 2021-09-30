@@ -10,7 +10,7 @@ import {
   Text,
 } from "react-native";
 
-const LONG_PRESS_TIMEOUT = 100;
+const LONG_PRESS_TIMEOUT = 200;
 const VIBRATION_DURATION = 300;
 const SCROLL_INCREMENTATION = 40;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
@@ -307,7 +307,7 @@ export default class Test extends Component {
     });
 
     return (
-      <View {...this.panResponder.panHandlers}>
+      <View {...this.panResponder.panHandlers} style={{ marginBottom: 80 }}>
         <FlatList
           ref={(ref) => (this.flatList = ref)}
           onLayout={this.onCalendarLayout}
