@@ -33,7 +33,8 @@ export default class CalendarDay extends PureComponent {
 const styles = StyleSheet.create({
   dayContainer: {
     flex: 1,
-    alignItems: 'center',
+    marginLeft: 10,
+    //alignItems: 'center',
     justifyContent: 'center',
     height: 30,
     marginVertical: 0,

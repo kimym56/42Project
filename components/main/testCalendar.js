@@ -96,7 +96,7 @@ export default class Test extends Component {
     } = this.state;
 
     const cellToRight = Math.floor(locationX / width);
-    console.log(cellToRight, locationX, width);
+    //console.log('cellToRight:',cellToRight, 'locationX:',locationX, 'width:',width);
     const cellToBottom = Math.floor(locationY / height);
     //console.log(locationX);
     //console.log(locationY);
@@ -115,7 +115,6 @@ export default class Test extends Component {
   };
 
   handleMultiSelection = (locationX, locationY) => {
-    //alert("hello");
     const { initialSelectedCellIndex } = this.state;
     const currentcellIndex = this.findCellIndex(locationX, locationY);
 
@@ -132,7 +131,7 @@ export default class Test extends Component {
     for (let i = startIndex; i <= endIndex; i++) {
       currentSelection.push(i);
     }
-
+console.log(currentSelection)
     this.setState({ currentSelection });
   };
 
@@ -274,7 +273,7 @@ export default class Test extends Component {
     });
 
     return (
-      <View {...this.panResponder.panHandlers} style={{marginBottom:80}}>
+      <View {...this.panResponder.panHandlers} >
         <FlatList
           ref={(ref) => (this.flatList = ref)}
           onLayout={this.onCalendarLayout}
