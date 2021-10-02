@@ -24,6 +24,8 @@ export default class Test extends Component {
   };
 
   state = {
+    startselectDate: new Date(),
+    endselectDate: new Date(),
     sequentialTouchnum: 0,
     sequentialTouchfromto: [],
     multiSelectionMode: null,
@@ -42,6 +44,13 @@ export default class Test extends Component {
     scrollOffset: 0,
     maxScrollOffset: 1000,
   };
+
+  goAddSchedule() {
+    this.props.navigation.navigate("AddEvent", {
+      startdateValue: this.state.startselectDate,
+      enddateValue: this.state.endselectDate,
+    });
+  }
 
   componentDidUpdate() {
     const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
@@ -79,7 +88,7 @@ export default class Test extends Component {
     this.props.onSingleCellSelection(cellIndex);
     this.state.sequentialTouchnum += 1;
     this.state.sequentialTouchfromto.push(cellIndex);
-    if (this.state.sequentialTouchnum == 2) {
+    if (this.state.sequentialTouchnum % 2 == 0) {
       start = Math.min(
         this.state.sequentialTouchfromto[0],
         this.state.sequentialTouchfromto[1]
@@ -88,10 +97,13 @@ export default class Test extends Component {
         this.state.sequentialTouchfromto[0],
         this.state.sequentialTouchfromto[1]
       );
-
+      // Have to change setHours(1, 2, 3 -> 12:00, 12:30, 1:00)
+      this.state.startselectDate.setHours(start + 1);
+      this.state.endselectDate.setHours(end + 1);
       for (let i = start + 1; i <= end - 1; i++) {
         this.props.onSingleCellSelection(i);
       }
+      this.goAddSchedule();
     }
   };
   /*
@@ -119,6 +131,7 @@ export default class Test extends Component {
         initialSelectedCellIndex: null,
         currentSelection: [],
       });
+      this.goAddSchedule();
     }
   };
 
@@ -307,7 +320,7 @@ export default class Test extends Component {
     });
 
     return (
-      <View {...this.panResponder.panHandlers} style={{ marginBottom: 80 }}>
+      <View {...this.panResponder.panHandlers}>
         <FlatList
           ref={(ref) => (this.flatList = ref)}
           onLayout={this.onCalendarLayout}
