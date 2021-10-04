@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from "react";
-
+import { View } from "react-native";
 import Test from "./testCalendar";
 import TestDay from "./testDay";
 export default class App extends Component {
@@ -36,6 +36,7 @@ export default class App extends Component {
   render() {
     return (
       <Test
+        navigation={this.props.navigation}
         days={this.state.days}
         renderCell={this.renderCell}
         onSingleCellSelection={this.onSingleCellSelection}

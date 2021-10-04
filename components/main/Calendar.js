@@ -8,18 +8,18 @@ import AddEvent from "./AddEvent";
 
 export default function Calendar(props) {
   const [index, setIndex] = useState(0);
-  const MonthRoute = () => <Monthly navigation={props.navigation}/>;
+  const MonthRoute = () => <Monthly navigation={props.navigation} />;
   const WeeklyRoute = () => <Weekly />;
-  const TestRoute = () => <Test />;
+  const TestRoute = () => <Test navigation={props.navigation} />;
   const renderScene = SceneMap({
     monthly: MonthRoute,
     test: TestRoute,
-    weekly: WeeklyRoute
+    weekly: WeeklyRoute,
   });
   const [routes] = React.useState([
     { key: "monthly", title: "Monthly" },
     { key: "weekly", title: "Weekly" },
-    { key: "test", title: "Test" }
+    { key: "test", title: "Test" },
   ]);
   return (
     <TabView
@@ -33,7 +33,6 @@ export default function Calendar(props) {
 }
 
 const styles = StyleSheet.create({
-
   TabBar: {
     color: "red",
   },

@@ -69,10 +69,10 @@ Number.prototype.zf = function (len) {
 export default function AddEvent(props) {
   const [contents, setContents] = useState("");
   const [startDate, setStartDate] = useState(
-    new Date(props.route.params.dateValue.setMinutes(0))
+    new Date(props.route.params.startdateValue.setMinutes(0))
   );
   const [endDate, setEndDate] = useState(
-    new Date(props.route.params.dateValue.setMinutes(0))
+    new Date(props.route.params.enddateValue.setMinutes(0))
   );
   const [startDateVisible, setStartDateVisible] = useState(false);
   const [startTimeVisible, setStartTimeVisible] = useState(false);
@@ -238,10 +238,7 @@ export default function AddEvent(props) {
       </View>
       <View style={{ backgroundColor: "skyblue", flex: 7 }}>
         {startDate.format("yyyyMMddHHmm") == endDate.format("yyyyMMddHHmm") && (
-          <Text>
-            
-            same
-          </Text>
+          <Text>same</Text>
         )}
         {startDate.format("yyyyMMddHHmm") != endDate.format("yyyyMMddHHmm") && (
           <Text>different</Text>
