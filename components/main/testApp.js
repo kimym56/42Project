@@ -6,19 +6,20 @@ import Test from "./testCalendar";
 import TestDay from "./testDay";
 export default class App extends Component {
   state = {
-    days: []
+    days: [],
   };
   componentWillMount() {
-    for (let i = 1; i <= 48; i++) {
-      this.state.days.push({ id: i, number: i, active: false });
+    for (let i = 1; i <= 336; i++) {
+      this.state.days.push({ id: Math.floor(48*((i-1)%7)+(i/7+1)), number: Math.floor(48*((i-1)%7)+(i/7+1)), active: false });
     }
   }
 
   onSingleCellSelection = (dayIndex) => {
     const days = this.state.days;
-    days[dayIndex].active = !days[dayIndex].active;
+    //days[dayIndex].active = !days[dayIndex].active;
+    days[dayIndex].active = true;
     this.setState({
-      days
+      days,
     });
   };
 

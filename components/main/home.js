@@ -6,11 +6,9 @@ import Catch from "./Catch";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-
 const Tab = createBottomTabNavigator();
 
 export default function home() {
-
   return (
     <Tab.Navigator
       screenOptions={{

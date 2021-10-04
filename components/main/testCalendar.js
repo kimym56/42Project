@@ -7,11 +7,12 @@ import {
   TouchableWithoutFeedback,
   PanResponder,
   Vibration,
+  Text,
 } from "react-native";
 
-const LONG_PRESS_TIMEOUT = 400;
-const VIBRATION_DURATION = 500;
-const SCROLL_INCREMENTATION = 20;
+const LONG_PRESS_TIMEOUT = 200;
+const VIBRATION_DURATION = 300;
+const SCROLL_INCREMENTATION = 10;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
 
 export default class Test extends Component {
@@ -19,10 +20,12 @@ export default class Test extends Component {
   flatList;
 
   static defaultProps = {
-    cellsPerRow: 1,
+    cellsPerRow: 7,
   };
 
   state = {
+    sequentialTouchnum: 0,
+    sequentialTouchfromto: [],
     multiSelectionMode: null,
     initialSelectedCellIndex: null,
     currentSelection: [],
@@ -41,8 +44,12 @@ export default class Test extends Component {
   };
 
   componentDidUpdate() {
-    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
-      this.state;
+    const {
+      shouldScrollUp,
+      shouldScrollDown,
+      scrollOffset,
+      maxScrollOffset,
+    } = this.state;
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
         offset: Math.max(scrollOffset - SCROLL_INCREMENTATION, 0),
@@ -72,8 +79,75 @@ export default class Test extends Component {
     Vibration.vibrate(VIBRATION_DURATION);
   };
 
-  selectSingleCell = (cellIndex) => this.props.onSingleCellSelection(cellIndex);
+  selectSingleCell = (cellIndex) => {
+    this.props.onSingleCellSelection(cellIndex);
+    this.state.sequentialTouchnum += 1;
+    this.state.sequentialTouchfromto.push(cellIndex);
+    if (this.state.sequentialTouchnum == 2) {
+      /*
+      startIndex = Math.min(
+        this.state.sequentialTouchfromto[0],
+        this.state.sequentialTouchfromto[1]
+      );
+      endIndex = Math.max(
+        this.state.sequentialTouchfromto[0],
+        this.state.sequentialTouchfromto[1]
+      );*/
+      const startIndex = Math.max(
+        this.isTimeAearlierThanTimeB(this.state.sequentialTouchfromto[0],
+          this.state.sequentialTouchfromto[1])
+          ? this.state.sequentialTouchfromto[0]
+          : this.state.sequentialTouchfromto[1],
+        0
+      );
+      const endIndex = Math.min(
+        this.isTimeAearlierThanTimeB(this.state.sequentialTouchfromto[0],
+          this.state.sequentialTouchfromto[1])
+          ? this.state.sequentialTouchfromto[1]
+          : this.state.sequentialTouchfromto[0],
+        this.props.days.length - 1
+      );
+      /*for (let i = start + 1; i <= end - 1; i++) {
+        this.props.onSingleCellSelection(i);
+      }*/
 
+      const start_x = (startIndex % this.props.cellsPerRow) + 1;
+      const start_y = startIndex / this.props.cellsPerRow + 1;
+      const end_x = (endIndex % this.props.cellsPerRow) + 1;
+      const end_y = endIndex / this.props.cellsPerRow + 1;
+      if (start_x == end_x) {
+        for (let j = Math.floor(start_y); j <= Math.floor(end_y); j++) {
+          this.props.onSingleCellSelection(this.props.cellsPerRow * (j - 1) + start_x - 1);
+        }
+      } else {
+        for (let j = Math.floor(start_y); j <= 48; j++) {
+          this.props.onSingleCellSelection(this.props.cellsPerRow * (j - 1) + start_x - 1);
+        }
+        for (let j = 1; j <= Math.floor(end_y); j++) {
+          this.props.onSingleCellSelection(this.props.cellsPerRow * (j - 1) + end_x - 1);
+        }
+        for (let i = start_x + 1; i <= end_x - 1; i++) {
+          for (let j = 1; j <= 48; j++) {
+            this.props.onSingleCellSelection(this.props.cellsPerRow * (j - 1) + i - 1);
+          }
+        }
+      }
+
+    }
+  };
+  /*
+  selectTouchrange = () => {
+    if (this.state.sequentialTouchnum == 2) {
+      for (
+        let i = this.state.sequentialTouchfromto[0];
+        i <= this.state.sequentialTouchfromto[1];
+        i++
+      ) {
+        this.selectSingleCell(i);
+      }
+    }
+  };
+*/
   handlePanResponderEnd = (nativeEvent) => {
     this.setState({ shouldScrollDown: false, shouldScrollUp: false });
     if (this.state.multiSelectionMode) {
@@ -95,9 +169,9 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / width);
+    const cellToRight = Math.floor(locationX / (width * 2));
     //console.log('cellToRight:',cellToRight, 'locationX:',locationX, 'width:',width);
-    const cellToBottom = Math.floor(locationY / height);
+    const cellToBottom = Math.floor(locationY / (height * 2));
     //console.log(locationX);
     //console.log(locationY);
     const currentcellIndex =
@@ -105,33 +179,62 @@ export default class Test extends Component {
       cellToRight +
       this.props.cellsPerRow * cellToBottom;
 
-    console.log(
-      initialSelectedCellIndex,
-      cellToRight,
-      this.props.cellsPerRow,
-      cellToBottom
-    );
+    //console.log(currentcellIndex,locationX,width)
     return currentcellIndex;
   };
-
+  isTimeAearlierThanTimeB = (aTime, bTime) => {
+    if (aTime % this.props.cellsPerRow < bTime % this.props.cellsPerRow) {
+      return true;
+    } else if (aTime % this.props.cellsPerRow > bTime % this.props.cellsPerRow) {
+      return false;
+    } else {
+      if ((aTime / this.props.cellsPerRow) < (bTime / this.props.cellsPerRow)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
   handleMultiSelection = (locationX, locationY) => {
     const { initialSelectedCellIndex } = this.state;
     const currentcellIndex = this.findCellIndex(locationX, locationY);
 
     const startIndex = Math.max(
-      Math.min(initialSelectedCellIndex, currentcellIndex),
+      this.isTimeAearlierThanTimeB(initialSelectedCellIndex, currentcellIndex)
+        ? initialSelectedCellIndex
+        : currentcellIndex,
       0
     );
     const endIndex = Math.min(
-      Math.max(initialSelectedCellIndex, currentcellIndex),
+      this.isTimeAearlierThanTimeB(initialSelectedCellIndex, currentcellIndex)
+        ? currentcellIndex
+        : initialSelectedCellIndex,
       this.props.days.length - 1
     );
-
+    console.log(startIndex, endIndex);
     let currentSelection = [];
-    for (let i = startIndex; i <= endIndex; i++) {
-      currentSelection.push(i);
+    const start_x = (startIndex % this.props.cellsPerRow) + 1;
+    const start_y = startIndex / this.props.cellsPerRow + 1;
+    const end_x = (endIndex % this.props.cellsPerRow) + 1;
+    const end_y = endIndex / this.props.cellsPerRow + 1;
+    if (start_x == end_x) {
+      for (let j = Math.floor(start_y); j <= Math.floor(end_y); j++) {
+        currentSelection.push(this.props.cellsPerRow * (j - 1) + start_x - 1);
+      }
+    } else {
+      for (let j = Math.floor(start_y); j <= 48; j++) {
+        currentSelection.push(this.props.cellsPerRow * (j - 1) + start_x - 1);
+      }
+      for (let j = 1; j <= Math.floor(end_y); j++) {
+        currentSelection.push(this.props.cellsPerRow * (j - 1) + end_x - 1);
+      }
+      for (let i = start_x + 1; i <= end_x - 1; i++) {
+        for (let j = 1; j <= 48; j++) {
+          currentSelection.push(this.props.cellsPerRow * (j - 1) + i - 1);
+        }
+      }
     }
-console.log(currentSelection)
+
     this.setState({ currentSelection });
   };
 
@@ -157,7 +260,6 @@ console.log(currentSelection)
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
-      
       onMoveShouldSetPanResponder: () => this.state.multiSelectionMode,
 
       onPanResponderMove: (evt, gestureState) => {
@@ -204,12 +306,16 @@ console.log(currentSelection)
     return (
       <TouchableWithoutFeedback
         onPress={() => this.selectSingleCell(index)}
-        onLongPress={() => this.startMultiSelection(index)}
+        onLongPress={() =>
+          console.log(index, this.props.days[index]) ||
+          this.startMultiSelection(index)
+        }
         delayLongPress={LONG_PRESS_TIMEOUT}
         onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
       >
         <View style={{ flex: 1 }} pointerEvents="box-only">
           {this.props.renderCell(item)}
+          {/*<Text>hi</Text>*/}
         </View>
       </TouchableWithoutFeedback>
     );
@@ -273,7 +379,7 @@ console.log(currentSelection)
     });
 
     return (
-      <View {...this.panResponder.panHandlers} >
+      <View {...this.panResponder.panHandlers}>
         <FlatList
           ref={(ref) => (this.flatList = ref)}
           onLayout={this.onCalendarLayout}
