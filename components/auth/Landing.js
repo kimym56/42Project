@@ -9,6 +9,9 @@ export default function Landing({ navigation }) {
       />
       <Button title="Login" onPress={() => navigation.navigate("Login")} />
       <Button title="home" onPress={() => navigation.navigate("home")} />
+
+
+      <Button title="test" onPress={() => navigation.navigate("test")} />
     </View>
   );
 }

@@ -8,13 +8,13 @@ import {
   PanResponder,
   Vibration,
   Text,
+  ScrollView
 } from "react-native";
 
 const LONG_PRESS_TIMEOUT = 200;
 const VIBRATION_DURATION = 300;
 const SCROLL_INCREMENTATION = 10;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
-
 export default class Test extends Component {
   panResponder;
   flatList;
@@ -43,6 +43,8 @@ export default class Test extends Component {
     shouldScrollDown: false,
     scrollOffset: 0,
     maxScrollOffset: 1000,
+
+    testScroll : 0
   };
 
   goAddSchedule() {
@@ -64,6 +66,8 @@ export default class Test extends Component {
         offset: Math.max(scrollOffset - SCROLL_INCREMENTATION, 0),
         animated: false,
       });
+
+      this.state.testScroll = Math.max(scrollOffset - SCROLL_INCREMENTATION, 0)
     } else if (shouldScrollDown) {
       const scrollOffsetValue = this.state.maxScrollOffset
         ? Math.min(scrollOffset + SCROLL_INCREMENTATION, maxScrollOffset)
@@ -73,6 +77,9 @@ export default class Test extends Component {
         offset: scrollOffsetValue,
         animated: false,
       });
+
+
+      this.state.testScroll = scrollOffsetValue
     }
   }
 
@@ -182,9 +189,10 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / (width * 2));
-    //console.log('cellToRight:',cellToRight, 'locationX:',locationX, 'width:',width);
-    const cellToBottom = Math.floor(locationY / (height * 2));
+    const cellToRight = Math.floor(locationX / (width * 2 ));
+    const cellToBottom = Math.floor(locationY / (height * 2 ));
+
+    //console.log('cellToBottom:',cellToBottom, 'locationY:',locationY, 'height:',height);
     //console.log(locationX);
     //console.log(locationY);
     const currentcellIndex =
@@ -224,7 +232,7 @@ export default class Test extends Component {
         : initialSelectedCellIndex,
       this.props.days.length - 1
     );
-    console.log(startIndex, endIndex);
+    //console.log('ly',locationY);
     let currentSelection = [];
     const start_x = (startIndex % this.props.cellsPerRow) + 1;
     const start_y = startIndex / this.props.cellsPerRow + 1;
@@ -258,27 +266,30 @@ export default class Test extends Component {
         this.state.cellLayout.height +
       locationY -
       this.state.scrollOffset;
-
     if (
       calendarRelativePositionY >
       this.state.calendarLayout.height - DISTANCE_BEFORE_MANUAL_SCROLL
     ) {
       this.setState({ shouldScrollDown: true });
     } else if (calendarRelativePositionY < DISTANCE_BEFORE_MANUAL_SCROLL) {
+
       this.setState({ shouldScrollUp: true });
     } else {
       this.setState({ shouldScrollDown: false, shouldScrollUp: false });
     }
+
+    console.log(calendarRelativePositionY,'offset:',this.state.scrollOffset)
   };
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
+      
       onMoveShouldSetPanResponder: () => this.state.multiSelectionMode,
-
       onPanResponderMove: (evt, gestureState) => {
+        //console.log(evt.nativeEvent.locationY,gestureState.dy)
         //const { locationX, locationY } = evt.nativeEvent;
         const locationX = evt.nativeEvent.locationX + gestureState.dx;
-        const locationY = evt.nativeEvent.locationY + gestureState.dy;
+        const locationY = evt.nativeEvent.locationY + gestureState.dy+this.state.testScroll;
 
         this.handleMultiSelection(locationX, locationY);
         this.handleScroll(locationY);
@@ -356,40 +367,7 @@ export default class Test extends Component {
   render() {
     const { days, cellsPerRow } = this.props;
 
-    const renderedCells = days.map((item, index) => {
-      const renderedCell = {
-        ...item,
-        selected: this.isCellSelected(index),
-        deselected: this.isCellDeselected(index),
-        first: false,
-        last: false,
-      };
-
-      if (
-        renderedCell.active ||
-        renderedCell.selected ||
-        renderedCell.deselected
-      ) {
-        if (
-          index === 0 ||
-          (!this.isCellSelected(index - 1) &&
-            !this.isCellDeselected(index - 1) &&
-            !days[index - 1].active)
-        ) {
-          renderedCell.first = true;
-        }
-        if (
-          index === days.length - 1 ||
-          (!this.isCellSelected(index + 1) &&
-            !this.isCellDeselected(index + 1) &&
-            !days[index + 1].active)
-        ) {
-          renderedCell.last = true;
-        }
-      }
-
-      return renderedCell;
-    });
+    const renderedCells = days
 
     return (
       <View {...this.panResponder.panHandlers}>
@@ -401,7 +379,7 @@ export default class Test extends Component {
           renderItem={this.renderCell}
           numColumns={cellsPerRow}
           keyExtractor={(item) => item.id.toString()}
-          scrollEnabled={this.state.initialSelectedCellIndex === null}
+          //scrollEnabled={this.state.initialSelectedCellIndex === null}
         />
       </View>
     );

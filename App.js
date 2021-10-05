@@ -14,6 +14,9 @@ import home from "./components/main/home";
 
 import AddEvent from "./components/main/AddEvent";
 
+
+import test from "./components/main/test";
+
 const Stack = createStackNavigator();
 
 export class App extends Component {
@@ -48,6 +51,8 @@ export class App extends Component {
 
             <Stack.Screen name="home" component={home} />
             <Stack.Screen name="AddEvent" component={AddEvent} />
+            
+            <Stack.Screen name="test" component={test} />
           </Stack.Navigator>
         </NavigationContainer>
       );
