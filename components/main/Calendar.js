@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import Monthly from "./Monthly";
 import Weekly from "./Weekly";
-import Test from "./testApp.js";
+import TestWeek from "./testApp.js";
+import TestDaily from "./test1.js";
 import { TabView, SceneMap } from "react-native-tab-view";
 import AddEvent from "./AddEvent";
 
@@ -10,16 +11,19 @@ export default function Calendar(props) {
   const [index, setIndex] = useState(0);
   const MonthRoute = () => <Monthly navigation={props.navigation} />;
   const WeeklyRoute = () => <Weekly />;
-  const TestRoute = () => <Test navigation={props.navigation} />;
+  const TestWeekRoute = () => <TestWeek navigation={props.navigation} />;
+  const TestDailyRoute = () => <TestDaily navigation={props.navigation} />;
   const renderScene = SceneMap({
     monthly: MonthRoute,
-    test: TestRoute,
+    testweek: TestWeekRoute,
+    testdaily: TestDailyRoute,
     weekly: WeeklyRoute,
   });
   const [routes] = React.useState([
     { key: "monthly", title: "Monthly" },
     { key: "weekly", title: "Weekly" },
-    { key: "test", title: "Test" },
+    { key: "testweek", title: "TestWeek" },
+    { key: "testdaily", title: "TestDaily" },
   ]);
   return (
     <TabView

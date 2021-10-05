@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from "react";
 import {
   View,
@@ -20,13 +18,10 @@ export default class Test extends Component {
   flatList;
 
   static defaultProps = {
-    cellsPerRow: 7,
+    cellsPerRow: 1,
   };
 
   state = {
-    testscrollvalue: 0,
-    startselectDate: new Date(),
-    endselectDate: new Date(),
     sequentialTouchnum: 0,
     sequentialTouchfromto: [],
     multiSelectionMode: null,
@@ -46,13 +41,6 @@ export default class Test extends Component {
     maxScrollOffset: 1000,
   };
 
-  goAddSchedule() {
-    this.props.navigation.navigate("AddEvent", {
-      startdateValue: this.state.startselectDate,
-      enddateValue: this.state.endselectDate,
-    });
-  }
-
   componentDidUpdate() {
     const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
       this.state;
@@ -61,18 +49,10 @@ export default class Test extends Component {
         offset: Math.max(scrollOffset - SCROLL_INCREMENTATION, 0),
         animated: false,
       });
-
-      this.state.testscrollvalue = Math.max(
-        scrollOffset - SCROLL_INCREMENTATION,
-        0
-      );
     } else if (shouldScrollDown) {
       const scrollOffsetValue = this.state.maxScrollOffset
         ? Math.min(scrollOffset + SCROLL_INCREMENTATION, maxScrollOffset)
         : scrollOffset + SCROLL_INCREMENTATION;
-
-      console.log("scroll: ", scrollOffsetValue);
-      this.state.testscrollvalue = scrollOffsetValue;
 
       this.flatList.scrollToOffset({
         offset: scrollOffsetValue,
@@ -97,71 +77,20 @@ export default class Test extends Component {
     this.props.onSingleCellSelection(cellIndex);
     this.state.sequentialTouchnum += 1;
     this.state.sequentialTouchfromto.push(cellIndex);
+    console.log("dailytouch", this.state.sequentialTouchnum);
     if (this.state.sequentialTouchnum % 2 == 0) {
-      /*start = Math.min(
+      start = Math.min(
         this.state.sequentialTouchfromto[0],
         this.state.sequentialTouchfromto[1]
       );
       end = Math.max(
         this.state.sequentialTouchfromto[0],
         this.state.sequentialTouchfromto[1]
-      );*/
-      const startIndex = Math.max(
-        this.isTimeAearlierThanTimeB(
-          this.state.sequentialTouchfromto[0],
-          this.state.sequentialTouchfromto[1]
-        )
-          ? this.state.sequentialTouchfromto[0]
-          : this.state.sequentialTouchfromto[1],
-        0
-      );
-      const endIndex = Math.min(
-        this.isTimeAearlierThanTimeB(
-          this.state.sequentialTouchfromto[0],
-          this.state.sequentialTouchfromto[1]
-        )
-          ? this.state.sequentialTouchfromto[1]
-          : this.state.sequentialTouchfromto[0],
-        this.props.days.length - 1
       );
 
-      // Have to change setHours(1, 2, 3 -> 12:00, 12:30, 1:00)
-      this.state.startselectDate.setHours(startIndex + 1);
-      this.state.endselectDate.setHours(endIndex + 1);
-      /*for (let i = start + 1; i <= end - 1; i++) {
+      for (let i = start + 1; i <= end - 1; i++) {
         this.props.onSingleCellSelection(i);
-      }*/
-
-      const start_x = (startIndex % this.props.cellsPerRow) + 1;
-      const start_y = startIndex / this.props.cellsPerRow + 1;
-      const end_x = (endIndex % this.props.cellsPerRow) + 1;
-      const end_y = endIndex / this.props.cellsPerRow + 1;
-      if (start_x == end_x) {
-        for (let j = Math.floor(start_y); j <= Math.floor(end_y); j++) {
-          this.props.onSingleCellSelection(
-            this.props.cellsPerRow * (j - 1) + start_x - 1
-          );
-        }
-      } else {
-        for (let j = Math.floor(start_y); j <= 48; j++) {
-          this.props.onSingleCellSelection(
-            this.props.cellsPerRow * (j - 1) + start_x - 1
-          );
-        }
-        for (let j = 1; j <= Math.floor(end_y); j++) {
-          this.props.onSingleCellSelection(
-            this.props.cellsPerRow * (j - 1) + end_x - 1
-          );
-        }
-        for (let i = start_x + 1; i <= end_x - 1; i++) {
-          for (let j = 1; j <= 48; j++) {
-            this.props.onSingleCellSelection(
-              this.props.cellsPerRow * (j - 1) + i - 1
-            );
-          }
-        }
       }
-      this.goAddSchedule();
       this.state.sequentialTouchfromto.pop();
       this.state.sequentialTouchfromto.pop();
     }
@@ -191,7 +120,6 @@ export default class Test extends Component {
         initialSelectedCellIndex: null,
         currentSelection: [],
       });
-      this.goAddSchedule();
     }
   };
 
@@ -201,26 +129,9 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / (width * 1.2));
-    console.log(
-      "cellToRight:",
-      cellToRight,
-      "locationX:",
-      locationX,
-      "width:",
-      width,
-      "\n"
-    );
-    const cellToBottom = Math.floor(locationY / (height * 1.2));
-    console.log(
-      "cellToBottom:",
-      cellToBottom,
-      "locationY:",
-      locationY,
-      "height:",
-      height,
-      "\n"
-    );
+    const cellToRight = Math.floor(locationX / width);
+    console.log(cellToRight, locationX, width);
+    const cellToBottom = Math.floor(locationY / height);
     //console.log(locationX);
     //console.log(locationY);
     const currentcellIndex =
@@ -228,63 +139,32 @@ export default class Test extends Component {
       cellToRight +
       this.props.cellsPerRow * cellToBottom;
 
-    console.log(currentcellIndex);
+    console.log(
+      initialSelectedCellIndex,
+      cellToRight,
+      this.props.cellsPerRow,
+      cellToBottom
+    );
     return currentcellIndex;
   };
-  isTimeAearlierThanTimeB = (aTime, bTime) => {
-    if (aTime % this.props.cellsPerRow < bTime % this.props.cellsPerRow) {
-      return true;
-    } else if (
-      aTime % this.props.cellsPerRow >
-      bTime % this.props.cellsPerRow
-    ) {
-      return false;
-    } else {
-      if (aTime / this.props.cellsPerRow < bTime / this.props.cellsPerRow) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  };
+
   handleMultiSelection = (locationX, locationY) => {
+    //alert("hello");
     const { initialSelectedCellIndex } = this.state;
     const currentcellIndex = this.findCellIndex(locationX, locationY);
 
     const startIndex = Math.max(
-      this.isTimeAearlierThanTimeB(initialSelectedCellIndex, currentcellIndex)
-        ? initialSelectedCellIndex
-        : currentcellIndex,
+      Math.min(initialSelectedCellIndex, currentcellIndex),
       0
     );
     const endIndex = Math.min(
-      this.isTimeAearlierThanTimeB(initialSelectedCellIndex, currentcellIndex)
-        ? currentcellIndex
-        : initialSelectedCellIndex,
+      Math.max(initialSelectedCellIndex, currentcellIndex),
       this.props.days.length - 1
     );
-    //console.log(startIndex, endIndex);
+
     let currentSelection = [];
-    const start_x = (startIndex % this.props.cellsPerRow) + 1;
-    const start_y = startIndex / this.props.cellsPerRow + 1;
-    const end_x = (endIndex % this.props.cellsPerRow) + 1;
-    const end_y = endIndex / this.props.cellsPerRow + 1;
-    if (start_x == end_x) {
-      for (let j = Math.floor(start_y); j <= Math.floor(end_y); j++) {
-        currentSelection.push(this.props.cellsPerRow * (j - 1) + start_x - 1);
-      }
-    } else {
-      for (let j = Math.floor(start_y); j <= 48; j++) {
-        currentSelection.push(this.props.cellsPerRow * (j - 1) + start_x - 1);
-      }
-      for (let j = 1; j <= Math.floor(end_y); j++) {
-        currentSelection.push(this.props.cellsPerRow * (j - 1) + end_x - 1);
-      }
-      for (let i = start_x + 1; i <= end_x - 1; i++) {
-        for (let j = 1; j <= 48; j++) {
-          currentSelection.push(this.props.cellsPerRow * (j - 1) + i - 1);
-        }
-      }
+    for (let i = startIndex; i <= endIndex; i++) {
+      currentSelection.push(i);
     }
 
     this.setState({ currentSelection });
@@ -317,10 +197,7 @@ export default class Test extends Component {
       onPanResponderMove: (evt, gestureState) => {
         //const { locationX, locationY } = evt.nativeEvent;
         const locationX = evt.nativeEvent.locationX + gestureState.dx;
-        const locationY =
-          evt.nativeEvent.locationY +
-          gestureState.dy +
-          this.state.testscrollvalue;
+        const locationY = evt.nativeEvent.locationY + gestureState.dy;
 
         this.handleMultiSelection(locationX, locationY);
         this.handleScroll(locationY);
@@ -361,10 +238,7 @@ export default class Test extends Component {
     return (
       <TouchableWithoutFeedback
         onPress={() => this.selectSingleCell(index)}
-        onLongPress={() =>
-          console.log(index, this.props.days[index]) ||
-          this.startMultiSelection(index)
-        }
+        onLongPress={() => this.startMultiSelection(index)}
         delayLongPress={LONG_PRESS_TIMEOUT}
         onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
       >
@@ -397,8 +271,7 @@ export default class Test extends Component {
 
   render() {
     const { days, cellsPerRow } = this.props;
-    const renderedCells = days;
-    /*
+
     const renderedCells = days.map((item, index) => {
       const renderedCell = {
         ...item,
@@ -433,7 +306,7 @@ export default class Test extends Component {
 
       return renderedCell;
     });
-*/
+
     return (
       <View {...this.panResponder.panHandlers}>
         <FlatList
