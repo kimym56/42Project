@@ -1,20 +1,16 @@
 // @flow
 
 import React, { Component } from "react";
-import { View } from "react-native";
-import Test from "./testCalendar";
-import TestDay from "./testDay";
-export default class testApp extends Component {
+
+import Test from "./test2";
+import TestDay from "./test3";
+export default class test1 extends Component {
   state = {
     days: [],
   };
   componentWillMount() {
-    for (let i = 1; i <= 336; i++) {
-      this.state.days.push({
-        id: Math.floor(48 * ((i - 1) % 7) + (i / 7 + 1)),
-        number: Math.floor(48 * ((i - 1) % 7) + (i / 7 + 1)),
-        active: false,
-      });
+    for (let i = 1; i <= 48; i++) {
+      this.state.days.push({ id: i, number: i, active: false });
     }
   }
 
@@ -40,7 +36,6 @@ export default class testApp extends Component {
   render() {
     return (
       <Test
-        navigation={this.props.navigation}
         days={this.state.days}
         renderCell={this.renderCell}
         onSingleCellSelection={this.onSingleCellSelection}
