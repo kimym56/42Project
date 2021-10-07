@@ -7,8 +7,6 @@ import {
   TouchableWithoutFeedback,
   PanResponder,
   Vibration,
-  Text,
-  ScrollView
 } from "react-native";
 
 const LONG_PRESS_TIMEOUT = 200;
@@ -24,7 +22,7 @@ export default class Test extends Component {
   };
 
   state = {
-    testscrollvalue: 0,
+    testScroll: 0,
     startselectDate: new Date(),
     endselectDate: new Date(),
     sequentialTouchnum: 0,
@@ -44,8 +42,6 @@ export default class Test extends Component {
     shouldScrollDown: false,
     scrollOffset: 0,
     maxScrollOffset: 1000,
-
-    testScroll : 0
   };
 
   goAddSchedule() {
@@ -58,28 +54,30 @@ export default class Test extends Component {
   componentDidUpdate() {
     const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
       this.state;
+
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
         offset: Math.max(scrollOffset - SCROLL_INCREMENTATION, 0),
         animated: false,
       });
 
-      this.state.testScroll = Math.max(scrollOffset - SCROLL_INCREMENTATION, 0)
+      this.state.testScroll = Math.max(scrollOffset - SCROLL_INCREMENTATION, 0);
     } else if (shouldScrollDown) {
       const scrollOffsetValue = this.state.maxScrollOffset
         ? Math.min(scrollOffset + SCROLL_INCREMENTATION, maxScrollOffset)
         : scrollOffset + SCROLL_INCREMENTATION;
 
       console.log("scroll: ", scrollOffsetValue);
-      this.state.testscrollvalue = scrollOffsetValue;
+      //this.state.testscrollvalue = scrollOffsetValue;
 
       this.flatList.scrollToOffset({
         offset: scrollOffsetValue,
         animated: false,
       });
 
-
-      this.state.testScroll = scrollOffsetValue
+      this.state.testScroll = scrollOffsetValue;
+    } else {
+      this.state.testScroll = 0;
     }
   }
 
@@ -128,8 +126,37 @@ export default class Test extends Component {
       );
 
       // Have to change setHours(1, 2, 3 -> 12:00, 12:30, 1:00)
-      this.state.startselectDate.setHours(startIndex + 1);
-      this.state.endselectDate.setHours(endIndex + 1);
+      this.state.startselectDate = new Date();
+      this.state.endselectDate = new Date();
+      let startTimeIndex = startIndex;
+      let endTimeIndex = endIndex;
+      let toFirstStartIndex = startTimeIndex - (startTimeIndex % 7);
+      let toFirstEndIndex = endTimeIndex - (endTimeIndex % 7);
+      this.state.startselectDate.setHours(
+        (startTimeIndex % 7) * 24 + toFirstStartIndex / 14
+      );
+      console.log(this.state.startselectDate);
+      if (toFirstEndIndex % 14 != 0) {
+        this.state.endselectDate.setHours(
+          (endTimeIndex % 7) * 24 + toFirstEndIndex / 14 + 1
+        );
+      } else {
+        this.state.endselectDate.setHours(
+          (endTimeIndex % 7) * 24 + toFirstEndIndex / 14
+        );
+      }
+      console.log(startIndex, endIndex);
+
+      if (toFirstStartIndex % 14 != 0) {
+        this.state.startselectDate.setMinutes(30);
+      } else {
+        this.state.startselectDate.setMinutes(0);
+      }
+      if (toFirstEndIndex % 14 == 0) {
+        this.state.endselectDate.setMinutes(30);
+      } else {
+        this.state.endselectDate.setMinutes(0);
+      }
       /*for (let i = start + 1; i <= end - 1; i++) {
         this.props.onSingleCellSelection(i);
       }*/
@@ -193,6 +220,8 @@ export default class Test extends Component {
         initialSelectedCellIndex: null,
         currentSelection: [],
       });
+      //this.state.scrollOffset = 0;
+      //this.state.maxScrollOffset = 1000;
       this.goAddSchedule();
     }
   };
@@ -203,8 +232,8 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / (width * 2 ));
-    const cellToBottom = Math.floor(locationY / (height * 2 ));
+    const cellToRight = Math.floor(locationX / width);
+    const cellToBottom = Math.floor(locationY / height);
 
     //console.log('cellToBottom:',cellToBottom, 'locationY:',locationY, 'height:',height);
     //console.log(locationX);
@@ -214,7 +243,7 @@ export default class Test extends Component {
       cellToRight +
       this.props.cellsPerRow * cellToBottom;
 
-    console.log(currentcellIndex);
+    //console.log(currentcellIndex);
     return currentcellIndex;
   };
   isTimeAearlierThanTimeB = (aTime, bTime) => {
@@ -273,6 +302,38 @@ export default class Test extends Component {
       }
     }
 
+    this.state.startselectDate = new Date();
+    this.state.endselectDate = new Date();
+    let startTimeIndex = startIndex;
+    let endTimeIndex = endIndex;
+    let toFirstStartIndex = startTimeIndex - (startTimeIndex % 7);
+    let toFirstEndIndex = endTimeIndex - (endTimeIndex % 7);
+    this.state.startselectDate.setHours(
+      (startTimeIndex % 7) * 24 + toFirstStartIndex / 14
+    );
+
+    if (toFirstEndIndex % 14 != 0) {
+      this.state.endselectDate.setHours(
+        (endTimeIndex % 7) * 24 + toFirstEndIndex / 14 + 1
+      );
+    } else {
+      this.state.endselectDate.setHours(
+        (endTimeIndex % 7) * 24 + toFirstEndIndex / 14
+      );
+    }
+    console.log(startIndex, endIndex);
+
+    if (toFirstStartIndex % 14 != 0) {
+      this.state.startselectDate.setMinutes(30);
+    } else {
+      this.state.startselectDate.setMinutes(0);
+    }
+    if (toFirstEndIndex % 14 == 0) {
+      this.state.endselectDate.setMinutes(30);
+    } else {
+      this.state.endselectDate.setMinutes(0);
+    }
+
     this.setState({ currentSelection });
   };
 
@@ -289,24 +350,23 @@ export default class Test extends Component {
     ) {
       this.setState({ shouldScrollDown: true });
     } else if (calendarRelativePositionY < DISTANCE_BEFORE_MANUAL_SCROLL) {
-
       this.setState({ shouldScrollUp: true });
     } else {
       this.setState({ shouldScrollDown: false, shouldScrollUp: false });
     }
 
-    console.log(calendarRelativePositionY,'offset:',this.state.scrollOffset)
+    //console.log(calendarRelativePositionY, "offset:", this.state.scrollOffset);
   };
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
-      
       onMoveShouldSetPanResponder: () => this.state.multiSelectionMode,
       onPanResponderMove: (evt, gestureState) => {
         //console.log(evt.nativeEvent.locationY,gestureState.dy)
         //const { locationX, locationY } = evt.nativeEvent;
         const locationX = evt.nativeEvent.locationX + gestureState.dx;
-        const locationY = evt.nativeEvent.locationY + gestureState.dy+this.state.testScroll;
+        const locationY =
+          evt.nativeEvent.locationY + gestureState.dy + this.state.testScroll;
 
         this.handleMultiSelection(locationX, locationY);
         this.handleScroll(locationY);
@@ -384,7 +444,7 @@ export default class Test extends Component {
   render() {
     const { days, cellsPerRow } = this.props;
 
-    const renderedCells = days
+    const renderedCells = days;
 
     return (
       <View {...this.panResponder.panHandlers}>
@@ -396,7 +456,7 @@ export default class Test extends Component {
           renderItem={this.renderCell}
           numColumns={cellsPerRow}
           keyExtractor={(item) => item.id.toString()}
-          //scrollEnabled={this.state.initialSelectedCellIndex === null}
+          scrollEnabled={this.state.initialSelectedCellIndex === null}
         />
       </View>
     );
