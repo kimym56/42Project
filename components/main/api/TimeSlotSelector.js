@@ -23,8 +23,8 @@ export default class Test extends Component {
 
   state = {
     testScroll: 0,
-    startselectDate: new Date(),
-    endselectDate: new Date(),
+    startselectDate: new Date(this.props.startselectValue),
+    endselectDate: new Date(this.props.endselectValue),
     sequentialTouchnum: 0,
     sequentialTouchfromto: [],
     multiSelectionMode: null,
@@ -83,15 +83,20 @@ export default class Test extends Component {
   startMultiSelection = (cellIndex) => {
     const isCellAlreadyActive = this.isCellActive(cellIndex);
     this.setState({
-      multiSelectionMode: "select",//취소 기능 코드 multiSelectionMode: isCellAlreadyActive ? "deselect" : "select"
+      multiSelectionMode: "select", //취소 기능 코드 multiSelectionMode: isCellAlreadyActive ? "deselect" : "select"
       initialSelectedCellIndex: cellIndex,
     });
 
     Vibration.vibrate(VIBRATION_DURATION);
   };
   changeToTimeFormat = (startIndex, endIndex) => {
-    this.state.startselectDate = new Date();
-    this.state.endselectDate = new Date();
+    console.log(
+      "inchangetotimeformat: ",
+      this.state.startselectDate.getDate(),
+      this.state.endselectDate.getDate()
+    );
+    this.state.startselectDate = new Date(this.props.startselectValue);
+    this.state.endselectDate = new Date(this.props.endselectValue);
     let startTimeIndex = startIndex;
     let endTimeIndex = endIndex;
     let toFirstStartIndex =
@@ -115,7 +120,7 @@ export default class Test extends Component {
           toFirstEndIndex / (this.props.cellsPerRow * 2)
       );
     }
-    console.log(startIndex, endIndex);
+    //console.log(startIndex, endIndex);
 
     if (toFirstStartIndex % (this.props.cellsPerRow * 2) != 0) {
       this.state.startselectDate.setMinutes(30);
@@ -176,6 +181,12 @@ export default class Test extends Component {
     }
   };
   selectSingleCell = (cellIndex) => {
+    console.log(
+      "props:",
+      this.props.startselectValue.getDate(),
+      this.props.endselectValue.getDate()
+    );
+
     this.props.onSingleCellSelection(cellIndex);
     this.state.sequentialTouchnum += 1;
     this.state.sequentialTouchfromto.push(cellIndex);
@@ -383,7 +394,7 @@ export default class Test extends Component {
   isCellSelected = (index) =>
     this.state.currentSelection.includes(index) &&
     this.state.multiSelectionMode === "select";
-/*
+  /*
   isCellDeselected = (index) =>
     this.state.currentSelection.includes(index) &&
     this.state.multiSelectionMode === "deselect";
