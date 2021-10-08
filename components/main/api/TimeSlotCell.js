@@ -11,9 +11,11 @@ export default class CalendarDay extends PureComponent {
     if (!active && !selected && !deselected) {
       dayContainerStyle = styles.dayContainer;
     } else {
-      if (deselected)
+      // 이미 선택된 셀을 다시 선택시 취소하도록 하는 기능의 스타일 부분
+      /*if (deselected)
         dayContainerStyle = [styles.dayContainer, { backgroundColor: "red" }];
-      else if (selected)
+      else*/ 
+      if (selected||deselected)
         dayContainerStyle = [styles.dayContainer, { backgroundColor: "green" }];
       else if (active)
         dayContainerStyle = [styles.dayContainer, { backgroundColor: "blue" }];

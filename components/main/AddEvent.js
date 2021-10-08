@@ -69,10 +69,12 @@ Number.prototype.zf = function (len) {
 export default function AddEvent(props) {
   const [contents, setContents] = useState("");
   const [startDate, setStartDate] = useState(
-    new Date(props.route.params.startdateValue.setMinutes(0))
+    //new Date(props.route.params.startdateValue.setMinutes(0))
+    new Date(props.route.params.startdateValue)
   );
   const [endDate, setEndDate] = useState(
-    new Date(props.route.params.enddateValue.setMinutes(0))
+    //new Date(props.route.params.enddateValue.setMinutes(0))
+    new Date(props.route.params.enddateValue)
   );
   const [startDateVisible, setStartDateVisible] = useState(false);
   const [startTimeVisible, setStartTimeVisible] = useState(false);
