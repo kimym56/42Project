@@ -87,7 +87,7 @@ export default class Test extends Component {
   startMultiSelection = (cellIndex) => {
     const isCellAlreadyActive = this.isCellActive(cellIndex);
     this.setState({
-      multiSelectionMode: isCellAlreadyActive ? "deselect" : "select",
+      multiSelectionMode: "select",//취소 기능 코드 multiSelectionMode: isCellAlreadyActive ? "deselect" : "select"
       initialSelectedCellIndex: cellIndex,
     });
 
@@ -387,14 +387,14 @@ export default class Test extends Component {
   isCellSelected = (index) =>
     this.state.currentSelection.includes(index) &&
     this.state.multiSelectionMode === "select";
-
+/*
   isCellDeselected = (index) =>
     this.state.currentSelection.includes(index) &&
     this.state.multiSelectionMode === "deselect";
-
+*/
   renderCell = ({ index, item }) => {
     item.selected = this.isCellSelected(index);
-    item.deselected = this.isCellDeselected(index);
+    //item.deselected = this.isCellDeselected(index);
 
     return (
       <TouchableWithoutFeedback
