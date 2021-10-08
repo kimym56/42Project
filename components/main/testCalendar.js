@@ -13,7 +13,7 @@ import {
 
 const LONG_PRESS_TIMEOUT = 200;
 const VIBRATION_DURATION = 300;
-const SCROLL_INCREMENTATION = 40;
+const SCROLL_INCREMENTATION = 10;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
 export default class Test extends Component {
   panResponder;
@@ -66,12 +66,9 @@ export default class Test extends Component {
 
       this.state.testScroll = Math.max(scrollOffset - SCROLL_INCREMENTATION, 0)
     } else if (shouldScrollDown) {
-      const scrollOffsetValue = this.state.maxScrollOffset
-        ? Math.min(scrollOffset + SCROLL_INCREMENTATION, maxScrollOffset)
-        : scrollOffset + SCROLL_INCREMENTATION;
+      const scrollOffsetValue = scrollOffset + SCROLL_INCREMENTATION;
 
-      console.log("scroll: ", scrollOffsetValue);
-      this.state.testscrollvalue = scrollOffsetValue;
+      //console.log("scroll: ", scrollOffsetValue);
 
       this.flatList.scrollToOffset({
         offset: scrollOffsetValue,
@@ -80,6 +77,9 @@ export default class Test extends Component {
 
 
       this.state.testScroll = scrollOffsetValue
+    } else{
+      this.state.testScroll = 0
+      
     }
   }
 
@@ -193,7 +193,7 @@ export default class Test extends Component {
         initialSelectedCellIndex: null,
         currentSelection: [],
       });
-      this.goAddSchedule();
+      //this.goAddSchedule();
     }
   };
 
@@ -214,7 +214,7 @@ export default class Test extends Component {
       cellToRight +
       this.props.cellsPerRow * cellToBottom;
 
-    console.log(currentcellIndex);
+    console.log('cb:',cellToBottom,'cr:',cellToRight,'ci:',currentcellIndex);
     return currentcellIndex;
   };
   isTimeAearlierThanTimeB = (aTime, bTime) => {
@@ -236,19 +236,19 @@ export default class Test extends Component {
   handleMultiSelection = (locationX, locationY) => {
     const { initialSelectedCellIndex } = this.state;
     const currentcellIndex = this.findCellIndex(locationX, locationY);
-
+    console.log(initialSelectedCellIndex,currentcellIndex);
+    console.log('init:',Math.floor(48 * ((initialSelectedCellIndex ) % 7) + (initialSelectedCellIndex  / 7 + 1)),'curr:',Math.floor(48 * ((currentcellIndex ) % 7) + (currentcellIndex  / 7 + 1)))
+    //Math.floor(48 * ((i - 1) % 7) + (i / 7 + 1))
     const startIndex = Math.max(
       this.isTimeAearlierThanTimeB(initialSelectedCellIndex, currentcellIndex)
         ? initialSelectedCellIndex
         : currentcellIndex,
       0
     );
-    const endIndex = Math.min(
+    const endIndex = 
       this.isTimeAearlierThanTimeB(initialSelectedCellIndex, currentcellIndex)
         ? currentcellIndex
-        : initialSelectedCellIndex,
-      this.props.days.length - 1
-    );
+        : initialSelectedCellIndex
     //console.log('ly',locationY);
     let currentSelection = [];
     const start_x = (startIndex % this.props.cellsPerRow) + 1;
@@ -295,7 +295,7 @@ export default class Test extends Component {
       this.setState({ shouldScrollDown: false, shouldScrollUp: false });
     }
 
-    console.log(calendarRelativePositionY,'offset:',this.state.scrollOffset)
+    //console.log(calendarRelativePositionY,'offset:',this.state.scrollOffset)
   };
 
   componentWillMount() {
@@ -307,7 +307,7 @@ export default class Test extends Component {
         //const { locationX, locationY } = evt.nativeEvent;
         const locationX = evt.nativeEvent.locationX + gestureState.dx;
         const locationY = evt.nativeEvent.locationY + gestureState.dy+this.state.testScroll;
-
+        console.log('lx:',locationX,'ly:',locationY,'dy:',gestureState.dy,'ts:',this.state.testScroll,'co:',this.state.scrollOffset)
         this.handleMultiSelection(locationX, locationY);
         this.handleScroll(locationY);
       },
@@ -378,6 +378,7 @@ export default class Test extends Component {
   onScroll = (event) => {
     const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
     const maxScrollOffset = contentSize.height - layoutMeasurement.height;
+    console.log('conoff:',contentOffset.y,'max:',maxScrollOffset,'cs:',contentSize,'lm:',layoutMeasurement)
     this.setState({ maxScrollOffset, scrollOffset: contentOffset.y });
   };
 
@@ -396,7 +397,7 @@ export default class Test extends Component {
           renderItem={this.renderCell}
           numColumns={cellsPerRow}
           keyExtractor={(item) => item.id.toString()}
-          //scrollEnabled={this.state.initialSelectedCellIndex === null}
+          scrollEnabled={this.state.initialSelectedCellIndex === null}
         />
       </View>
     );
