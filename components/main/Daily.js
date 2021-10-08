@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 
-import Test from "./api/TimeSlotSelector";
+import Test from "./api/testCalendar";
 import TestDay from "./api/TimeSlotCell";
 export default class Daily extends Component {
   state = {
