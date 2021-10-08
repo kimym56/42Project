@@ -2,8 +2,8 @@
 
 import React, { Component } from "react";
 import { View } from "react-native";
-import Test from "./api/TimeSlotSelector";
-import TestDay from "./api/TimeSlotCell";
+import Test from "./api/TimeSlotSelector.js";
+import TestDay from "./api/TimeSlotCell.js";
 export default class Weekly extends Component {
   state = {
     days: [],

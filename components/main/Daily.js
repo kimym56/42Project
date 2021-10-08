@@ -2,8 +2,8 @@
 
 import React, { Component } from "react";
 
-import Test from "./api/TimeSlotSelector";
-import TestDay from "./api/TimeSlotCell";
+import Test from "./api/TimeSlotSelector.js";
+import TestDay from "./api/TimeSlotCell.js";
 export default class Daily extends Component {
   state = {
     days: [],
@@ -36,9 +36,8 @@ export default class Daily extends Component {
   render() {
     return (
       <Test
-
-      navigation={this.props.navigation}
-      cellsPerRow={1}
+        navigation={this.props.navigation}
+        cellsPerRow={1}
         days={this.state.days}
         renderCell={this.renderCell}
         onSingleCellSelection={this.onSingleCellSelection}

@@ -52,12 +52,8 @@ export default class Test extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      shouldScrollUp,
-      shouldScrollDown,
-      scrollOffset,
-      maxScrollOffset,
-    } = this.state;
+    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
+      this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -175,8 +171,8 @@ export default class Test extends Component {
         }
       }
     }
-    if(isDragging){
-    this.setState({ currentSelection });
+    if (isDragging) {
+      this.setState({ currentSelection });
     }
   };
   selectSingleCell = (cellIndex) => {
