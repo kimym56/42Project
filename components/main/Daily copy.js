@@ -11,7 +11,7 @@ export default class Daily extends Component {
     currentDate: new Date(),
   };
   componentWillMount() {
-    for (let i = 0; i < 96; i++) {
+    for (let i = 1; i <= 48; i++) {
       this.state.days.push({ id: i, number: i, active: false });
     }
   }
@@ -43,27 +43,24 @@ export default class Daily extends Component {
   };
   render() {
     return (
-      <View style={{flex:1}}>
-        <View style={{flex:1, flexDirection:'row' ,alignItmes:'center',justifyContent:'center'}}>
-          <Button title="Previous" onPress={() => this.changeDate(-1)} />
-          <Text>
-            {this.state.currentDate.getMonth() + 1} &nbsp;
-            {this.state.currentDate.getDate()} &nbsp;
-            {this.weekDays[this.state.currentDate.getDay()]}
-          </Text>
-          <Button title="Next" onPress={() => this.changeDate(+1)} />
-        </View>
-        <View style={{flex:10}}>
+      <View>
+        <Button title="Previous" onPress={() => this.changeDate(-1)} />
+        <Text>
+          {this.state.currentDate.getMonth() + 1} &nbsp;
+          {this.state.currentDate.getDate()} &nbsp;
+          {this.weekDays[this.state.currentDate.getDay()]}
+        </Text>
+        <Button title="Next" onPress={() => this.changeDate(+1)} />
         <Test
           startselectValue={this.state.currentDate}
           endselectValue={this.state.currentDate}
           navigation={this.props.navigation}
-          cellsPerRow={2}
+          cellsPerRow={1}
           days={this.state.days}
           renderCell={this.renderCell}
           onSingleCellSelection={this.onSingleCellSelection}
           onMultiSelectionEnd={this.onMultiSelectionEnd}
-        /></View>
+        />
       </View>
     );
   }

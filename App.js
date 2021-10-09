@@ -40,7 +40,7 @@ export class App extends Component {
     if (!loggedIn) {
       return (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Landing">
+          <Stack.Navigator initialRouteName="Landing"  screenOptions={{headerShown: false}}>
             <Stack.Screen
               name="Landing"
               component={Landing}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -68,14 +68,21 @@ Number.prototype.zf = function (len) {
 
 export default function AddEvent(props) {
   const [contents, setContents] = useState("");
+  console.log(props);
   const [startDate, setStartDate] = useState(
     //new Date(props.route.params.startdateValue.setMinutes(0))
-    new Date(props.route.params.startdateValue)
+    props.route.params
+      ? new Date(props.route.params.startdateValue)
+      : new Date()
+    //new Date(props.route.params.startdateValue)
   );
   const [endDate, setEndDate] = useState(
     //new Date(props.route.params.enddateValue.setMinutes(0))
-    new Date(props.route.params.enddateValue)
+    props.route.params ? new Date(props.route.params.enddateValue) : new Date()
+    //new Date(props.route.params.enddateValue)
   );
+  
+
   const [startDateVisible, setStartDateVisible] = useState(false);
   const [startTimeVisible, setStartTimeVisible] = useState(false);
   const [endDateVisible, setEndDateVisible] = useState(false);

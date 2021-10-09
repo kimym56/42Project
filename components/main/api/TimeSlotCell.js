@@ -27,23 +27,47 @@ export default class CalendarDay extends PureComponent {
         dayContainerStyle.push(styles.lastActiveDayContainer);
       }
     }
+    if(number>=48){
     return (
       <View style={dayContainerStyle}>
-        <Text>{number}</Text>
+        <Text> {}</Text>
       </View>
-    );
+    );}
+    else{
+      return (
+        <View style={styles.dayContainer48}>
+          <Text style={{fontSize:10}}> {(number%2)?Math.floor(number/2-0.5)+':00':Math.floor(number/2-0.5)+':30'}</Text>
+        </View>
+      );
+    }
+  
   }
 }
 
 const styles = StyleSheet.create({
+  dayContainer48: {
+    flex: 0.5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 30,
+    marginVertical: 0,
+    marginLeft: 0,
+    backgroundColor:'skyblue',
+    borderWidth:1,
+    borderColor:'gray'
+  },
   dayContainer: {
     flex: 1,
-    //flexDirection: "column",
+    flexDirection: "row",
     //alignItems: "center",
     justifyContent: "center",
     height: 30,
     marginVertical: 0,
     marginLeft: 0,
+    backgroundColor:'skyblue',
+    borderWidth:1,
+    borderColor:'gray'
   },
   firstActiveDayContainer: {
     borderTopLeftRadius: 10,

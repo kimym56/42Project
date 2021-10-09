@@ -18,13 +18,13 @@ export default class Test extends Component {
   flatList;
 
   static defaultProps = {
-    cellsPerRow: 7,
+    cellsPerRow: 8,
   };
 
   state = {
     testScroll: 0,
-    startselectDate: new Date(),
-    endselectDate: new Date(),
+    startselectDate: new Date(this.props.startselectValue),
+    endselectDate: new Date(this.props.endselectValue),
     sequentialTouchnum: 0,
     sequentialTouchfromto: [],
     multiSelectionMode: null,
@@ -87,15 +87,20 @@ export default class Test extends Component {
   startMultiSelection = (cellIndex) => {
     const isCellAlreadyActive = this.isCellActive(cellIndex);
     this.setState({
-      multiSelectionMode: "select",//취소 기능 코드 multiSelectionMode: isCellAlreadyActive ? "deselect" : "select"
+      multiSelectionMode: "select", //취소 기능 코드 multiSelectionMode: isCellAlreadyActive ? "deselect" : "select"
       initialSelectedCellIndex: cellIndex,
     });
 
     Vibration.vibrate(VIBRATION_DURATION);
   };
   changeToTimeFormat = (startIndex, endIndex) => {
-    this.state.startselectDate = new Date();
-    this.state.endselectDate = new Date();
+    console.log(
+      "inchangetotimeformat: ",
+      this.state.startselectDate.getDate(),
+      this.state.endselectDate.getDate()
+    );
+    this.state.startselectDate = new Date(this.props.startselectValue);
+    this.state.endselectDate = new Date(this.props.endselectValue);
     let startTimeIndex = startIndex;
     let endTimeIndex = endIndex;
     let toFirstStartIndex =
@@ -119,7 +124,7 @@ export default class Test extends Component {
           toFirstEndIndex / (this.props.cellsPerRow * 2)
       );
     }
-    console.log(startIndex, endIndex);
+    //console.log(startIndex, endIndex);
 
     if (toFirstStartIndex % (this.props.cellsPerRow * 2) != 0) {
       this.state.startselectDate.setMinutes(30);
@@ -175,11 +180,17 @@ export default class Test extends Component {
         }
       }
     }
-    if(isDragging){
-    this.setState({ currentSelection });
+    if (isDragging) {
+      this.setState({ currentSelection });
     }
   };
   selectSingleCell = (cellIndex) => {
+    console.log(
+      "props:",
+      this.props.startselectValue.getDate(),
+      this.props.endselectValue.getDate()
+    );
+
     this.props.onSingleCellSelection(cellIndex);
     this.state.sequentialTouchnum += 1;
     this.state.sequentialTouchfromto.push(cellIndex);
@@ -387,7 +398,7 @@ export default class Test extends Component {
   isCellSelected = (index) =>
     this.state.currentSelection.includes(index) &&
     this.state.multiSelectionMode === "select";
-/*
+  /*
   isCellDeselected = (index) =>
     this.state.currentSelection.includes(index) &&
     this.state.multiSelectionMode === "deselect";
@@ -398,10 +409,12 @@ export default class Test extends Component {
 
     return (
       <TouchableWithoutFeedback
-        onPress={() => this.selectSingleCell(index)}
+        onPress={() => {
+          index % this.props.cellsPerRow ? this.selectSingleCell(index) : null;
+        }}
         onLongPress={() =>
           //console.log(index, this.props.days[index]) ||
-          this.startMultiSelection(index)
+          index % this.props.cellsPerRow ? this.startMultiSelection(index) : null
         }
         delayLongPress={LONG_PRESS_TIMEOUT}
         onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
@@ -450,6 +463,7 @@ export default class Test extends Component {
           numColumns={cellsPerRow}
           keyExtractor={(item) => item.id.toString()}
           scrollEnabled={this.state.initialSelectedCellIndex === null}
+          //contentContainerStyle={{ paddingBottom: 180 }}
         />
       </View>
     );
