@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from "react";
 import {
   View,
@@ -7,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   PanResponder,
   Vibration,
+  ScrollView,
 } from "react-native";
 
 const LONG_PRESS_TIMEOUT = 200;
@@ -81,6 +80,9 @@ export default class Test extends Component {
   isCellActive = (cellIndex) => this.props.days[cellIndex].active;
 
   startMultiSelection = (cellIndex) => {
+    if (cellIndex % this.props.cellsPerRow == 0) {
+      return;
+    }
     const isCellAlreadyActive = this.isCellActive(cellIndex);
     this.setState({
       multiSelectionMode: "select", //취소 기능 코드 multiSelectionMode: isCellAlreadyActive ? "deselect" : "select"
@@ -89,6 +91,23 @@ export default class Test extends Component {
 
     Vibration.vibrate(VIBRATION_DURATION);
   };
+
+  changetoLayoutTime = (i) => {
+    let hour = 0;
+    let minute = 0;
+    if (parseInt(i / 2) == 0) {
+      hour = 12;
+    } else {
+      hour = parseInt(i / 2);
+    }
+    if (i % 2 == 1) {
+      minute = 30;
+    } else {
+      minute = 0;
+    }
+    return String("0" + hour).slice(-2) + ":" + String("0" + minute).slice(-2);
+  };
+
   changeToTimeFormat = (startIndex, endIndex) => {
     console.log(
       "inchangetotimeformat: ",
@@ -97,6 +116,7 @@ export default class Test extends Component {
     );
     this.state.startselectDate = new Date(this.props.startselectValue);
     this.state.endselectDate = new Date(this.props.endselectValue);
+    console.log("tttt", startIndex, endIndex);
     let startTimeIndex = startIndex;
     let endTimeIndex = endIndex;
     let toFirstStartIndex =
@@ -104,19 +124,19 @@ export default class Test extends Component {
     let toFirstEndIndex =
       endTimeIndex - (endTimeIndex % this.props.cellsPerRow);
     this.state.startselectDate.setHours(
-      (startTimeIndex % this.props.cellsPerRow) * 24 +
+      ((startTimeIndex % this.props.cellsPerRow) - 1) * 24 +
         toFirstStartIndex / (this.props.cellsPerRow * 2)
     );
     //console.log(this.state.startselectDate);
     if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
       this.state.endselectDate.setHours(
-        (endTimeIndex % this.props.cellsPerRow) * 24 +
+        ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
           toFirstEndIndex / (this.props.cellsPerRow * 2) +
           1
       );
     } else {
       this.state.endselectDate.setHours(
-        (endTimeIndex % this.props.cellsPerRow) * 24 +
+        ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
           toFirstEndIndex / (this.props.cellsPerRow * 2)
       );
     }
@@ -181,6 +201,9 @@ export default class Test extends Component {
     }
   };
   selectSingleCell = (cellIndex) => {
+    if (cellIndex % this.props.cellsPerRow == 0) {
+      return;
+    }
     console.log(
       "props:",
       this.props.startselectValue.getDate(),
@@ -443,9 +466,19 @@ export default class Test extends Component {
 
   render() {
     const { days, cellsPerRow } = this.props;
-
-    const renderedCells = days;
-
+    let changeDays = this.props.days;
+    for (let i = 0; i < 48; i++) {
+      changeDays[i * 2].id = this.changetoLayoutTime(i);
+      changeDays[i * 2].number = this.changetoLayoutTime(i);
+      //console.log("Days:", changeDays);
+    }
+    for (let i = 0; i < 48; i++) {
+      changeDays[i * 2 + 1].id = " ";
+      changeDays[i * 2 + 1].number = " ";
+      //console.log("Days:", changeDays);
+    }
+    //const renderedCells = days;
+    const renderedCells = changeDays;
     return (
       <View {...this.panResponder.panHandlers}>
         <FlatList

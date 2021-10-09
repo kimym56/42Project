@@ -5,16 +5,17 @@ import { View, Text, StyleSheet } from "react-native";
 
 export default class CalendarDay extends PureComponent {
   render() {
-    const { active, selected, first, last, number } = this.props; //deselected, 
+    const { active, selected, first, last, number } = this.props; //deselected,
     let dayContainerStyle;
 
-    if (!active && !selected ) {//&& !deselected
+    if (!active && !selected) {
+      //&& !deselected
       dayContainerStyle = styles.dayContainer;
     } else {
       // 이미 선택된 셀을 다시 선택시 취소하도록 하는 기능의 스타일 부분
       /*if (deselected)
         dayContainerStyle = [styles.dayContainer, { backgroundColor: "red" }];
-      else*/ 
+      else*/
       if (selected)
         dayContainerStyle = [styles.dayContainer, { backgroundColor: "green" }];
       else if (active)
@@ -27,6 +28,7 @@ export default class CalendarDay extends PureComponent {
         dayContainerStyle.push(styles.lastActiveDayContainer);
       }
     }
+
     return (
       <View style={dayContainerStyle}>
         <Text>{number}</Text>
@@ -39,11 +41,13 @@ const styles = StyleSheet.create({
   dayContainer: {
     flex: 1,
     //flexDirection: "column",
-    //alignItems: "center",
+    alignItems: "center",
     justifyContent: "center",
+
     height: 30,
     marginVertical: 0,
     marginLeft: 0,
+    borderWidth: 0.5,
   },
   firstActiveDayContainer: {
     borderTopLeftRadius: 10,

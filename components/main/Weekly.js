@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from "react";
 import { View } from "react-native";
 import Test from "./api/TimeSlotSelector.js";
@@ -11,8 +9,8 @@ export default class Weekly extends Component {
   componentWillMount() {
     for (let i = 1; i <= 336; i++) {
       this.state.days.push({
-        id: Math.floor(48 * ((i - 1) % 7) + (i / 7 + 1)),
-        number: Math.floor(48 * ((i - 1) % 7) + (i / 7 + 1)),
+        id: Math.floor(48 * ((i - 1) % 8) + (i / 8 + 1)),
+        number: Math.floor(48 * ((i - 1) % 8) + (i / 8 + 1)),
         active: false,
       });
     }
@@ -45,6 +43,7 @@ export default class Weekly extends Component {
         renderCell={this.renderCell}
         onSingleCellSelection={this.onSingleCellSelection}
         onMultiSelectionEnd={this.onMultiSelectionEnd}
+        cellsPerRow={8}
       />
     );
   }
