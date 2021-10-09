@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from "react";
 import { View, StyleSheet, Button, TouchableOpacity, Text } from "react-native";
 import Test from "./api/TimeSlotSelector.js";
