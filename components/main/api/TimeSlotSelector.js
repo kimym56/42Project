@@ -51,12 +51,8 @@ export default class Test extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      shouldScrollUp,
-      shouldScrollDown,
-      scrollOffset,
-      maxScrollOffset,
-    } = this.state;
+    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
+      this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -95,7 +91,7 @@ export default class Test extends Component {
 
     Vibration.vibrate(VIBRATION_DURATION);
   };
-/*
+  /*
   changetoLayoutTime = (i) => {
     let hour = 0;
     let minute = 0;
@@ -120,7 +116,10 @@ export default class Test extends Component {
     );
     this.state.startselectDate = new Date(this.props.startselectValue);
     this.state.endselectDate = new Date(this.props.endselectValue);
-    
+
+    const todayIndex = this.state.startselectDate.getDay();
+    console.log("todayIndex: ", todayIndex);
+
     let startTimeIndex = startIndex;
     let endTimeIndex = endIndex;
     let toFirstStartIndex =
@@ -128,19 +127,19 @@ export default class Test extends Component {
     let toFirstEndIndex =
       endTimeIndex - (endTimeIndex % this.props.cellsPerRow);
     this.state.startselectDate.setHours(
-      ((startTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+      ((startTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
         toFirstStartIndex / (this.props.cellsPerRow * 2)
     );
     //console.log(this.state.startselectDate);
     if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
       this.state.endselectDate.setHours(
-        ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+        ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
           toFirstEndIndex / (this.props.cellsPerRow * 2) +
           1
       );
     } else {
       this.state.endselectDate.setHours(
-        ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+        ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
           toFirstEndIndex / (this.props.cellsPerRow * 2)
       );
     }
@@ -156,6 +155,11 @@ export default class Test extends Component {
     } else {
       this.state.endselectDate.setMinutes(0);
     }
+    console.log(
+      "wwww ",
+      this.state.startselectDate.getDate(),
+      this.state.endselectDate.getDate()
+    );
   };
   fillSpaceBtwStartAndEnd = (isDragging, startIndex, endIndex) => {
     let currentSelection = [];
@@ -343,7 +347,6 @@ export default class Test extends Component {
     //console.log('ly',locationY);
     this.changeToTimeFormat(startIndex, endIndex);
     this.fillSpaceBtwStartAndEnd(true, startIndex, endIndex);
-
   };
 
   handleScroll = (locationY) => {
@@ -431,7 +434,9 @@ export default class Test extends Component {
         }}
         onLongPress={() =>
           //console.log(index, this.props.days[index]) ||
-          index % this.props.cellsPerRow ? this.startMultiSelection(index) : null
+          index % this.props.cellsPerRow
+            ? this.startMultiSelection(index)
+            : null
         }
         delayLongPress={LONG_PRESS_TIMEOUT}
         onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
@@ -479,7 +484,7 @@ export default class Test extends Component {
     }
     const renderedCells = changeDays;*/
     const renderedCells = days;
-    
+
     return (
       <View {...this.panResponder.panHandlers}>
         <FlatList
