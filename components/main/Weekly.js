@@ -48,7 +48,7 @@ export default class Weekly extends Component {
       <View style={{ flex: 1 }}>
         <View
           style={{
-            flex: 1,
+            flex: 0.5,
             flexDirection: "row",
             alignItmes: "center",
             justifyContent: "center",

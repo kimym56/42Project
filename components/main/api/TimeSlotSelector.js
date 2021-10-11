@@ -95,7 +95,7 @@ export default class Test extends Component {
 
     Vibration.vibrate(VIBRATION_DURATION);
   };
-/*
+  /*
   changetoLayoutTime = (i) => {
     let hour = 0;
     let minute = 0;
@@ -120,7 +120,7 @@ export default class Test extends Component {
     );
     this.state.startselectDate = new Date(this.props.startselectValue);
     this.state.endselectDate = new Date(this.props.endselectValue);
-    
+
     let startTimeIndex = startIndex;
     let endTimeIndex = endIndex;
     let toFirstStartIndex =
@@ -343,7 +343,6 @@ export default class Test extends Component {
     //console.log('ly',locationY);
     this.changeToTimeFormat(startIndex, endIndex);
     this.fillSpaceBtwStartAndEnd(true, startIndex, endIndex);
-
   };
 
   handleScroll = (locationY) => {
@@ -420,29 +419,68 @@ export default class Test extends Component {
     this.state.currentSelection.includes(index) &&
     this.state.multiSelectionMode === "deselect";
 */
+renderCell = ({ index, item }) => {
+  item.selected = this.isCellSelected(index);
+  //item.deselected = this.isCellDeselected(index);
+
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        index % this.props.cellsPerRow ? this.selectSingleCell(index) : null;
+      }}
+      onLongPress={() =>
+        //console.log(index, this.props.days[index]) ||
+        index % this.props.cellsPerRow ? this.startMultiSelection(index) : null
+      }
+      delayLongPress={LONG_PRESS_TIMEOUT}
+      onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
+    >
+      <View style={{ flex: 1 }} pointerEvents="box-only">
+        {this.props.renderCell(item)}
+        {/*<Text>hi</Text>*/}
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
+/*
   renderCell = ({ index, item }) => {
     item.selected = this.isCellSelected(index);
     //item.deselected = this.isCellDeselected(index);
 
-    return (
-      <TouchableWithoutFeedback
-        onPress={() => {
-          index % this.props.cellsPerRow ? this.selectSingleCell(index) : null;
-        }}
-        onLongPress={() =>
-          //console.log(index, this.props.days[index]) ||
-          index % this.props.cellsPerRow ? this.startMultiSelection(index) : null
-        }
-        delayLongPress={LONG_PRESS_TIMEOUT}
-        onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
-      >
-        <View style={{ flex: 1 }} pointerEvents="box-only">
+    if (index % this.props.cellsPerRow)
+      return (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            index % this.props.cellsPerRow
+              ? this.selectSingleCell(index)
+              : null;
+          }}
+          onLongPress={() =>
+            //console.log(index, this.props.days[index]) ||
+            index % this.props.cellsPerRow
+              ? this.startMultiSelection(index)
+              : null
+          }
+          delayLongPress={LONG_PRESS_TIMEOUT}
+          onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
+        >
+          <View style={{ flex: 1, }} pointerEvents="box-only">
+            {this.props.renderCell(item)}
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    else {
+      return (
+        <View
+          style={{ flex: 0.6 }}
+          pointerEvents="box-only"
+        >
           {this.props.renderCell(item)}
-          {/*<Text>hi</Text>*/}
         </View>
-      </TouchableWithoutFeedback>
-    );
+      );
+    }
   };
+  */
 
   onCalendarLayout = ({
     nativeEvent: {
@@ -479,7 +517,7 @@ export default class Test extends Component {
     }
     const renderedCells = changeDays;*/
     const renderedCells = days;
-    
+
     return (
       <View {...this.panResponder.panHandlers}>
         <FlatList

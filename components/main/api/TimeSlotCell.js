@@ -6,59 +6,81 @@ import { View, Text, StyleSheet } from "react-native";
 export default class CalendarDay extends PureComponent {
   render() {
     const { active, selected, first, last, number } = this.props; //deselected,
-    let dayContainerStyle;
+    let dayContainerStyleOdd;
+    let dayContainerStyleEven;
 
     if (!active && !selected) {
       //&& !deselected
-      dayContainerStyle = styles.dayContainer;
+      dayContainerStyleOdd = styles.dayContainerOdd;
+      dayContainerStyleEven = styles.dayContainerEven;
+      
     } else {
       // 이미 선택된 셀을 다시 선택시 취소하도록 하는 기능의 스타일 부분
       /*if (deselected)
         dayContainerStyle = [styles.dayContainer, { backgroundColor: "red" }];
       else*/
-      if (selected)
-        dayContainerStyle = [styles.dayContainer, { backgroundColor: "green" }];
-      else if (active)
-        dayContainerStyle = [styles.dayContainer, { backgroundColor: "blue" }];
-
+      if (selected){
+        dayContainerStyleOdd = [styles.dayContainerOdd, { backgroundColor: "green" }];
+        dayContainerStyleEven = [styles.dayContainerEven, { backgroundColor: "green" }];}
+      else if (active){
+        dayContainerStyleOdd = [styles.dayContainerOdd, { backgroundColor: "blue" }];
+        dayContainerStyleEven = [styles.dayContainerEven, { backgroundColor: "blue" }];}
+/*
       if (first) {
         dayContainerStyle.push(styles.firstActiveDayContainer);
       }
       if (last) {
         dayContainerStyle.push(styles.lastActiveDayContainer);
-      }
+      }*/
     }
-    if(number>=48){
-    return (
-      <View style={dayContainerStyle}>
-        <Text> {}</Text>
-      </View>
-    );}
-    else{
+    if (number > 48) {
+      return (
+        <View
+          style={number%2?dayContainerStyleOdd:dayContainerStyleEven}
+        >
+          <Text> {}</Text>
+        </View>
+      );
+    } else {
       return (
         <View style={styles.dayContainer48}>
-          <Text style={{fontSize:10}}> {(number%2)?Math.floor(number/2-0.5)+':00':Math.floor(number/2-0.5)+':30'}</Text>
+          <Text style={{ fontSize: 10 }}>
+            {" "}
+            {number % 2 ? Math.floor(number / 2 - 0.5) : null}
+          </Text>
         </View>
       );
     }
-  
   }
 }
 
 const styles = StyleSheet.create({
   dayContainer48: {
-    flex: 0.5,
+    flex: 1,
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "center",
     height: 30,
     marginVertical: 0,
     marginLeft: 0,
-    backgroundColor:'skyblue',
-    borderWidth:1,
-    borderColor:'gray'
+    backgroundColor: "skyblue",
+    borderWidth: 1,
+    borderColor: "skyblue",
+    borderRightColor: "gray",
   },
-  dayContainer: {
+  dayContainerOdd: {
+    flex: 1,
+    flexDirection: "row",
+    //alignItems: "center",
+    justifyContent: "center",
+    height: 30,
+    marginVertical: 0,
+    marginLeft: 0,
+    backgroundColor: "skyblue",
+    borderWidth: 1,
+    borderColor: "gray",
+    borderBottomWidth: 0.25,
+  },
+  dayContainerEven: {
     flex: 1,
     flexDirection: "row",
     //alignItems: "center",
@@ -67,9 +89,10 @@ const styles = StyleSheet.create({
     height: 30,
     marginVertical: 0,
     marginLeft: 0,
-    backgroundColor:'skyblue',
-    borderWidth:1,
-    borderColor:'gray'
+    backgroundColor: "skyblue",
+    borderWidth: 1,
+    borderColor: "gray",
+    borderTopWidth: 0.25,
   },
   firstActiveDayContainer: {
     borderTopLeftRadius: 10,
