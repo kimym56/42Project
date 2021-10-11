@@ -117,12 +117,9 @@ export default class Test extends Component {
     this.state.startselectDate = new Date(this.props.startselectValue);
     this.state.endselectDate = new Date(this.props.endselectValue);
 
-<<<<<<< HEAD
-=======
     const todayIndex = this.state.startselectDate.getDay();
     console.log("todayIndex: ", todayIndex);
 
->>>>>>> 421aab4a65cbc05f56a6126a022bfb0741cfa81b
     let startTimeIndex = startIndex;
     let endTimeIndex = endIndex;
     let toFirstStartIndex =
@@ -454,7 +451,6 @@ renderCell = ({ index, item }) => {
     item.selected = this.isCellSelected(index);
     //item.deselected = this.isCellDeselected(index);
 
-<<<<<<< HEAD
     if (index % this.props.cellsPerRow)
       return (
         <TouchableWithoutFeedback
@@ -483,23 +479,6 @@ renderCell = ({ index, item }) => {
           style={{ flex: 0.6 }}
           pointerEvents="box-only"
         >
-=======
-    return (
-      <TouchableWithoutFeedback
-        onPress={() => {
-          index % this.props.cellsPerRow ? this.selectSingleCell(index) : null;
-        }}
-        onLongPress={() =>
-          //console.log(index, this.props.days[index]) ||
-          index % this.props.cellsPerRow
-            ? this.startMultiSelection(index)
-            : null
-        }
-        delayLongPress={LONG_PRESS_TIMEOUT}
-        onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
-      >
-        <View style={{ flex: 1 }} pointerEvents="box-only">
->>>>>>> 421aab4a65cbc05f56a6126a022bfb0741cfa81b
           {this.props.renderCell(item)}
         </View>
       );
