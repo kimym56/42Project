@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Button, TouchableOpacity, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+} from "react-native";
 import Test from "./api/TimeSlotSelector.js";
 import TestDay from "./api/TimeSlotCell.js";
 export default class Weekly extends Component {
@@ -43,12 +50,73 @@ export default class Weekly extends Component {
       return this.state;
     });
   };
+
+  generateMatrix() {
+    var matrix = [];
+
+    //matrix[0] = this.state.currentDate.getDate();
+
+    //var counter = 0;
+
+    /*
+    for (var i = 1; i < 8; i++) {
+      matrix[i] = counter++;
+    }
+    */
+    matrix[1] = "Sun";
+    matrix[2] = "Mon";
+    matrix[3] = "Tue";
+    matrix[4] = "Wed";
+    matrix[5] = "Thu";
+    matrix[6] = "Fri";
+    matrix[7] = "Sat";
+
+    return matrix;
+  }
   render() {
+    const height = Dimensions.get("window").height;
+    const width = Dimensions.get("window").width;
+    //console.log("size: ", height, width);
+
+    var matrix = this.generateMatrix();
+    var rows = [];
+    rows = matrix.map((item, rowIndex) => {
+      return (
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: "row",
+            padding: 5,
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              flex: 1,
+              height: 15,
+              textAlign: "center",
+              color: rowIndex == 1 ? "#f00" : rowIndex == 7 ? "#00f" : "",
+
+              // Highlight header
+              //backgroundColor: rowIndex == 1 ? "#f00" : "#000"
+              // Highlight Sundays
+              // Highlight current date
+              //fontWeight: item == this.state.activeDate.getDate() ? "bold" : "",
+            }}
+            //onPress={() => this._onPress(item)}
+          >
+            {item}
+          </Text>
+        </View>
+      );
+    });
+
     return (
       <View style={{ flex: 1 }}>
         <View
           style={{
-            flex: 0.5,
+            flex: 0.8,
             flexDirection: "row",
             alignItmes: "center",
             justifyContent: "center",
@@ -95,6 +163,96 @@ export default class Weekly extends Component {
             </Text>
           </TouchableOpacity>
         </View>
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: "row",
+            alignItmes: "center",
+            justifyContent: "center",
+            //backgroundColor: "red",
+            marginLeft: width / 8,
+          }}
+        >
+          {rows}
+        </View>
+
+        {/*
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: "row",
+            alignItmes: "center",
+            justifyContent: "center",
+            //backgroundColor: "red",
+            marginLeft: width / 8,
+          }}
+        >
+          <Text
+            style={{
+              color: "#f00",
+              textAlign: "right",
+              marginLeft: width / 32,
+              marginRight: width / 32,
+            }}
+          >
+            Sun
+          </Text>
+          <Text
+            style={{
+              textAlign: "right",
+              marginLeft: width / 32,
+              marginRight: width / 32,
+            }}
+          >
+            Mon
+          </Text>
+          <Text
+            style={{
+              textAlign: "right",
+              marginLeft: width / 32,
+              marginRight: width / 32,
+            }}
+          >
+            Tue
+          </Text>
+          <Text
+            style={{
+              textAlign: "right",
+              marginLeft: width / 32,
+              marginRight: width / 32,
+            }}
+          >
+            Wed
+          </Text>
+          <Text
+            style={{
+              textAlign: "right",
+              marginLeft: width / 32,
+              marginRight: width / 32,
+            }}
+          >
+            Thu
+          </Text>
+          <Text
+            style={{
+              textAlign: "right",
+              marginLeft: width / 32,
+              marginRight: width / 32,
+            }}
+          >
+            Fri
+          </Text>
+          <Text
+            style={{
+              textAlign: "right",
+              marginLeft: width / 32,
+              marginRight: width / 32,
+            }}
+          >
+            Sat
+          </Text>
+        </View>
+          */}
         <View style={{ flex: 10 }}>
           <Test
             startselectValue={this.state.currentDate}
