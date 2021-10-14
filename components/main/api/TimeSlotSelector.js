@@ -51,8 +51,12 @@ export default class Test extends Component {
   }
 
   componentDidUpdate() {
-    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
-      this.state;
+    const {
+      shouldScrollUp,
+      shouldScrollDown,
+      scrollOffset,
+      maxScrollOffset,
+    } = this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -118,7 +122,7 @@ export default class Test extends Component {
     this.state.endselectDate = new Date(this.props.endselectValue);
 
     const todayIndex = this.state.startselectDate.getDay();
-    console.log("todayIndex: ", todayIndex);
+    //console.log("todayIndex: ", todayIndex);
 
     let startTimeIndex = startIndex;
     let endTimeIndex = endIndex;
@@ -155,11 +159,6 @@ export default class Test extends Component {
     } else {
       this.state.endselectDate.setMinutes(0);
     }
-    console.log(
-      "wwww ",
-      this.state.startselectDate.getDate(),
-      this.state.endselectDate.getDate()
-    );
   };
   fillSpaceBtwStartAndEnd = (isDragging, startIndex, endIndex) => {
     let currentSelection = [];
@@ -296,9 +295,9 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / width);
-    const cellToBottom = Math.floor(locationY / height);
-
+    const cellToRight = Math.floor(locationX / (width * 3 ));
+    const cellToBottom = Math.floor(locationY / (height * 3 ));
+    console.log('ctr:',cellToRight,'ctb:',cellToBottom)
     //console.log('cellToBottom:',cellToBottom, 'locationY:',locationY, 'height:',height);
     //console.log(locationX);
     //console.log(locationY);
@@ -379,7 +378,7 @@ export default class Test extends Component {
         const locationX = evt.nativeEvent.locationX + gestureState.dx;
         const locationY =
           evt.nativeEvent.locationY + gestureState.dy + this.state.testScroll;
-        console.log(
+       /*console.log(
           "lx:",
           locationX,
           "ly:",
@@ -390,7 +389,7 @@ export default class Test extends Component {
           this.state.testScroll,
           "co:",
           this.state.scrollOffset
-        );
+        );*/
         this.handleMultiSelection(locationX, locationY);
         this.handleScroll(locationY);
       },
@@ -423,6 +422,7 @@ export default class Test extends Component {
     this.state.currentSelection.includes(index) &&
     this.state.multiSelectionMode === "deselect";
 */
+  /*
 renderCell = ({ index, item }) => {
   item.selected = this.isCellSelected(index);
   //item.deselected = this.isCellDeselected(index);
@@ -441,12 +441,11 @@ renderCell = ({ index, item }) => {
     >
       <View style={{ flex: 1 }} pointerEvents="box-only">
         {this.props.renderCell(item)}
-        {/*<Text>hi</Text>*/}
       </View>
     </TouchableWithoutFeedback>
   );
-};
-/*
+};*/
+
   renderCell = ({ index, item }) => {
     item.selected = this.isCellSelected(index);
     //item.deselected = this.isCellDeselected(index);
@@ -468,23 +467,23 @@ renderCell = ({ index, item }) => {
           delayLongPress={LONG_PRESS_TIMEOUT}
           onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
         >
-          <View style={{ flex: 1, }} pointerEvents="box-only">
+          <View style={{ flex: 1 }} pointerEvents="box-only">
             {this.props.renderCell(item)}
           </View>
         </TouchableWithoutFeedback>
       );
     else {
       return (
-        <View
-          style={{ flex: 0.6 }}
-          pointerEvents="box-only"
+        <TouchableWithoutFeedback
+          onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
         >
-          {this.props.renderCell(item)}
-        </View>
+          <View style={{ flex: 0.6 }} pointerEvents="box-only">
+            {this.props.renderCell(item)}
+          </View>
+        </TouchableWithoutFeedback>
       );
     }
   };
-  */
 
   onCalendarLayout = ({
     nativeEvent: {
