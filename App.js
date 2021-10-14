@@ -40,7 +40,7 @@ export class App extends Component {
     if (!loggedIn) {
       return (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Landing"  screenOptions={{headerShown: false}}>
+          <Stack.Navigator initialRouteName="home"  >
             <Stack.Screen
               name="Landing"
               component={Landing}
@@ -49,8 +49,8 @@ export class App extends Component {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
 
-            <Stack.Screen name="home" component={home} />
-            <Stack.Screen name="AddEvent" component={AddEvent} />
+            <Stack.Screen name="home" component={home} options={{ headerShown: false }}/>
+            <Stack.Screen name="AddEvent2" component={AddEvent} options={{title: 'AddEvent'}} />
             
             <Stack.Screen name="test" component={test} />
           </Stack.Navigator>

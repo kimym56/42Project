@@ -66,7 +66,23 @@ Number.prototype.zf = function (len) {
   return this.toString().zf(len);
 };
 
-export default function AddEvent(props) {
+export default function AddEvent(props) { 
+ 
+/*
+  React.useEffect(() => {
+    const reSet = props.navigation.addListener('focus', () => {
+      setStartDate(props.route.params
+        ? new Date(props.route.params.startdateValue)
+        : new Date())
+      setEndDate(props.route.params
+        ? new Date(props.route.params.enddateValue)
+        : new Date())
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return reSet;
+  }, [[props.navigation]]);*/
+  
   const [contents, setContents] = useState("");
   //console.log(props);
   const [startDate, setStartDate] = useState(

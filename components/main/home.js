@@ -15,7 +15,6 @@ export default function home() {
       screenOptions={{
         tabBarStyle: { position: "relative" },
         tabBarActiveTintColor: "#e91e63",
-        
       }}
       
     >

@@ -172,7 +172,7 @@ export class Monthly extends Component {
   }
   //render 끝나는 부분
   goAddSchedule() {
-    this.props.navigation.navigate("AddEvent", {
+    this.props.navigation.navigate("AddEvent2", {
       startdateValue: this.state.selectDate,
       enddateValue: this.state.selectDate,
       //monthValue: this.state.selectDate.getMonth()
