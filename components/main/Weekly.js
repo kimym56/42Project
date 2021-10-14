@@ -94,7 +94,7 @@ export default class Weekly extends Component {
           <Text
             style={{
               flex: 1,
-              height: 15,
+              height: 20,
               textAlign: "center",
               color: rowIndex == 1 ? "#f00" : rowIndex == 7 ? "#00f" : "",
 

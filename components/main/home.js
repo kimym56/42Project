@@ -1,3 +1,4 @@
+/*
 import React from "react";
 
 import Calendar from "./Calendar";
@@ -25,3 +26,4 @@ export default function home() {
     </Tab.Navigator>
   );
 }
+*/
