@@ -24,12 +24,14 @@ function CalendarStackScreen() {
   return (
     <CalendarStack.Navigator screenOptions={{ headerShown: false }}>
       <CalendarStack.Screen name="Calendar" component={Calendar} />
-      <CalendarStack.Screen name="AddEvent" component={AddEvent} />
+      <CalendarStack.Screen name="AddEvent2" component={AddEvent} />
     </CalendarStack.Navigator>
   );
 }
 
 const Tab = createBottomTabNavigator();
+
+const Stack = createStackNavigator();
 
 export class App extends Component {
   state = {
@@ -51,16 +53,19 @@ export class App extends Component {
 
     if (!loggedIn) {
       return (
+        /*
+        // Test stack navigator in tab navigator
         <NavigationContainer>
           <Tab.Navigator>
             <Tab.Screen name="Calendar" component={CalendarStackScreen} />
             <Tab.Screen name="AddEvent" component={AddEvent} />
-            <Tab.Screen name="Catch" component={Calendar} />
+            <Tab.Screen name="Catch" component={Catch} />
           </Tab.Navigator>
         </NavigationContainer>
-        /*
+        */
+
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Landing"  screenOptions={{headerShown: false}}>
+          <Stack.Navigator initialRouteName="home">
             <Stack.Screen
               name="Landing"
               component={Landing}
@@ -69,13 +74,20 @@ export class App extends Component {
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
 
-            <Stack.Screen name="home" component={home} />
-            <Stack.Screen name="AddEvent" component={AddEvent} />
-            
+            <Stack.Screen
+              name="home"
+              component={home}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="AddEvent2"
+              component={AddEvent}
+              options={{ title: "AddEvent" }}
+            />
+
             <Stack.Screen name="test" component={test} />
           </Stack.Navigator>
         </NavigationContainer>
-        */
       );
     }
   }

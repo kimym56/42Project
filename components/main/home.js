@@ -1,4 +1,3 @@
-/*
 import React from "react";
 
 import Calendar from "./Calendar";
@@ -16,9 +15,7 @@ export default function home() {
       screenOptions={{
         tabBarStyle: { position: "relative" },
         tabBarActiveTintColor: "#e91e63",
-        
       }}
-      
     >
       <Tab.Screen name="Calendar" component={Calendar} />
       <Tab.Screen name="AddEvent" component={AddEvent} />
@@ -26,4 +23,3 @@ export default function home() {
     </Tab.Navigator>
   );
 }
-*/

@@ -44,7 +44,7 @@ export default class Test extends Component {
   };
 
   goAddSchedule() {
-    this.props.navigation.navigate("AddEvent", {
+    this.props.navigation.navigate("AddEvent2", {
       startdateValue: this.state.startselectDate,
       enddateValue: this.state.endselectDate,
     });
