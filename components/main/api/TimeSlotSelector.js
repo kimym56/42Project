@@ -51,12 +51,8 @@ export default class Test extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      shouldScrollUp,
-      shouldScrollDown,
-      scrollOffset,
-      maxScrollOffset,
-    } = this.state;
+    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
+      this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -295,9 +291,9 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / (width * 3 ));
-    const cellToBottom = Math.floor(locationY / (height * 3 ));
-    console.log('ctr:',cellToRight,'ctb:',cellToBottom)
+    const cellToRight = Math.floor(locationX / (width * 3));
+    const cellToBottom = Math.floor(locationY / (height * 3));
+    console.log("ctr:", cellToRight, "ctb:", cellToBottom);
     //console.log('cellToBottom:',cellToBottom, 'locationY:',locationY, 'height:',height);
     //console.log(locationX);
     //console.log(locationY);
@@ -378,7 +374,7 @@ export default class Test extends Component {
         const locationX = evt.nativeEvent.locationX + gestureState.dx;
         const locationY =
           evt.nativeEvent.locationY + gestureState.dy + this.state.testScroll;
-       /*console.log(
+        /*console.log(
           "lx:",
           locationX,
           "ly:",
@@ -473,15 +469,27 @@ renderCell = ({ index, item }) => {
         </TouchableWithoutFeedback>
       );
     else {
-      return (
-        <TouchableWithoutFeedback
-          onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
-        >
-          <View style={{ flex: 0.6 }} pointerEvents="box-only">
-            {this.props.renderCell(item)}
-          </View>
-        </TouchableWithoutFeedback>
-      );
+      if (this.props.cellsPerRow == 8) {
+        return (
+          <TouchableWithoutFeedback
+            onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
+          >
+            <View style={{ flex: 0.6 }} pointerEvents="box-only">
+              {this.props.renderCell(item)}
+            </View>
+          </TouchableWithoutFeedback>
+        );
+      } else {
+        return (
+          <TouchableWithoutFeedback
+            onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
+          >
+            <View style={{ flex: 0.08 }} pointerEvents="box-only">
+              {this.props.renderCell(item)}
+            </View>
+          </TouchableWithoutFeedback>
+        );
+      }
     }
   };
 
