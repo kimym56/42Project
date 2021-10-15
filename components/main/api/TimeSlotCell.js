@@ -13,19 +13,31 @@ export default class CalendarDay extends PureComponent {
       //&& !deselected
       dayContainerStyleOdd = styles.dayContainerOdd;
       dayContainerStyleEven = styles.dayContainerEven;
-      
     } else {
       // 이미 선택된 셀을 다시 선택시 취소하도록 하는 기능의 스타일 부분
       /*if (deselected)
         dayContainerStyle = [styles.dayContainer, { backgroundColor: "red" }];
       else*/
-      if (selected){
-        dayContainerStyleOdd = [styles.dayContainerOdd, { backgroundColor: "green" }];
-        dayContainerStyleEven = [styles.dayContainerEven, { backgroundColor: "green" }];}
-      else if (active){
-        dayContainerStyleOdd = [styles.dayContainerOdd, { backgroundColor: "blue" }];
-        dayContainerStyleEven = [styles.dayContainerEven, { backgroundColor: "blue" }];}
-/*
+      if (selected) {
+        dayContainerStyleOdd = [
+          styles.dayContainerOdd,
+          { backgroundColor: "green" },
+        ];
+        dayContainerStyleEven = [
+          styles.dayContainerEven,
+          { backgroundColor: "green" },
+        ];
+      } else if (active) {
+        dayContainerStyleOdd = [
+          styles.dayContainerOdd,
+          { backgroundColor: "blue" },
+        ];
+        dayContainerStyleEven = [
+          styles.dayContainerEven,
+          { backgroundColor: "blue" },
+        ];
+      }
+      /*
       if (first) {
         dayContainerStyle.push(styles.firstActiveDayContainer);
       }
@@ -35,9 +47,15 @@ export default class CalendarDay extends PureComponent {
     }
     if (number > 48) {
       return (
-        <View
-          style={number%2?dayContainerStyleOdd:dayContainerStyleEven}
-        >
+        <View style={number % 2 ? dayContainerStyleOdd : dayContainerStyleEven}>
+          <View
+            style={{
+              flex: 1,
+              marginVertical: 15,
+              height: 1,
+              backgroundColor: "pink",
+            }}
+          />
           <Text> {}</Text>
         </View>
       );
@@ -62,7 +80,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginVertical: 0,
     marginLeft: 0,
-    backgroundColor: "skyblue",
+    //  backgroundColor: "skyblue",
     borderWidth: 1,
     borderColor: "skyblue",
     borderRightColor: "gray",
@@ -75,7 +93,8 @@ const styles = StyleSheet.create({
     height: 30,
     marginVertical: 0,
     marginLeft: 0,
-    backgroundColor: "skyblue",
+    paddingBottom: 10,
+    //    backgroundColor: "skyblue",
     borderWidth: 1,
     borderColor: "gray",
     borderBottomWidth: 0.25,
@@ -89,7 +108,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginVertical: 0,
     marginLeft: 0,
-    backgroundColor: "skyblue",
+    //    backgroundColor: "skyblue",
     borderWidth: 1,
     borderColor: "gray",
     borderTopWidth: 0.25,

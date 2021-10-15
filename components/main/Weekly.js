@@ -255,6 +255,7 @@ export default class Weekly extends Component {
           */}
         <View style={{ flex: 10 }}>
           <Test
+            currentDate={this.state.currentDate}
             startselectValue={this.state.currentDate}
             endselectValue={this.state.currentDate}
             navigation={this.props.navigation}

@@ -19,11 +19,13 @@ export default class Test extends Component {
   static defaultProps = {
     cellsPerRow: 8,
   };
-
+  
   state = {
+    styleToday:0,
     testScroll: 0,
-    startselectDate: new Date(this.props.startselectValue),
-    endselectDate: new Date(this.props.endselectValue),
+    currentDate: this.props.currentDate?new Date(this.props.currentDate):new Date(),
+    startselectDate: new Date(this.props.currentDate),
+    endselectDate: new Date(this.props.currentDate),
     sequentialTouchnum: 0,
     sequentialTouchfromto: [],
     multiSelectionMode: null,
@@ -42,7 +44,6 @@ export default class Test extends Component {
     scrollOffset: 0,
     maxScrollOffset: 1000,
   };
-
   goAddSchedule() {
     this.props.navigation.navigate("AddEvent2", {
       startdateValue: this.state.startselectDate,
@@ -295,9 +296,9 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / (width * 3 ));
-    const cellToBottom = Math.floor(locationY / (height * 3 ));
-    console.log('ctr:',cellToRight,'ctb:',cellToBottom)
+    const cellToRight = Math.floor(locationX / (width * 3));
+    const cellToBottom = Math.floor(locationY / (height * 3));
+    console.log("ctr:", cellToRight, "ctb:", cellToBottom);
     //console.log('cellToBottom:',cellToBottom, 'locationY:',locationY, 'height:',height);
     //console.log(locationX);
     //console.log(locationY);
@@ -378,7 +379,7 @@ export default class Test extends Component {
         const locationX = evt.nativeEvent.locationX + gestureState.dx;
         const locationY =
           evt.nativeEvent.locationY + gestureState.dy + this.state.testScroll;
-       /*console.log(
+        /*console.log(
           "lx:",
           locationX,
           "ly:",
@@ -447,9 +448,9 @@ renderCell = ({ index, item }) => {
 };*/
 
   renderCell = ({ index, item }) => {
+    
     item.selected = this.isCellSelected(index);
     //item.deselected = this.isCellDeselected(index);
-
     if (index % this.props.cellsPerRow)
       return (
         <TouchableWithoutFeedback
@@ -467,7 +468,17 @@ renderCell = ({ index, item }) => {
           delayLongPress={LONG_PRESS_TIMEOUT}
           onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
         >
-          <View style={{ flex: 1 }} pointerEvents="box-only">
+          <View
+            style={{
+              flex: 1,
+              backgroundColor:
+              this.state.currentDate.getDate() == new Date().getDate() && index % this.props.cellsPerRow == new Date().getDay()+1
+                  ? "black"
+                  : "skyblue",
+              
+            }}
+            pointerEvents="box-only"
+          >
             {this.props.renderCell(item)}
           </View>
         </TouchableWithoutFeedback>
@@ -477,7 +488,7 @@ renderCell = ({ index, item }) => {
         <TouchableWithoutFeedback
           onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
         >
-          <View style={{ flex: 0.6 }} pointerEvents="box-only">
+          <View style={{ flex: 0.6 ,backgroundColor:"skyblue" }} pointerEvents="box-only">
             {this.props.renderCell(item)}
           </View>
         </TouchableWithoutFeedback>
@@ -506,6 +517,8 @@ renderCell = ({ index, item }) => {
   };
 
   render() {
+    this.state.currentDate= this.props.currentDate?new Date(this.props.currentDate):new Date()
+    //console.log("render date:", this.state.currentDate.getDate());
     const { days, cellsPerRow } = this.props;
     /*let changeDays = this.props.days;
     for (let i = 0; i < 48; i++) {
