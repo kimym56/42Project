@@ -52,12 +52,8 @@ export default class Test extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      shouldScrollUp,
-      shouldScrollDown,
-      scrollOffset,
-      maxScrollOffset,
-    } = this.state;
+    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
+      this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -484,15 +480,27 @@ renderCell = ({ index, item }) => {
         </TouchableWithoutFeedback>
       );
     else {
-      return (
-        <TouchableWithoutFeedback
-          onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
-        >
-          <View style={{ flex: 0.6 ,backgroundColor:"skyblue" }} pointerEvents="box-only">
-            {this.props.renderCell(item)}
-          </View>
-        </TouchableWithoutFeedback>
-      );
+      if (this.props.cellsPerRow == 8) {
+        return (
+          <TouchableWithoutFeedback
+            onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
+          >
+            <View style={{ flex: 0.6 }} pointerEvents="box-only">
+              {this.props.renderCell(item)}
+            </View>
+          </TouchableWithoutFeedback>
+        );
+      } else {
+        return (
+          <TouchableWithoutFeedback
+            onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
+          >
+            <View style={{ flex: 0.08 }} pointerEvents="box-only">
+              {this.props.renderCell(item)}
+            </View>
+          </TouchableWithoutFeedback>
+        );
+      }
     }
   };
 

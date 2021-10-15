@@ -14,6 +14,8 @@ export default class Weekly extends Component {
   state = {
     days: [],
     currentDate: new Date(),
+    todayDate: new Date(),
+    tempDate: new Date(),
   };
   componentWillMount() {
     for (let i = 0; i < 384; i++) {
@@ -51,34 +53,82 @@ export default class Weekly extends Component {
     });
   };
 
-  generateMatrix() {
+  generateMatrix(isDate) {
     var matrix = [];
-
     //matrix[0] = this.state.currentDate.getDate();
+    if (!isDate) {
+      matrix[0] = "Sun";
+      matrix[1] = "Mon";
+      matrix[2] = "Tue";
+      matrix[3] = "Wed";
+      matrix[4] = "Thu";
+      matrix[5] = "Fri";
+      matrix[6] = "Sat";
+    } else {
+      let todayDay = this.state.currentDate.getDay();
+      matrix[todayDay] = this.state.currentDate.getDate();
 
-    //var counter = 0;
-
-    /*
-    for (var i = 1; i < 8; i++) {
-      matrix[i] = counter++;
+      for (let i = todayDay - 1; i >= 0; i--) {
+        //matrix[i] = matrix[i + 1] - 1;
+        matrix[i] = this.state.tempDate.setDate(
+          this.state.currentDate.getDate() - (todayDay - i)
+        );
+        matrix[i] = this.state.tempDate.getDate();
+      }
+      for (let i = todayDay + 1; i <= 6; i++) {
+        //matrix[i] = matrix[i - 1] + 1;
+        matrix[i] = this.state.tempDate.setDate(
+          this.state.currentDate.getDate() + (i - todayDay)
+        );
+        matrix[i] = this.state.tempDate.getDate();
+      }
     }
-    */
-    matrix[1] = "Sun";
-    matrix[2] = "Mon";
-    matrix[3] = "Tue";
-    matrix[4] = "Wed";
-    matrix[5] = "Thu";
-    matrix[6] = "Fri";
-    matrix[7] = "Sat";
 
     return matrix;
   }
+
   render() {
     const height = Dimensions.get("window").height;
     const width = Dimensions.get("window").width;
     //console.log("size: ", height, width);
 
-    var matrix = this.generateMatrix();
+    var date = this.generateMatrix(1);
+    var dates = [];
+    dates = date.map((item, rowIndex) => {
+      return (
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: "row",
+            padding: 5,
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              flex: 1,
+              height: 20,
+              textAlign: "center",
+              //color: rowIndex == 0 ? "#f00" : rowIndex == 6 ? "#00f" : "",
+              // Highlight current date
+              fontWeight:
+                item == this.state.todayDate.getDate()
+                  ? this.state.todayDate.getMonth() ==
+                    this.state.currentDate.getMonth()
+                    ? "bold"
+                    : ""
+                  : "",
+            }}
+            //onPress={() => this._onPress(item)}
+          >
+            {item}
+          </Text>
+        </View>
+      );
+    });
+
+    var matrix = this.generateMatrix(0);
     var rows = [];
     rows = matrix.map((item, rowIndex) => {
       return (
@@ -94,13 +144,10 @@ export default class Weekly extends Component {
           <Text
             style={{
               flex: 1,
-              height: 15,
+              height: 20,
               textAlign: "center",
-              color: rowIndex == 1 ? "#f00" : rowIndex == 7 ? "#00f" : "",
+              color: rowIndex == 0 ? "#f00" : rowIndex == 6 ? "#00f" : "",
 
-              // Highlight header
-              //backgroundColor: rowIndex == 1 ? "#f00" : "#000"
-              // Highlight Sundays
               // Highlight current date
               //fontWeight: item == this.state.activeDate.getDate() ? "bold" : "",
             }}
@@ -170,13 +217,11 @@ export default class Weekly extends Component {
             alignItmes: "center",
             justifyContent: "center",
             //backgroundColor: "red",
-            marginLeft: width / 8,
+            marginLeft: (width / 7.6) * 0.6,
           }}
         >
           {rows}
         </View>
-
-        {/*
         <View
           style={{
             flex: 0.5,
@@ -184,75 +229,11 @@ export default class Weekly extends Component {
             alignItmes: "center",
             justifyContent: "center",
             //backgroundColor: "red",
-            marginLeft: width / 8,
+            marginLeft: (width / 7.6) * 0.6,
           }}
         >
-          <Text
-            style={{
-              color: "#f00",
-              textAlign: "right",
-              marginLeft: width / 32,
-              marginRight: width / 32,
-            }}
-          >
-            Sun
-          </Text>
-          <Text
-            style={{
-              textAlign: "right",
-              marginLeft: width / 32,
-              marginRight: width / 32,
-            }}
-          >
-            Mon
-          </Text>
-          <Text
-            style={{
-              textAlign: "right",
-              marginLeft: width / 32,
-              marginRight: width / 32,
-            }}
-          >
-            Tue
-          </Text>
-          <Text
-            style={{
-              textAlign: "right",
-              marginLeft: width / 32,
-              marginRight: width / 32,
-            }}
-          >
-            Wed
-          </Text>
-          <Text
-            style={{
-              textAlign: "right",
-              marginLeft: width / 32,
-              marginRight: width / 32,
-            }}
-          >
-            Thu
-          </Text>
-          <Text
-            style={{
-              textAlign: "right",
-              marginLeft: width / 32,
-              marginRight: width / 32,
-            }}
-          >
-            Fri
-          </Text>
-          <Text
-            style={{
-              textAlign: "right",
-              marginLeft: width / 32,
-              marginRight: width / 32,
-            }}
-          >
-            Sat
-          </Text>
+          {dates}
         </View>
-          */}
         <View style={{ flex: 10 }}>
           <Test
             currentDate={this.state.currentDate}

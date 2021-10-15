@@ -16,7 +16,6 @@ export default function home() {
         tabBarStyle: { position: "relative" },
         tabBarActiveTintColor: "#e91e63",
       }}
-      
     >
       <Tab.Screen name="Calendar" component={Calendar} />
       <Tab.Screen name="AddEvent" component={AddEvent} />
