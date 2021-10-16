@@ -21,8 +21,11 @@ export default class Test extends Component {
   };
 
   state = {
+    sub: 0,
     styleToday: 0,
     testScroll: 0,
+    beforeDate: new Date(),
+    afterDate: new Date(),
     currentDate: this.props.currentDate
       ? new Date(this.props.currentDate)
       : new Date(),
@@ -134,7 +137,11 @@ export default class Test extends Component {
     let toFirstEndIndex =
       endTimeIndex - (endTimeIndex % this.props.cellsPerRow);
     this.state.startselectDate.setHours(
-      ((startTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+      ((startTimeIndex % this.props.cellsPerRow) -
+        1 -
+        todayIndex -
+        this.state.sub) *
+        24 +
         toFirstStartIndex / (this.props.cellsPerRow * 2)
     );
     //console.log(this.state.startselectDate);
@@ -215,15 +222,32 @@ export default class Test extends Component {
       return;
     }*/
     console.log(
-      "props:",
+      "props##:",
       this.props.startselectValue.getDate(),
       this.props.endselectValue.getDate()
     );
 
     this.props.onSingleCellSelection(cellIndex);
     this.state.sequentialTouchnum += 1;
+
     this.state.sequentialTouchfromto.push(cellIndex);
-    if (this.state.sequentialTouchnum % 2 == 0) {
+    if (this.state.sequentialTouchnum == 1) {
+      this.state.beforeDate = new Date(this.state.currentDate);
+      console.log("before: ", this.state.beforeDate.getDate());
+    } else {
+      this.state.afterDate = new Date(this.state.currentDate);
+      console.log("after: ", this.state.afterDate.getDate());
+      // 먼저 앞에 이른 시간을 선택하고 뒤에 나중 시간을 선택할 경우(반대의 경우는 안함)
+      console.log(
+        "sub: ",
+        (this.state.afterDate.getTime() - this.state.beforeDate.getTime()) /
+          (1000 * 60 * 60 * 24)
+      );
+      this.state.sub =
+        (this.state.afterDate.getTime() - this.state.beforeDate.getTime()) /
+        (1000 * 60 * 60 * 24);
+    }
+    if (this.state.sequentialTouchnum == 2) {
       /*start = Math.min(
         this.state.sequentialTouchfromto[0],
         this.state.sequentialTouchfromto[1]
@@ -259,6 +283,7 @@ export default class Test extends Component {
       this.goAddSchedule();
       this.state.sequentialTouchfromto.pop();
       this.state.sequentialTouchfromto.pop();
+      this.state.sequentialTouchnum = 0;
     }
   };
   /*

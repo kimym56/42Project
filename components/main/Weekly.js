@@ -15,6 +15,9 @@ export default class Weekly extends Component {
     days: [],
     currentDate: new Date(),
     todayDate: new Date(),
+    tempDate: new Date(),
+    //beforeDate: new Date(),
+    //afterDate: new Date(),
   };
   componentWillMount() {
     for (let i = 0; i < 384; i++) {
@@ -28,6 +31,7 @@ export default class Weekly extends Component {
 
   onSingleCellSelection = (dayIndex) => {
     const days = this.state.days;
+
     //days[dayIndex].active = !days[dayIndex].active;
     days[dayIndex].active = true;
     this.setState({
@@ -69,20 +73,21 @@ export default class Weekly extends Component {
       matrix[todayDay] = this.state.currentDate.getDate();
 
       for (let i = todayDay - 1; i >= 0; i--) {
-        const tempDate = new Date(this.state.currentDate.getDate())
         //matrix[i] = matrix[i + 1] - 1;
-        matrix[i] = tempDate.setDate(
+        this.state.tempDate.setMonth(this.state.currentDate.getMonth());
+        this.state.tempDate.setDate(
           this.state.currentDate.getDate() - (todayDay - i)
         );
         //console.log('index:',i,'tempdate',tempDate)
-        matrix[i] = tempDate.getDate();
+        matrix[i] = this.state.tempDate.getDate();
       }
       for (let i = todayDay + 1; i <= 6; i++) {
         //matrix[i] = matrix[i - 1] + 1;
-        matrix[i] = tempDate.setDate(
+        this.state.tempDate.setMonth(this.state.currentDate.getMonth());
+        this.state.tempDate.setDate(
           this.state.currentDate.getDate() + (i - todayDay)
         );
-        matrix[i] = tempDate.getDate();
+        matrix[i] = this.state.tempDate.getDate();
       }
     }
 
