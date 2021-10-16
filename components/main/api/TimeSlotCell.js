@@ -4,7 +4,15 @@ import React, { PureComponent } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 export default class CalendarDay extends PureComponent {
+  state = {
+    currentDate: this.props.currentDate
+      ? new Date(this.props.currentDate)
+      : new Date(),
+  };
   render() {
+    this.state.currentDate = this.props.currentDate
+      ? new Date(this.props.currentDate)
+      : new Date();
     const { active, selected, first, last, number } = this.props; //deselected,
     let dayContainerStyleOdd;
     let dayContainerStyleEven;
@@ -46,19 +54,36 @@ export default class CalendarDay extends PureComponent {
       }*/
     }
     if (number > 48) {
-      return (
-        <View style={number % 2 ? dayContainerStyleOdd : dayContainerStyleEven}>
+      if (
+        this.state.currentDate.getFullYear() == new Date().getFullYear() &&
+        this.state.currentDate.getMonth() == new Date().getMonth() &&
+        this.state.currentDate.getDate() == new Date().getDate() && 
+        this.state.currentDate.getDay()+1 == Math.floor(number/48) 
+      ) {
+        console.log(this.state.currentDate)
+        return (
           <View
-            style={{
-              flex: 1,
-              marginVertical: 15,
-              height: 1,
-              backgroundColor: "pink",
-            }}
-          />
-          <Text> {}</Text>
-        </View>
-      );
+            style={number % 2 ? dayContainerStyleOdd : dayContainerStyleEven}
+          >
+            <View
+              style={{
+                flex: 1,
+                height: 1,
+                marginTop: 15,
+                backgroundColor: "red",
+              }}
+            />
+            <Text> {}</Text>
+          </View>
+        );
+      } else
+        return (
+          <View
+            style={number % 2 ? dayContainerStyleOdd : dayContainerStyleEven}
+          >
+            <Text> {}</Text>
+          </View>
+        );
     } else {
       return (
         <View style={styles.dayContainer48}>

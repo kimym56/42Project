@@ -19,11 +19,13 @@ export default class Test extends Component {
   static defaultProps = {
     cellsPerRow: 8,
   };
-  
+
   state = {
-    styleToday:0,
+    styleToday: 0,
     testScroll: 0,
-    currentDate: this.props.currentDate?new Date(this.props.currentDate):new Date(),
+    currentDate: this.props.currentDate
+      ? new Date(this.props.currentDate)
+      : new Date(),
     startselectDate: new Date(this.props.currentDate),
     endselectDate: new Date(this.props.currentDate),
     sequentialTouchnum: 0,
@@ -52,8 +54,12 @@ export default class Test extends Component {
   }
 
   componentDidUpdate() {
-    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
-      this.state;
+    const {
+      shouldScrollUp,
+      shouldScrollDown,
+      scrollOffset,
+      maxScrollOffset,
+    } = this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -444,40 +450,47 @@ renderCell = ({ index, item }) => {
 };*/
 
   renderCell = ({ index, item }) => {
-    
     item.selected = this.isCellSelected(index);
     //item.deselected = this.isCellDeselected(index);
+
+    
+
     if (index % this.props.cellsPerRow)
       return (
-        <TouchableWithoutFeedback
-          onPress={() => {
-            index % this.props.cellsPerRow
-              ? this.selectSingleCell(index)
-              : null;
-          }}
-          onLongPress={() =>
-            //console.log(index, this.props.days[index]) ||
-            index % this.props.cellsPerRow
-              ? this.startMultiSelection(index)
-              : null
-          }
-          delayLongPress={LONG_PRESS_TIMEOUT}
-          onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
-        >
-          <View
-            style={{
-              flex: 1,
-              backgroundColor:
-              this.state.currentDate.getDate() == new Date().getDate() && index % this.props.cellsPerRow == new Date().getDay()+1
-                  ? "black"
-                  : "skyblue",
-              
+        <View style={{ flex: 1 }}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              index % this.props.cellsPerRow
+                ? this.selectSingleCell(index)
+                : null;
             }}
-            pointerEvents="box-only"
+            onLongPress={() =>
+              //console.log(index, this.props.days[index]) ||
+              index % this.props.cellsPerRow
+                ? this.startMultiSelection(index)
+                : null
+            }
+            delayLongPress={LONG_PRESS_TIMEOUT}
+            onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
           >
-            {this.props.renderCell(item)}
-          </View>
-        </TouchableWithoutFeedback>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor:
+
+                this.state.currentDate.getFullYear() == new Date().getFullYear() &&
+                this.state.currentDate.getMonth() == new Date().getMonth() &&
+                this.state.currentDate.getDate() == new Date().getDate() &&
+                  index % this.props.cellsPerRow == new Date().getDay() + 1
+                    ? "silver"
+                    : "skyblue",
+              }}
+              pointerEvents="box-only"
+            >
+              {this.props.renderCell(item)}
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
       );
     else {
       if (this.props.cellsPerRow == 8) {
@@ -485,7 +498,10 @@ renderCell = ({ index, item }) => {
           <TouchableWithoutFeedback
             onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
           >
-            <View style={{ flex: 0.6 }} pointerEvents="box-only">
+            <View
+              style={{ flex: 0.6, backgroundColor: "skyblue" }}
+              pointerEvents="box-only"
+            >
               {this.props.renderCell(item)}
             </View>
           </TouchableWithoutFeedback>
@@ -495,7 +511,10 @@ renderCell = ({ index, item }) => {
           <TouchableWithoutFeedback
             onLayout={index === 0 ? this.onFirstcellLayout : () => {}}
           >
-            <View style={{ flex: 0.08 }} pointerEvents="box-only">
+            <View
+              style={{ flex: 0.08, backgroundColor: "skyblue" }}
+              pointerEvents="box-only"
+            >
               {this.props.renderCell(item)}
             </View>
           </TouchableWithoutFeedback>
@@ -525,7 +544,9 @@ renderCell = ({ index, item }) => {
   };
 
   render() {
-    this.state.currentDate= this.props.currentDate?new Date(this.props.currentDate):new Date()
+    this.state.currentDate = this.props.currentDate
+      ? new Date(this.props.currentDate)
+      : new Date();
     //console.log("render date:", this.state.currentDate.getDate());
     const { days, cellsPerRow } = this.props;
     /*let changeDays = this.props.days;
@@ -541,7 +562,7 @@ renderCell = ({ index, item }) => {
     }
     const renderedCells = changeDays;*/
     const renderedCells = days;
-
+    
     return (
       <View {...this.panResponder.panHandlers}>
         <FlatList

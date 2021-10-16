@@ -15,7 +15,6 @@ export default class Weekly extends Component {
     days: [],
     currentDate: new Date(),
     todayDate: new Date(),
-    tempDate: new Date(),
   };
   componentWillMount() {
     for (let i = 0; i < 384; i++) {
@@ -44,7 +43,7 @@ export default class Weekly extends Component {
     this.setState({ days });
   };
 
-  renderCell = (day) => <TestDay {...day} />;
+  renderCell = (day) => <TestDay  currentDate={this.state.currentDate} {...day} />;
   changeDate = (n) => {
     this.setState(() => {
       this.state.currentDate.setDate(this.state.currentDate.getDate() + n);
@@ -54,6 +53,7 @@ export default class Weekly extends Component {
   };
 
   generateMatrix(isDate) {
+    
     var matrix = [];
     //matrix[0] = this.state.currentDate.getDate();
     if (!isDate) {
@@ -69,18 +69,20 @@ export default class Weekly extends Component {
       matrix[todayDay] = this.state.currentDate.getDate();
 
       for (let i = todayDay - 1; i >= 0; i--) {
+        const tempDate = new Date(this.state.currentDate.getDate())
         //matrix[i] = matrix[i + 1] - 1;
-        matrix[i] = this.state.tempDate.setDate(
+        matrix[i] = tempDate.setDate(
           this.state.currentDate.getDate() - (todayDay - i)
         );
-        matrix[i] = this.state.tempDate.getDate();
+        //console.log('index:',i,'tempdate',tempDate)
+        matrix[i] = tempDate.getDate();
       }
       for (let i = todayDay + 1; i <= 6; i++) {
         //matrix[i] = matrix[i - 1] + 1;
-        matrix[i] = this.state.tempDate.setDate(
+        matrix[i] = tempDate.setDate(
           this.state.currentDate.getDate() + (i - todayDay)
         );
-        matrix[i] = this.state.tempDate.getDate();
+        matrix[i] = tempDate.getDate();
       }
     }
 
