@@ -19,11 +19,16 @@ export default class Test extends Component {
   static defaultProps = {
     cellsPerRow: 8,
   };
-  
+
   state = {
-    styleToday:0,
+    sub: 0,
+    styleToday: 0,
     testScroll: 0,
-    currentDate: this.props.currentDate?new Date(this.props.currentDate):new Date(),
+    beforeDate: new Date(),
+    afterDate: new Date(),
+    currentDate: this.props.currentDate
+      ? new Date(this.props.currentDate)
+      : new Date(),
     startselectDate: new Date(this.props.currentDate),
     endselectDate: new Date(this.props.currentDate),
     sequentialTouchnum: 0,
@@ -128,7 +133,11 @@ export default class Test extends Component {
     let toFirstEndIndex =
       endTimeIndex - (endTimeIndex % this.props.cellsPerRow);
     this.state.startselectDate.setHours(
-      ((startTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+      ((startTimeIndex % this.props.cellsPerRow) -
+        1 -
+        todayIndex -
+        this.state.sub) *
+        24 +
         toFirstStartIndex / (this.props.cellsPerRow * 2)
     );
     //console.log(this.state.startselectDate);
@@ -209,15 +218,32 @@ export default class Test extends Component {
       return;
     }*/
     console.log(
-      "props:",
+      "props##:",
       this.props.startselectValue.getDate(),
       this.props.endselectValue.getDate()
     );
 
     this.props.onSingleCellSelection(cellIndex);
     this.state.sequentialTouchnum += 1;
+
     this.state.sequentialTouchfromto.push(cellIndex);
-    if (this.state.sequentialTouchnum % 2 == 0) {
+    if (this.state.sequentialTouchnum == 1) {
+      this.state.beforeDate = new Date(this.state.currentDate);
+      console.log("before: ", this.state.beforeDate.getDate());
+    } else {
+      this.state.afterDate = new Date(this.state.currentDate);
+      console.log("after: ", this.state.afterDate.getDate());
+      // 먼저 앞에 이른 시간을 선택하고 뒤에 나중 시간을 선택할 경우(반대의 경우는 안함)
+      console.log(
+        "sub: ",
+        (this.state.afterDate.getTime() - this.state.beforeDate.getTime()) /
+          (1000 * 60 * 60 * 24)
+      );
+      this.state.sub =
+        (this.state.afterDate.getTime() - this.state.beforeDate.getTime()) /
+        (1000 * 60 * 60 * 24);
+    }
+    if (this.state.sequentialTouchnum == 2) {
       /*start = Math.min(
         this.state.sequentialTouchfromto[0],
         this.state.sequentialTouchfromto[1]
@@ -253,6 +279,7 @@ export default class Test extends Component {
       this.goAddSchedule();
       this.state.sequentialTouchfromto.pop();
       this.state.sequentialTouchfromto.pop();
+      this.state.sequentialTouchnum = 0;
     }
   };
   /*
@@ -444,7 +471,6 @@ renderCell = ({ index, item }) => {
 };*/
 
   renderCell = ({ index, item }) => {
-    
     item.selected = this.isCellSelected(index);
     //item.deselected = this.isCellDeselected(index);
     if (index % this.props.cellsPerRow)
@@ -468,10 +494,10 @@ renderCell = ({ index, item }) => {
             style={{
               flex: 1,
               backgroundColor:
-              this.state.currentDate.getDate() == new Date().getDate() && index % this.props.cellsPerRow == new Date().getDay()+1
+                this.state.currentDate.getDate() == new Date().getDate() &&
+                index % this.props.cellsPerRow == new Date().getDay() + 1
                   ? "black"
                   : "skyblue",
-              
             }}
             pointerEvents="box-only"
           >
@@ -525,7 +551,9 @@ renderCell = ({ index, item }) => {
   };
 
   render() {
-    this.state.currentDate= this.props.currentDate?new Date(this.props.currentDate):new Date()
+    this.state.currentDate = this.props.currentDate
+      ? new Date(this.props.currentDate)
+      : new Date();
     //console.log("render date:", this.state.currentDate.getDate());
     const { days, cellsPerRow } = this.props;
     /*let changeDays = this.props.days;
