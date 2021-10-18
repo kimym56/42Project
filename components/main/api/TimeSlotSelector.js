@@ -136,6 +136,28 @@ export default class Test extends Component {
       startTimeIndex - (startTimeIndex % this.props.cellsPerRow);
     let toFirstEndIndex =
       endTimeIndex - (endTimeIndex % this.props.cellsPerRow);
+    if(this.state.sub<0){
+      this.state.startselectDate.setHours(
+        ((startTimeIndex % this.props.cellsPerRow) -
+          1 -
+          todayIndex ) *
+          24 +
+          toFirstStartIndex / (this.props.cellsPerRow * 2)
+      );
+      if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+        this.state.endselectDate.setHours(
+          ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex - this.state.sub) * 24 +
+            toFirstEndIndex / (this.props.cellsPerRow * 2) +
+            1
+        );
+      } else {
+        this.state.endselectDate.setHours(
+          ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex - this.state.sub) * 24 +
+            toFirstEndIndex / (this.props.cellsPerRow * 2)
+        );
+      }
+    }
+    else{
     this.state.startselectDate.setHours(
       ((startTimeIndex % this.props.cellsPerRow) -
         1 -
@@ -156,8 +178,13 @@ export default class Test extends Component {
         ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
           toFirstEndIndex / (this.props.cellsPerRow * 2)
       );
-    }
-    //console.log(startIndex, endIndex);
+    }}
+    console.log(
+      "ssd:",
+      this.state.startselectDate,
+      "esd:",
+      this.state.endselectDate
+    );
 
     if (toFirstStartIndex % (this.props.cellsPerRow * 2) != 0) {
       this.state.startselectDate.setMinutes(30);
@@ -256,24 +283,32 @@ export default class Test extends Component {
         this.state.sequentialTouchfromto[0],
         this.state.sequentialTouchfromto[1]
       );*/
-      const startIndex = Math.max(
-        this.isTimeAearlierThanTimeB(
-          this.state.sequentialTouchfromto[0],
-          this.state.sequentialTouchfromto[1]
-        )
-          ? this.state.sequentialTouchfromto[0]
-          : this.state.sequentialTouchfromto[1],
-        0
-      );
-      const endIndex = Math.min(
-        this.isTimeAearlierThanTimeB(
-          this.state.sequentialTouchfromto[0],
-          this.state.sequentialTouchfromto[1]
-        )
-          ? this.state.sequentialTouchfromto[1]
-          : this.state.sequentialTouchfromto[0],
-        this.props.days.length - 1
-      );
+      let startIndex
+      let endIndex
+      if (this.state.sub >= 0) {
+         startIndex = Math.max(
+          this.isTimeAearlierThanTimeB(
+            this.state.sequentialTouchfromto[0],
+            this.state.sequentialTouchfromto[1]
+          )
+            ? this.state.sequentialTouchfromto[0]
+            : this.state.sequentialTouchfromto[1],
+          0
+        );
+         endIndex = Math.min(
+          this.isTimeAearlierThanTimeB(
+            this.state.sequentialTouchfromto[0],
+            this.state.sequentialTouchfromto[1]
+          )
+            ? this.state.sequentialTouchfromto[1]
+            : this.state.sequentialTouchfromto[0],
+          this.props.days.length - 1
+        );
+      } else {
+         startIndex = this.state.sequentialTouchfromto[1];
+         endIndex = this.state.sequentialTouchfromto[0];
+      }
+      console.log('sti:',startIndex,'ei:',endIndex,'sub:',this.state.sub)
 
       this.changeToTimeFormat(startIndex, endIndex);
       /*for (let i = start + 1; i <= end - 1; i++) {
@@ -434,6 +469,7 @@ export default class Test extends Component {
       layout: { width, height },
     },
   }) => {
+    console.log("width:", width, "height:", height);
     this.setState({
       cellLayout: {
         height,
@@ -478,8 +514,6 @@ renderCell = ({ index, item }) => {
     item.selected = this.isCellSelected(index);
     //item.deselected = this.isCellDeselected(index);
 
-    
-
     if (index % this.props.cellsPerRow)
       return (
         <View style={{ flex: 1 }}>
@@ -502,10 +536,10 @@ renderCell = ({ index, item }) => {
               style={{
                 flex: 1,
                 backgroundColor:
-
-                this.state.currentDate.getFullYear() == new Date().getFullYear() &&
-                this.state.currentDate.getMonth() == new Date().getMonth() &&
-                this.state.currentDate.getDate() == new Date().getDate() &&
+                  this.state.currentDate.getFullYear() ==
+                    new Date().getFullYear() &&
+                  this.state.currentDate.getMonth() == new Date().getMonth() &&
+                  this.state.currentDate.getDate() == new Date().getDate() &&
                   index % this.props.cellsPerRow == new Date().getDay() + 1
                     ? "silver"
                     : "skyblue",
@@ -587,7 +621,7 @@ renderCell = ({ index, item }) => {
     }
     const renderedCells = changeDays;*/
     const renderedCells = days;
-    
+
     return (
       <View {...this.panResponder.panHandlers}>
         <FlatList
