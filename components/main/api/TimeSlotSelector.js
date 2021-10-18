@@ -59,12 +59,8 @@ export default class Test extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      shouldScrollUp,
-      shouldScrollDown,
-      scrollOffset,
-      maxScrollOffset,
-    } = this.state;
+    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
+      this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -138,49 +134,123 @@ export default class Test extends Component {
       startTimeIndex - (startTimeIndex % this.props.cellsPerRow);
     let toFirstEndIndex =
       endTimeIndex - (endTimeIndex % this.props.cellsPerRow);
-    if(this.state.sub<0){
+    if (this.props.cellsPerRow == 8) {
+      if (this.state.sub < 0) {
+        this.state.startselectDate.setHours(
+          ((startTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+            toFirstStartIndex / (this.props.cellsPerRow * 2)
+        );
+        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) -
+              1 -
+              todayIndex -
+              this.state.sub) *
+              24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2) +
+              1
+          );
+        } else {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) -
+              1 -
+              todayIndex -
+              this.state.sub) *
+              24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2)
+          );
+        }
+      } else {
+        //this.state.sub >=0
+        this.state.startselectDate.setHours(
+          ((startTimeIndex % this.props.cellsPerRow) -
+            1 -
+            todayIndex -
+            this.state.sub) *
+            24 +
+            toFirstStartIndex / (this.props.cellsPerRow * 2)
+        );
+
+        //console.log(this.state.startselectDate);
+        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2) +
+              1
+          );
+        } else {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2)
+          );
+        }
+      }
+    } else {
+      //cellsPerRow == 2
+      /*
       this.state.startselectDate.setHours(
-        ((startTimeIndex % this.props.cellsPerRow) -
-          1 -
-          todayIndex ) *
-          24 +
+        ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) * 24 +
           toFirstStartIndex / (this.props.cellsPerRow * 2)
       );
+      //console.log(this.state.startselectDate);
       if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
         this.state.endselectDate.setHours(
-          ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex - this.state.sub) * 24 +
+          ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
             toFirstEndIndex / (this.props.cellsPerRow * 2) +
             1
         );
       } else {
         this.state.endselectDate.setHours(
-          ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex - this.state.sub) * 24 +
+          ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
             toFirstEndIndex / (this.props.cellsPerRow * 2)
         );
       }
+      */
+
+      if (this.state.sub < 0) {
+        this.state.startselectDate.setHours(
+          ((startTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+            toFirstStartIndex / (this.props.cellsPerRow * 2)
+        );
+        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) *
+              24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2) +
+              1
+          );
+        } else {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) *
+              24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2)
+          );
+        }
+      } else {
+        //this.state.sub >=0
+        this.state.startselectDate.setHours(
+          ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) *
+            24 +
+            toFirstStartIndex / (this.props.cellsPerRow * 2)
+        );
+
+        //console.log(this.state.startselectDate);
+        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2) +
+              1
+          );
+        } else {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2)
+          );
+        }
+      }
     }
-    else{
-    this.state.startselectDate.setHours(
-      ((startTimeIndex % this.props.cellsPerRow) -
-        1 -
-        todayIndex -
-        this.state.sub) *
-        24 +
-        toFirstStartIndex / (this.props.cellsPerRow * 2)
-    );
-    //console.log(this.state.startselectDate);
-    if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
-      this.state.endselectDate.setHours(
-        ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
-          toFirstEndIndex / (this.props.cellsPerRow * 2) +
-          1
-      );
-    } else {
-      this.state.endselectDate.setHours(
-        ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
-          toFirstEndIndex / (this.props.cellsPerRow * 2)
-      );
-    }}
+    //console.log(startIndex, endIndex);
+
     console.log(
       "ssd:",
       this.state.startselectDate,
@@ -285,10 +355,10 @@ export default class Test extends Component {
         this.state.sequentialTouchfromto[0],
         this.state.sequentialTouchfromto[1]
       );*/
-      let startIndex
-      let endIndex
+      let startIndex;
+      let endIndex;
       if (this.state.sub >= 0) {
-         startIndex = Math.max(
+        startIndex = Math.max(
           this.isTimeAearlierThanTimeB(
             this.state.sequentialTouchfromto[0],
             this.state.sequentialTouchfromto[1]
@@ -297,7 +367,7 @@ export default class Test extends Component {
             : this.state.sequentialTouchfromto[1],
           0
         );
-         endIndex = Math.min(
+        endIndex = Math.min(
           this.isTimeAearlierThanTimeB(
             this.state.sequentialTouchfromto[0],
             this.state.sequentialTouchfromto[1]
@@ -307,10 +377,10 @@ export default class Test extends Component {
           this.props.days.length - 1
         );
       } else {
-         startIndex = this.state.sequentialTouchfromto[1];
-         endIndex = this.state.sequentialTouchfromto[0];
+        startIndex = this.state.sequentialTouchfromto[1];
+        endIndex = this.state.sequentialTouchfromto[0];
       }
-      console.log('sti:',startIndex,'ei:',endIndex,'sub:',this.state.sub)
+      console.log("sti:", startIndex, "ei:", endIndex, "sub:", this.state.sub);
 
       this.changeToTimeFormat(startIndex, endIndex);
       /*for (let i = start + 1; i <= end - 1; i++) {

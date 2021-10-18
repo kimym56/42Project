@@ -80,7 +80,7 @@ export default class Daily extends Component {
         </View>
         <View style={{ flex: 10 }}>
           <Test
-            //currentDate={this.state.currentDate}
+            currentDate={this.state.currentDate}
             startselectValue={this.state.currentDate}
             endselectValue={this.state.currentDate}
             navigation={this.props.navigation}
