@@ -168,10 +168,10 @@ export default class Test extends Component {
             todayIndex -
             this.state.sub) *
             24 +
-            toFirstStartIndex / (this.props.cellsPerRow * 2)
+            parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2))
         );
 
-        //console.log(this.state.startselectDate);
+        console.log("tfsi:",toFirstStartIndex,"ssd",this.state.startselectDate);
         if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
           this.state.endselectDate.setHours(
             ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
@@ -231,7 +231,7 @@ export default class Test extends Component {
         this.state.startselectDate.setHours(
           ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) *
             24 +
-            toFirstStartIndex / (this.props.cellsPerRow * 2)
+            parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2) )
         );
 
         //console.log(this.state.startselectDate);
