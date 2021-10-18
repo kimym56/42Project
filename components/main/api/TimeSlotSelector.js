@@ -57,12 +57,8 @@ export default class Test extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      shouldScrollUp,
-      shouldScrollDown,
-      scrollOffset,
-      maxScrollOffset,
-    } = this.state;
+    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
+      this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -136,26 +132,47 @@ export default class Test extends Component {
       startTimeIndex - (startTimeIndex % this.props.cellsPerRow);
     let toFirstEndIndex =
       endTimeIndex - (endTimeIndex % this.props.cellsPerRow);
-    this.state.startselectDate.setHours(
-      ((startTimeIndex % this.props.cellsPerRow) -
-        1 -
-        todayIndex -
-        this.state.sub) *
-        24 +
-        toFirstStartIndex / (this.props.cellsPerRow * 2)
-    );
-    //console.log(this.state.startselectDate);
-    if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
-      this.state.endselectDate.setHours(
-        ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
-          toFirstEndIndex / (this.props.cellsPerRow * 2) +
-          1
+    if (this.props.cellsPerRow == 8) {
+      this.state.startselectDate.setHours(
+        ((startTimeIndex % this.props.cellsPerRow) -
+          1 -
+          todayIndex -
+          this.state.sub) *
+          24 +
+          toFirstStartIndex / (this.props.cellsPerRow * 2)
       );
+      //console.log(this.state.startselectDate);
+      if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+        this.state.endselectDate.setHours(
+          ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+            toFirstEndIndex / (this.props.cellsPerRow * 2) +
+            1
+        );
+      } else {
+        this.state.endselectDate.setHours(
+          ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+            toFirstEndIndex / (this.props.cellsPerRow * 2)
+        );
+      }
     } else {
-      this.state.endselectDate.setHours(
-        ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
-          toFirstEndIndex / (this.props.cellsPerRow * 2)
+      //cellsPerRow == 2
+      this.state.startselectDate.setHours(
+        ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) * 24 +
+          toFirstStartIndex / (this.props.cellsPerRow * 2)
       );
+      //console.log(this.state.startselectDate);
+      if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+        this.state.endselectDate.setHours(
+          ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+            toFirstEndIndex / (this.props.cellsPerRow * 2) +
+            1
+        );
+      } else {
+        this.state.endselectDate.setHours(
+          ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+            toFirstEndIndex / (this.props.cellsPerRow * 2)
+        );
+      }
     }
     //console.log(startIndex, endIndex);
 
@@ -434,6 +451,7 @@ export default class Test extends Component {
       layout: { width, height },
     },
   }) => {
+    console.log("width:", width, "height:", height);
     this.setState({
       cellLayout: {
         height,
@@ -478,8 +496,6 @@ renderCell = ({ index, item }) => {
     item.selected = this.isCellSelected(index);
     //item.deselected = this.isCellDeselected(index);
 
-    
-
     if (index % this.props.cellsPerRow)
       return (
         <View style={{ flex: 1 }}>
@@ -502,10 +518,10 @@ renderCell = ({ index, item }) => {
               style={{
                 flex: 1,
                 backgroundColor:
-
-                this.state.currentDate.getFullYear() == new Date().getFullYear() &&
-                this.state.currentDate.getMonth() == new Date().getMonth() &&
-                this.state.currentDate.getDate() == new Date().getDate() &&
+                  this.state.currentDate.getFullYear() ==
+                    new Date().getFullYear() &&
+                  this.state.currentDate.getMonth() == new Date().getMonth() &&
+                  this.state.currentDate.getDate() == new Date().getDate() &&
                   index % this.props.cellsPerRow == new Date().getDay() + 1
                     ? "silver"
                     : "skyblue",
@@ -587,7 +603,7 @@ renderCell = ({ index, item }) => {
     }
     const renderedCells = changeDays;*/
     const renderedCells = days;
-    
+
     return (
       <View {...this.panResponder.panHandlers}>
         <FlatList
