@@ -6,6 +6,7 @@ import {
   PanResponder,
   Vibration,
   ScrollView,
+  Dimensions
 } from "react-native";
 
 const LONG_PRESS_TIMEOUT = 200;
@@ -358,9 +359,9 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / (width * 3));
-    const cellToBottom = Math.floor(locationY / (height * 3));
-    console.log("ctr:", cellToRight, "ctb:", cellToBottom);
+    const cellToRight = Math.floor(locationX / (width));
+    const cellToBottom = Math.floor(locationY / (height));
+    console.log("ctr:", cellToRight, "ctb:", cellToBottom,'ly:',locationY,'height',height);
     //console.log('cellToBottom:',cellToBottom, 'locationY:',locationY, 'height:',height);
     //console.log(locationX);
     //console.log(locationY);
@@ -438,21 +439,22 @@ export default class Test extends Component {
       onPanResponderMove: (evt, gestureState) => {
         //console.log(evt.nativeEvent.locationY,gestureState.dy)
         //const { locationX, locationY } = evt.nativeEvent;
-        const locationX = evt.nativeEvent.locationX + gestureState.dx;
+        
+        const locationX = evt.nativeEvent.locationX ;
         const locationY =
-          evt.nativeEvent.locationY + gestureState.dy + this.state.testScroll;
-        /*console.log(
+          evt.nativeEvent.locationY  + this.state.testScroll;
+        console.log(
           "lx:",
-          locationX,
+          evt.nativeEvent.locationX,
           "ly:",
-          locationY,
+          evt.nativeEvent.locationY,
           "dy:",
           gestureState.dy,
           "ts:",
           this.state.testScroll,
           "co:",
           this.state.scrollOffset
-        );*/
+        );
         this.handleMultiSelection(locationX, locationY);
         this.handleScroll(locationY);
       },
@@ -470,10 +472,11 @@ export default class Test extends Component {
     },
   }) => {
     console.log("width:", width, "height:", height);
+    width=(Dimensions.get("window").width-width)/7
     this.setState({
       cellLayout: {
         height,
-        width,
+        width
       },
     });
   };
