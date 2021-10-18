@@ -6,7 +6,8 @@ import {
   PanResponder,
   Vibration,
   ScrollView,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 
 const LONG_PRESS_TIMEOUT = 200;
@@ -440,9 +441,9 @@ export default class Test extends Component {
         //console.log(evt.nativeEvent.locationY,gestureState.dy)
         //const { locationX, locationY } = evt.nativeEvent;
         
-        const locationX = evt.nativeEvent.locationX ;
+        const locationX = evt.nativeEvent.locationX + Platform.OS=="ios"?0:gestureState.dx;
         const locationY =
-          evt.nativeEvent.locationY  + this.state.testScroll;
+          evt.nativeEvent.locationY+Platform.OS=="ios"?0:gestureState.dy  + this.state.testScroll;
         console.log(
           "lx:",
           evt.nativeEvent.locationX,
