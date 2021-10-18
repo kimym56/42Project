@@ -133,29 +133,59 @@ export default class Test extends Component {
     let toFirstEndIndex =
       endTimeIndex - (endTimeIndex % this.props.cellsPerRow);
     if (this.props.cellsPerRow == 8) {
-      this.state.startselectDate.setHours(
-        ((startTimeIndex % this.props.cellsPerRow) -
-          1 -
-          todayIndex -
-          this.state.sub) *
-          24 +
-          toFirstStartIndex / (this.props.cellsPerRow * 2)
-      );
-      //console.log(this.state.startselectDate);
-      if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
-        this.state.endselectDate.setHours(
-          ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
-            toFirstEndIndex / (this.props.cellsPerRow * 2) +
-            1
+      if (this.state.sub < 0) {
+        this.state.startselectDate.setHours(
+          ((startTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+            toFirstStartIndex / (this.props.cellsPerRow * 2)
         );
+        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) -
+              1 -
+              todayIndex -
+              this.state.sub) *
+              24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2) +
+              1
+          );
+        } else {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) -
+              1 -
+              todayIndex -
+              this.state.sub) *
+              24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2)
+          );
+        }
       } else {
-        this.state.endselectDate.setHours(
-          ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
-            toFirstEndIndex / (this.props.cellsPerRow * 2)
+        //this.state.sub >=0
+        this.state.startselectDate.setHours(
+          ((startTimeIndex % this.props.cellsPerRow) -
+            1 -
+            todayIndex -
+            this.state.sub) *
+            24 +
+            toFirstStartIndex / (this.props.cellsPerRow * 2)
         );
+
+        //console.log(this.state.startselectDate);
+        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2) +
+              1
+          );
+        } else {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2)
+          );
+        }
       }
     } else {
       //cellsPerRow == 2
+      /*
       this.state.startselectDate.setHours(
         ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) * 24 +
           toFirstStartIndex / (this.props.cellsPerRow * 2)
@@ -173,8 +203,58 @@ export default class Test extends Component {
             toFirstEndIndex / (this.props.cellsPerRow * 2)
         );
       }
+      */
+
+      if (this.state.sub < 0) {
+        this.state.startselectDate.setHours(
+          ((startTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+            toFirstStartIndex / (this.props.cellsPerRow * 2)
+        );
+        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) *
+              24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2) +
+              1
+          );
+        } else {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) *
+              24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2)
+          );
+        }
+      } else {
+        //this.state.sub >=0
+        this.state.startselectDate.setHours(
+          ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) *
+            24 +
+            toFirstStartIndex / (this.props.cellsPerRow * 2)
+        );
+
+        //console.log(this.state.startselectDate);
+        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2) +
+              1
+          );
+        } else {
+          this.state.endselectDate.setHours(
+            ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
+              toFirstEndIndex / (this.props.cellsPerRow * 2)
+          );
+        }
+      }
     }
     //console.log(startIndex, endIndex);
+
+    console.log(
+      "ssd:",
+      this.state.startselectDate,
+      "esd:",
+      this.state.endselectDate
+    );
 
     if (toFirstStartIndex % (this.props.cellsPerRow * 2) != 0) {
       this.state.startselectDate.setMinutes(30);
@@ -273,24 +353,32 @@ export default class Test extends Component {
         this.state.sequentialTouchfromto[0],
         this.state.sequentialTouchfromto[1]
       );*/
-      const startIndex = Math.max(
-        this.isTimeAearlierThanTimeB(
-          this.state.sequentialTouchfromto[0],
-          this.state.sequentialTouchfromto[1]
-        )
-          ? this.state.sequentialTouchfromto[0]
-          : this.state.sequentialTouchfromto[1],
-        0
-      );
-      const endIndex = Math.min(
-        this.isTimeAearlierThanTimeB(
-          this.state.sequentialTouchfromto[0],
-          this.state.sequentialTouchfromto[1]
-        )
-          ? this.state.sequentialTouchfromto[1]
-          : this.state.sequentialTouchfromto[0],
-        this.props.days.length - 1
-      );
+      let startIndex;
+      let endIndex;
+      if (this.state.sub >= 0) {
+        startIndex = Math.max(
+          this.isTimeAearlierThanTimeB(
+            this.state.sequentialTouchfromto[0],
+            this.state.sequentialTouchfromto[1]
+          )
+            ? this.state.sequentialTouchfromto[0]
+            : this.state.sequentialTouchfromto[1],
+          0
+        );
+        endIndex = Math.min(
+          this.isTimeAearlierThanTimeB(
+            this.state.sequentialTouchfromto[0],
+            this.state.sequentialTouchfromto[1]
+          )
+            ? this.state.sequentialTouchfromto[1]
+            : this.state.sequentialTouchfromto[0],
+          this.props.days.length - 1
+        );
+      } else {
+        startIndex = this.state.sequentialTouchfromto[1];
+        endIndex = this.state.sequentialTouchfromto[0];
+      }
+      console.log("sti:", startIndex, "ei:", endIndex, "sub:", this.state.sub);
 
       this.changeToTimeFormat(startIndex, endIndex);
       /*for (let i = start + 1; i <= end - 1; i++) {

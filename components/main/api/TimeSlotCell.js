@@ -53,14 +53,18 @@ export default class CalendarDay extends PureComponent {
         dayContainerStyle.push(styles.lastActiveDayContainer);
       }*/
     }
+
     if (number > 48) {
       if (
         this.state.currentDate.getFullYear() == new Date().getFullYear() &&
         this.state.currentDate.getMonth() == new Date().getMonth() &&
-        this.state.currentDate.getDate() == new Date().getDate() && 
-        this.state.currentDate.getDay()+1 == Math.floor(number/48) 
+        this.state.currentDate.getDate() == new Date().getDate() &&
+        this.state.currentDate.getDay() + 1 == Math.floor(number / 48) &&
+        this.state.currentDate.getHours() ==
+          Math.floor((number % 48) / 2 - 0.5) &&
+        Math.floor(this.state.currentDate.getMinutes() / 30) ==
+          !Math.floor((number % 48) % 2)
       ) {
-        console.log(this.state.currentDate)
         return (
           <View
             style={number % 2 ? dayContainerStyleOdd : dayContainerStyleEven}
@@ -68,12 +72,12 @@ export default class CalendarDay extends PureComponent {
             <View
               style={{
                 flex: 1,
-                height: 1,
-                marginTop: 15,
                 backgroundColor: "red",
+                height:2,
+                marginTop:this.state.currentDate.getMinutes()%30
               }}
             />
-            <Text> {}</Text>
+            <Text style={{ width: 0 }}> {}</Text>
           </View>
         );
       } else
@@ -102,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
-    height: 30,
+    height: 32,
     marginVertical: 0,
     marginLeft: 0,
     //  backgroundColor: "skyblue",
@@ -115,7 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     //alignItems: "center",
     justifyContent: "center",
-    height: 30,
+    height: 32,
     marginVertical: 0,
     marginLeft: 0,
     paddingBottom: 10,
@@ -130,7 +134,7 @@ const styles = StyleSheet.create({
     //alignItems: "center",
     justifyContent: "center",
 
-    height: 30,
+    height: 32,
     marginVertical: 0,
     marginLeft: 0,
     //    backgroundColor: "skyblue",
