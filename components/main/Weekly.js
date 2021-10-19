@@ -47,7 +47,9 @@ export default class Weekly extends Component {
     this.setState({ days });
   };
 
-  renderCell = (day) => <TestDay  currentDate={this.state.currentDate} {...day} />;
+  renderCell = (day) => (
+    <TestDay currentDate={this.state.currentDate} {...day} />
+  );
   changeDate = (n) => {
     this.setState(() => {
       this.state.currentDate.setDate(this.state.currentDate.getDate() + n);
@@ -57,7 +59,6 @@ export default class Weekly extends Component {
   };
 
   generateMatrix(isDate) {
-    
     var matrix = [];
     //matrix[0] = this.state.currentDate.getDate();
     if (!isDate) {

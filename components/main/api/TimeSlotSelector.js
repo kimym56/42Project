@@ -7,7 +7,7 @@ import {
   Vibration,
   ScrollView,
   Dimensions,
-  Platform
+  Platform,
 } from "react-native";
 
 const LONG_PRESS_TIMEOUT = 200;
@@ -171,7 +171,12 @@ export default class Test extends Component {
             parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2))
         );
 
-        console.log("tfsi:",toFirstStartIndex,"ssd",this.state.startselectDate);
+        console.log(
+          "tfsi:",
+          toFirstStartIndex,
+          "ssd",
+          this.state.startselectDate
+        );
         if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
           this.state.endselectDate.setHours(
             ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
@@ -187,25 +192,6 @@ export default class Test extends Component {
       }
     } else {
       //cellsPerRow == 2
-      /*
-      this.state.startselectDate.setHours(
-        ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) * 24 +
-          toFirstStartIndex / (this.props.cellsPerRow * 2)
-      );
-      //console.log(this.state.startselectDate);
-      if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
-        this.state.endselectDate.setHours(
-          ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
-            toFirstEndIndex / (this.props.cellsPerRow * 2) +
-            1
-        );
-      } else {
-        this.state.endselectDate.setHours(
-          ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
-            toFirstEndIndex / (this.props.cellsPerRow * 2)
-        );
-      }
-      */
 
       if (this.state.sub < 0) {
         this.state.startselectDate.setHours(
@@ -231,7 +217,7 @@ export default class Test extends Component {
         this.state.startselectDate.setHours(
           ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) *
             24 +
-            parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2) )
+            parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2))
         );
 
         //console.log(this.state.startselectDate);
@@ -430,9 +416,18 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / (width));
-    const cellToBottom = Math.floor(locationY / (height));
-    console.log("ctr:", cellToRight, "ctb:", cellToBottom,'ly:',locationY,'height',height);
+    const cellToRight = Math.floor(locationX / width);
+    const cellToBottom = Math.floor(locationY / height);
+    console.log(
+      "ctr:",
+      cellToRight,
+      "ctb:",
+      cellToBottom,
+      "ly:",
+      locationY,
+      "height",
+      height
+    );
     //console.log('cellToBottom:',cellToBottom, 'locationY:',locationY, 'height:',height);
     //console.log(locationX);
     //console.log(locationY);
@@ -510,10 +505,15 @@ export default class Test extends Component {
       onPanResponderMove: (evt, gestureState) => {
         //console.log(evt.nativeEvent.locationY,gestureState.dy)
         //const { locationX, locationY } = evt.nativeEvent;
-        
-        const locationX = evt.nativeEvent.locationX + Platform.OS=="ios"?0:gestureState.dx;
+
+        const locationX =
+          evt.nativeEvent.locationX + Platform.OS == "ios"
+            ? 0
+            : gestureState.dx;
         const locationY =
-          evt.nativeEvent.locationY+Platform.OS=="ios"?0:gestureState.dy  + this.state.testScroll;
+          evt.nativeEvent.locationY + Platform.OS == "ios"
+            ? 0
+            : gestureState.dy + this.state.testScroll;
         console.log(
           "lx:",
           evt.nativeEvent.locationX,
@@ -543,11 +543,11 @@ export default class Test extends Component {
     },
   }) => {
     console.log("width:", width, "height:", height);
-    width=(Dimensions.get("window").width-width)/7
+    width = (Dimensions.get("window").width - width) / 7;
     this.setState({
       cellLayout: {
         height,
-        width
+        width,
       },
     });
   };
@@ -707,6 +707,9 @@ renderCell = ({ index, item }) => {
           numColumns={cellsPerRow}
           keyExtractor={(item) => item.id.toString()}
           scrollEnabled={this.state.initialSelectedCellIndex === null}
+          maxToRenderPerBatch={5}
+          updateCellsBatchingPeriod={10}
+          initialNumToRender={200}
           //contentContainerStyle={{ paddingBottom: 180 }}
         />
       </View>
