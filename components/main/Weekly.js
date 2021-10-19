@@ -47,9 +47,7 @@ export default class Weekly extends Component {
     this.setState({ days });
   };
 
-  renderCell = (day) => (
-    <TestDay currentDate={this.state.currentDate} {...day} />
-  );
+  renderCell = (day, cday) => <TestDay currentDate={cday} {...day} />;
   changeDate = (n) => {
     this.setState(() => {
       this.state.currentDate.setDate(this.state.currentDate.getDate() + n);
