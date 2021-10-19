@@ -7,7 +7,7 @@ import {
   Vibration,
   ScrollView,
   Dimensions,
-  Platform
+  Platform,
 } from "react-native";
 
 const LONG_PRESS_TIMEOUT = 200;
@@ -59,8 +59,12 @@ export default class Test extends Component {
   }
 
   componentDidUpdate() {
-    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
-      this.state;
+    const {
+      shouldScrollUp,
+      shouldScrollDown,
+      scrollOffset,
+      maxScrollOffset,
+    } = this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -131,16 +135,21 @@ export default class Test extends Component {
     let startTimeIndex = startIndex;
     let endTimeIndex = endIndex;
     let toFirstStartIndex =
-      startTimeIndex - (startTimeIndex % this.props.cellsPerRow);
+      startTimeIndex - (startTimeIndex % this.props.cellsPerRow); // 모두 첫번째 열 index로 변환 (0~7 => 0 and 8~15 => 8)
     let toFirstEndIndex =
       endTimeIndex - (endTimeIndex % this.props.cellsPerRow);
-    if (this.props.cellsPerRow == 8) {
-      if (this.state.sub < 0) {
+    
+    if (this.props.cellsPerRow == 8) {  // Weekly
+      if (this.state.sub < 0) { // 역선택
         this.state.startselectDate.setHours(
           ((startTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
-            toFirstStartIndex / (this.props.cellsPerRow * 2)
-        );
-        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
+            parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2))
+        );  // startTimeIndex % this.props.cellsPerRow : 모두 첫번째 행 index로 변환 (1,9,17... => 1 and 2,10,18... => 2)
+        // -1 : 요일 index로 보정 (1~7 => 0~6)
+        // -todayIndex : 선택 날짜 보정
+        // parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2)) : 0,0.5,1,1.5 ... => 0,0,1,1 ...
+        // parseInt를 붙이는 조건 : () * 24가 0보다 작을 때 
+        if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {  //0:30, 1:30, 2:30 ...
           this.state.endselectDate.setHours(
             ((endTimeIndex % this.props.cellsPerRow) -
               1 -
@@ -150,7 +159,7 @@ export default class Test extends Component {
               toFirstEndIndex / (this.props.cellsPerRow * 2) +
               1
           );
-        } else {
+        } else {  //0:00, 1:00, 2:00 ...
           this.state.endselectDate.setHours(
             ((endTimeIndex % this.props.cellsPerRow) -
               1 -
@@ -170,8 +179,7 @@ export default class Test extends Component {
             24 +
             parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2))
         );
-
-        console.log("tfsi:",toFirstStartIndex,"ssd",this.state.startselectDate);
+ 
         if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
           this.state.endselectDate.setHours(
             ((endTimeIndex % this.props.cellsPerRow) - 1 - todayIndex) * 24 +
@@ -185,28 +193,9 @@ export default class Test extends Component {
           );
         }
       }
-    } else {
+    } else {  //Daily
       //cellsPerRow == 2
-      /*
-      this.state.startselectDate.setHours(
-        ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) * 24 +
-          toFirstStartIndex / (this.props.cellsPerRow * 2)
-      );
-      //console.log(this.state.startselectDate);
-      if (toFirstEndIndex % (this.props.cellsPerRow * 2) != 0) {
-        this.state.endselectDate.setHours(
-          ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
-            toFirstEndIndex / (this.props.cellsPerRow * 2) +
-            1
-        );
-      } else {
-        this.state.endselectDate.setHours(
-          ((endTimeIndex % this.props.cellsPerRow) - 1) * 24 +
-            toFirstEndIndex / (this.props.cellsPerRow * 2)
-        );
-      }
-      */
-
+      
       if (this.state.sub < 0) {
         this.state.startselectDate.setHours(
           ((startTimeIndex % this.props.cellsPerRow) - 1) * 24 +
@@ -228,10 +217,11 @@ export default class Test extends Component {
         }
       } else {
         //this.state.sub >=0
+       
         this.state.startselectDate.setHours(
           ((startTimeIndex % this.props.cellsPerRow) - 1 - this.state.sub) *
             24 +
-            parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2) )
+            parseInt(toFirstStartIndex / (this.props.cellsPerRow * 2))
         );
 
         //console.log(this.state.startselectDate);
@@ -251,12 +241,6 @@ export default class Test extends Component {
     }
     //console.log(startIndex, endIndex);
 
-    console.log(
-      "ssd:",
-      this.state.startselectDate,
-      "esd:",
-      this.state.endselectDate
-    );
 
     if (toFirstStartIndex % (this.props.cellsPerRow * 2) != 0) {
       this.state.startselectDate.setMinutes(30);
@@ -430,9 +414,18 @@ export default class Test extends Component {
       cellLayout: { width, height },
     } = this.state;
 
-    const cellToRight = Math.floor(locationX / (width));
-    const cellToBottom = Math.floor(locationY / (height));
-    console.log("ctr:", cellToRight, "ctb:", cellToBottom,'ly:',locationY,'height',height);
+    const cellToRight = Math.floor(locationX / width);
+    const cellToBottom = Math.floor(locationY / height);
+    console.log(
+      "ctr:",
+      cellToRight,
+      "ctb:",
+      cellToBottom,
+      "ly:",
+      locationY,
+      "height",
+      height
+    );
     //console.log('cellToBottom:',cellToBottom, 'locationY:',locationY, 'height:',height);
     //console.log(locationX);
     //console.log(locationY);
@@ -510,10 +503,15 @@ export default class Test extends Component {
       onPanResponderMove: (evt, gestureState) => {
         //console.log(evt.nativeEvent.locationY,gestureState.dy)
         //const { locationX, locationY } = evt.nativeEvent;
-        
-        const locationX = evt.nativeEvent.locationX + Platform.OS=="ios"?0:gestureState.dx;
+
+        const locationX =
+          evt.nativeEvent.locationX + Platform.OS == "ios"
+            ? 0
+            : gestureState.dx;
         const locationY =
-          evt.nativeEvent.locationY+Platform.OS=="ios"?0:gestureState.dy  + this.state.testScroll;
+          evt.nativeEvent.locationY + Platform.OS == "ios"
+            ? 0
+            : gestureState.dy + this.state.testScroll;
         console.log(
           "lx:",
           evt.nativeEvent.locationX,
@@ -542,12 +540,11 @@ export default class Test extends Component {
       layout: { width, height },
     },
   }) => {
-    console.log("width:", width, "height:", height);
-    width=(Dimensions.get("window").width-width)/7
+    width = (Dimensions.get("window").width - width) / 7;
     this.setState({
       cellLayout: {
         height,
-        width
+        width,
       },
     });
   };
@@ -620,7 +617,7 @@ renderCell = ({ index, item }) => {
               }}
               pointerEvents="box-only"
             >
-              {this.props.renderCell(item)}
+              {this.props.renderCell(item,this.state.currentDate)}
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -677,6 +674,7 @@ renderCell = ({ index, item }) => {
   };
 
   render() {
+    console.log('selector render')
     this.state.currentDate = this.props.currentDate
       ? new Date(this.props.currentDate)
       : new Date();
