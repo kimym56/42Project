@@ -97,6 +97,10 @@ export default class Weekly extends Component {
     const height = Dimensions.get("window").height;
     const width = Dimensions.get("window").width;
     //console.log("size: ", height, width);
+    /*
+    const renderItem = useCallback((day, cday) => (
+      <TestDay currentDate={cday} {...day} />
+    ));*/
 
     var date = this.generateMatrix(1);
     var dates = [];
@@ -248,6 +252,7 @@ export default class Weekly extends Component {
             navigation={this.props.navigation}
             days={this.state.days}
             renderCell={this.renderCell}
+            //renderCell={renderItem}
             onSingleCellSelection={this.onSingleCellSelection}
             onMultiSelectionEnd={this.onMultiSelectionEnd}
           />
