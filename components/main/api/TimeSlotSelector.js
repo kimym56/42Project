@@ -12,7 +12,7 @@ import {
 
 const LONG_PRESS_TIMEOUT = 200;
 const VIBRATION_DURATION = 300;
-const SCROLL_INCREMENTATION = 10;
+const SCROLL_INCREMENTATION = 15;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
 export default class Test extends Component {
   panResponder;
@@ -58,6 +58,8 @@ export default class Test extends Component {
     });
   }
  
+  
+  
   componentDidUpdate() {
     const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
       this.state;
@@ -674,7 +676,7 @@ renderCell = ({ index, item }) => {
   };
 
   render() {
-    console.log("selector render");
+    //console.log("selector render");
     this.state.currentDate = this.props.currentDate
       ? new Date(this.props.currentDate)
       : new Date();
@@ -707,7 +709,13 @@ renderCell = ({ index, item }) => {
           scrollEnabled={this.state.initialSelectedCellIndex === null}
           maxToRenderPerBatch={5}
           updateCellsBatchingPeriod={10}
-          initialNumToRender={200}
+          initialNumToRender={384}
+          getItemLayout={(data,index)=>({
+            length: 32,
+            offset: 32* index,
+            index
+          })}
+          initialScrollIndex={new Date().getHours()*2}
           //contentContainerStyle={{ paddingBottom: 180 }}
         />
       </View>

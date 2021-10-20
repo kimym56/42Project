@@ -28,7 +28,18 @@ export default class Weekly extends Component {
       });
     }
   }
-  
+  getDate() {
+    this.setState((state) => {
+      state.currentDate.setMinutes(new Date().getMinutes())
+      return {currentDate : state.currentDate}
+  })
+  };
+  componentDidMount() {
+    this.oneMinuteCall = setInterval(() => this.getDate(), 60000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.oneMinuteCall);
+  }
 
   onSingleCellSelection = (dayIndex) => {
     const days = this.state.days;

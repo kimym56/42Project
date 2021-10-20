@@ -9,22 +9,8 @@ export default class CalendarDay extends PureComponent {
       ? new Date(this.props.currentDate)
       : new Date(),
   };
-  getDate = () => {
-    this.setState({
-      currentDate: this.props.currentDate
-      ? new Date(this.props.currentDate)
-      : new Date(),
-    });
-  };
-  componentDidMount() {
-    this.oneMinuteCall = setInterval(() => this.getDate(), 5000);
-  }
-  componentWillUnmount() {
-    clearInterval(this.oneMinuteCall);
-  }
-  
   render() {
-    console.log('cell render',this.state.currentDate)
+    //console.log('cell render',this.state.currentDate)
     this.state.currentDate = this.props.currentDate
       ? new Date(this.props.currentDate)
       : new Date();
@@ -90,7 +76,7 @@ export default class CalendarDay extends PureComponent {
                 backgroundColor: "red",
                 height:2,
                 marginTop:this.state.currentDate.getMinutes()%30
-              }}><Text style={{fontSize:20}}>{this.state.currentDate.getMinutes()%30}</Text></View>
+              }}/>
             
             <Text style={{ width: 0 }}> {}</Text>
           </View>
