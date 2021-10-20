@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useCallback } from "react";
 import {
   View,
   FlatList,
@@ -7,6 +7,7 @@ import {
   Vibration,
   ScrollView,
   Dimensions,
+  Button,
   Platform,
 } from "react-native";
 
@@ -14,6 +15,11 @@ const LONG_PRESS_TIMEOUT = 200;
 const VIBRATION_DURATION = 300;
 const SCROLL_INCREMENTATION = 15;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
+
+const callbacktest = () => {
+  /*index % this.props.cellsPerRow ? this.selectSingleCell(index) : null;*/
+  this.selectSingleCell(4);
+};
 export default class Test extends Component {
   panResponder;
   flatList;
@@ -591,6 +597,8 @@ renderCell = ({ index, item }) => {
       return (
         <View style={{ flex: 1 }}>
           <TouchableWithoutFeedback
+            //onPress={callbacktest}
+
             onPress={() => {
               index % this.props.cellsPerRow
                 ? this.selectSingleCell(index)
@@ -696,6 +704,14 @@ renderCell = ({ index, item }) => {
     const renderedCells = changeDays;*/
     const renderedCells = days;
 
+    //Flatlist optimization
+    /*
+    const keyExtractor = useCallback((item) => item.id.toString(), []);
+    const getItemLayout = useCallback(
+      (data, index) => ({ length: 32, offset: 32 * index, index }),
+      []
+    );*/
+
     return (
       <View {...this.panResponder.panHandlers}>
         <FlatList
@@ -706,16 +722,19 @@ renderCell = ({ index, item }) => {
           renderItem={this.renderCell}
           numColumns={cellsPerRow}
           keyExtractor={(item) => item.id.toString()}
+          //keyExtractor={keyExtractor}
           scrollEnabled={this.state.initialSelectedCellIndex === null}
-          maxToRenderPerBatch={5}
-          updateCellsBatchingPeriod={10}
-          initialNumToRender={384}
-          getItemLayout={(data,index)=>({
+          //maxToRenderPerBatch={5}
+          //updateCellsBatchingPeriod={10}
+          initialNumToRender={160}
+          getItemLayout={(data, index) => ({
             length: 32,
-            offset: 32* index,
-            index
+            offset: 32 * index,
+            index,
           })}
-          initialScrollIndex={new Date().getHours()*2}
+          initialScrollIndex={new Date().getHours() * 2}
+          lagacyImplementation={true}
+          refreshing={true}
           //contentContainerStyle={{ paddingBottom: 180 }}
         />
       </View>
