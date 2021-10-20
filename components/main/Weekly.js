@@ -28,6 +28,7 @@ export default class Weekly extends Component {
       });
     }
   }
+  
 
   onSingleCellSelection = (dayIndex) => {
     const days = this.state.days;
