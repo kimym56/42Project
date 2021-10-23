@@ -9,6 +9,7 @@ export default class CalendarDay extends PureComponent {
       ? new Date(this.props.currentDate)
       : new Date(),
   };
+  
   render() {
     //console.log('cell render',this.state.currentDate)
     this.state.currentDate = this.props.currentDate

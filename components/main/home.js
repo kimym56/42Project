@@ -10,6 +10,7 @@ import AddEvent from "./AddEvent";
 const Tab = createBottomTabNavigator();
 
 export default function home() {
+  console.log('home render')
   return (
     <Tab.Navigator
       screenOptions={{

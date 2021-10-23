@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { render } from "react-dom";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -33,7 +33,8 @@ const Tab = createBottomTabNavigator();
 
 const Stack = createStackNavigator();
 
-export class App extends Component {
+export class App extends PureComponent {
+  
   state = {
     isLoading: true,
     loggedIn: false,

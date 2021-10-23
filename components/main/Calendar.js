@@ -21,6 +21,7 @@ export default function Calendar(props) {
     { key: "weekly", title: "Weekly" },
     { key: "daily", title: "Daily" },
   ]);
+  console.log('calendar render')
   return (
     <TabView
       navigationState={{ index, routes }}

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
 import { render } from "react-dom";
 
-export default class Loading extends Component {
+export default class Loading extends PureComponent {
   render() {
     return (
       <ImageBackground

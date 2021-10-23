@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import {
   View,
   StyleSheet,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Test from "./api/TimeSlotSelector.js";
 import TestDay from "./api/TimeSlotCell.js";
-export default class Weekly extends Component {
+export default class Weekly extends PureComponent {
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   state = {
     days: [],
@@ -19,6 +19,9 @@ export default class Weekly extends Component {
     //beforeDate: new Date(),
     //afterDate: new Date(),
   };
+  ShouldComponentUpdate(){
+    return false;
+  }
   componentWillMount() {
     for (let i = 0; i < 384; i++) {
       this.state.days.push({
@@ -106,6 +109,7 @@ export default class Weekly extends Component {
   }
 
   render() {
+    console.log('weekly render')
     const height = Dimensions.get("window").height;
     const width = Dimensions.get("window").width;
     //console.log("size: ", height, width);

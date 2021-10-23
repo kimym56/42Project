@@ -63,7 +63,6 @@ export default class Test extends Component {
       enddateValue: this.state.endselectDate,
     });
   }
- 
   
   
   componentDidUpdate() {
@@ -662,7 +661,11 @@ renderCell = ({ index, item }) => {
       }
     }
   };
-
+  getItemLayout = (data, index) => (
+   {length: 32,
+    offset: 32 * index,
+    index,}
+  );
   onCalendarLayout = ({
     nativeEvent: {
       layout: { x, y, width, height },
@@ -684,7 +687,7 @@ renderCell = ({ index, item }) => {
   };
 
   render() {
-    //console.log("selector render");
+    console.log("selector render");
     this.state.currentDate = this.props.currentDate
       ? new Date(this.props.currentDate)
       : new Date();
@@ -723,18 +726,16 @@ renderCell = ({ index, item }) => {
           numColumns={cellsPerRow}
           keyExtractor={(item) => item.id.toString()}
           //keyExtractor={keyExtractor}
+          
           scrollEnabled={this.state.initialSelectedCellIndex === null}
-          //maxToRenderPerBatch={5}
-          //updateCellsBatchingPeriod={10}
+          maxToRenderPerBatch={30}
+          updateCellsBatchingPeriod={50}
+          windowSize={100}
           initialNumToRender={160}
-          getItemLayout={(data, index) => ({
-            length: 32,
-            offset: 32 * index,
-            index,
-          })}
+          getItemLayout={this.getItemLayout}
           initialScrollIndex={new Date().getHours() * 2}
-          lagacyImplementation={true}
-          refreshing={true}
+          legacyImplementation={true}
+          refreshing={false}
           //contentContainerStyle={{ paddingBottom: 180 }}
         />
       </View>

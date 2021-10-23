@@ -60,6 +60,7 @@ export default class Daily extends Component {
     });
   };
   render() {
+    console.log('daily render')
     return (
       <View style={{ flex: 1 }}>
         <View
