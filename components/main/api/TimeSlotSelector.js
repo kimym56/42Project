@@ -16,14 +16,21 @@ const VIBRATION_DURATION = 300;
 const SCROLL_INCREMENTATION = 15;
 const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
 
+/*
 const callbacktest = () => {
-  /*index % this.props.cellsPerRow ? this.selectSingleCell(index) : null;*/
+  //index % this.props.cellsPerRow ? this.selectSingleCell(index) : null;
   this.selectSingleCell(4);
 };
+*/
 export default class Test extends Component {
   panResponder;
   flatList;
-
+  /*
+  callbacktest = useCallback(() => {
+    //index % this.props.cellsPerRow ? this.selectSingleCell(index) : null;
+    this.selectSingleCell(4);
+  }, []);
+  */
   static defaultProps = {
     cellsPerRow: 8,
   };
@@ -63,8 +70,12 @@ export default class Test extends Component {
       enddateValue: this.state.endselectDate,
     });
   }
+<<<<<<< HEAD
   
   
+=======
+
+>>>>>>> 08b8f6b3eea4c986a8050920826aac6b8496d950
   componentDidUpdate() {
     const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
       this.state;
@@ -596,7 +607,7 @@ renderCell = ({ index, item }) => {
       return (
         <View style={{ flex: 1 }}>
           <TouchableWithoutFeedback
-            //onPress={callbacktest}
+            //onPress={callbacktest()}
 
             onPress={() => {
               index % this.props.cellsPerRow
