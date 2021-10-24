@@ -7,9 +7,9 @@ import {
   Text,
   Dimensions,
 } from "react-native";
-import Test from "./api/TimeSlotSelector.js";
+import Test from "./api/FunctionalTest.js";
 import TestDay from "./api/TimeSlotCell.js";
-export default class Weekly extends PureComponent {
+export default class Weekly extends Component {
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   state = {
     days: [],
@@ -19,9 +19,6 @@ export default class Weekly extends PureComponent {
     //beforeDate: new Date(),
     //afterDate: new Date(),
   };
-  ShouldComponentUpdate(){
-    return false;
-  }
   componentWillMount() {
     for (let i = 0; i < 384; i++) {
       this.state.days.push({
@@ -268,6 +265,7 @@ export default class Weekly extends PureComponent {
             navigation={this.props.navigation}
             days={this.state.days}
             renderCell={this.renderCell}
+            cellsPerRow={8}
             //renderCell={renderItem}
             onSingleCellSelection={this.onSingleCellSelection}
             onMultiSelectionEnd={this.onMultiSelectionEnd}
