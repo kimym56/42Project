@@ -70,7 +70,6 @@ export default class Test extends Component {
       enddateValue: this.state.endselectDate,
     });
   }
-
   componentDidUpdate() {
     const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
       this.state;

@@ -7,7 +7,7 @@ import {
   Text,
   Dimensions,
 } from "react-native";
-import Test from "./api/FunctionalTest";
+import Test from "./api/FunctionalTest.js";
 import TestDay from "./api/TimeSlotCell.js";
 export default class Weekly extends Component {
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -19,9 +19,6 @@ export default class Weekly extends Component {
     //beforeDate: new Date(),
     //afterDate: new Date(),
   };
-  ShouldComponentUpdate() {
-    return false;
-  }
   componentWillMount() {
     for (let i = 0; i < 384; i++) {
       this.state.days.push({
