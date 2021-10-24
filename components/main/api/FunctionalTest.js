@@ -19,7 +19,7 @@ const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
 export default function TimeSlotSelector(props) {
   const panResponder = React.useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: () => state.multiSelectionMode,
+      onMoveShouldSetPanResponder: multiSelectionMode,
       onPanResponderMove: (evt, gestureState) => {
         //console.log(evt.nativeEvent.locationY,gestureState.dy)
         //const { locationX, locationY } = evt.nativeEvent;
@@ -54,9 +54,36 @@ export default function TimeSlotSelector(props) {
   );
   //const [flatList, setflatList] = useState();
   let flatList;
+
+  useEffect(() => {
+    //const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
+    //  shouldScrollUp,shouldScrollDown,scrollOffset,maxScrollOffset;
+
+    if (shouldScrollUp) {
+      flatList.scrollToOffset({
+        offset: Math.max(scrollOffset - SCROLL_INCREMENTATION, 0),
+        animated: false,
+      });
+
+      () => settestScroll(Math.max(scrollOffset - SCROLL_INCREMENTATION, 0));
+    } else if (shouldScrollDown) {
+      const scrollOffsetValue = scrollOffset + SCROLL_INCREMENTATION;
+
+      //console.log("scroll: ", scrollOffsetValue);
+
+      flatList.scrollToOffset({
+        offset: scrollOffsetValue,
+        animated: false,
+      });
+
+      () => settestScroll(scrollOffsetValue);
+    } else {
+      () => settestScroll(0);
+    }
+  }, []);
   const callbacktest = useCallback(() => {
-    /*index % props.cellsPerRow ? selectSingleCell(index) : null;*/
-    selectSingleCell(4);
+    index % props.cellsPerRow ? selectSingleCell(index) : null;
+    //selectSingleCell(4);
   }, []);
 
   const [sub, setsub] = useState(0);
@@ -95,12 +122,14 @@ export default function TimeSlotSelector(props) {
   const [maxScrollOffset, setmaxScrollOffset] = useState(1000);
 
   const goAddSchedule = () => {
+    console.log("yttttttttt");
     props.navigation.navigate("AddEvent2", {
       startdateValue: startselectDate,
       enddateValue: endselectDate,
     });
   };
 
+  /*
   useEffect(() => {
     //const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
     //  shouldScrollUp,shouldScrollDown,scrollOffset,maxScrollOffset;
@@ -127,7 +156,7 @@ export default function TimeSlotSelector(props) {
       () => settestScroll(0);
     }
   }, []);
-
+*/
   const isCellActive = (cellIndex) => props.days[cellIndex].active;
 
   const startMultiSelection = (cellIndex) => {
@@ -153,8 +182,8 @@ export default function TimeSlotSelector(props) {
       startselectDate.getDate(),
       endselectDate.getDate()
     );
-    startselectDate = new Date(props.startselectValue);
-    endselectDate = new Date(props.endselectValue);
+    setstartselectDate(new Date(props.startselectValue));
+    setendselectDate(new Date(props.endselectValue));
 
     const todayIndex = startselectDate.getDay();
     //console.log("todayIndex: ", todayIndex);
@@ -320,14 +349,16 @@ export default function TimeSlotSelector(props) {
     );
 
     props.onSingleCellSelection(cellIndex);
-    () => setsequentialTouchnum((sequentialTouchnum += 1));
+    setsequentialTouchnum(sequentialTouchnum + 1);
 
+    console.log("sequentialtouchnum: ", sequentialTouchnum);
+    //console.log("sss: ", sequentialTouchnum);
     sequentialTouchfromto.push(cellIndex);
-    if (sequentialTouchnum == 1) {
-      () => setbeforeDate(new Date(currentDate));
+    if (sequentialTouchnum == 0) {
+      setbeforeDate(new Date(currentDate));
       console.log("before: ", beforeDate.getDate());
     } else {
-      () => setafterDate(new Date(currentDate));
+      setafterDate(new Date(currentDate));
       console.log("after: ", afterDate.getDate());
       // 먼저 앞에 이른 시간을 선택하고 뒤에 나중 시간을 선택할 경우(반대의 경우는 안함)
       console.log(
@@ -339,7 +370,8 @@ export default function TimeSlotSelector(props) {
           (afterDate.getTime() - beforeDate.getTime()) / (1000 * 60 * 60 * 24)
         );
     }
-    if (sequentialTouchnum == 2) {
+    if (sequentialTouchnum == 1) {
+      console.log("hihi");
       /*start = Math.min(
         state.sequentialTouchfromto[0],
         state.sequentialTouchfromto[1]
@@ -383,7 +415,7 @@ export default function TimeSlotSelector(props) {
       goAddSchedule();
       sequentialTouchfromto.pop();
       sequentialTouchfromto.pop();
-      () => setsequentialTouchnum(0);
+      setsequentialTouchnum(0);
     }
   };
 
@@ -493,11 +525,11 @@ export default function TimeSlotSelector(props) {
 
     //console.log(calendarRelativePositionY,'offset:',state.scrollOffset)
   };
-
+  /*
   useMemo(() => {
     const panResponder = React.useRef(
       PanResponder.create({
-        onMoveShouldSetPanResponder: () => multiSelectionMode,
+        onMoveShouldSetPanResponder: multiSelectionMode,
         onPanResponderMove: (evt, gestureState) => {
           //console.log(evt.nativeEvent.locationY,gestureState.dy)
           //const { locationX, locationY } = evt.nativeEvent;
@@ -532,7 +564,7 @@ export default function TimeSlotSelector(props) {
       })
     );
   }, []);
-
+*/
   const onFirstcellLayout = ({
     nativeEvent: {
       layout: { width, height },
@@ -557,14 +589,11 @@ export default function TimeSlotSelector(props) {
       return (
         <View style={{ flex: 1 }}>
           <TouchableWithoutFeedback
-            onPress={callbacktest}
-            /*
+            //onPress={callbacktest}
+
             onPress={() => {
-              index % props.cellsPerRow
-                ? selectSingleCell(index)
-                : null;
+              index % props.cellsPerRow ? selectSingleCell(index) : null;
             }}
-            */
             onLongPress={() =>
               //console.log(index, props.days[index]) ||
               index % props.cellsPerRow ? startMultiSelection(index) : null
@@ -671,14 +700,12 @@ export default function TimeSlotSelector(props) {
         onScroll={() => {
           onScroll;
         }}
-        renderItem={() => {
-          renderCell;
-        }}
-        numColumns={cellsPerRow}
+        renderItem={renderCell}
+        numColumns={props.cellsPerRow}
         keyExtractor={(item) => item.id.toString()}
         //keyExtractor={keyExtractor}
         scrollEnabled={initialSelectedCellIndex === null}
-        //maxToRenderPerBatch={5}
+        maxToRenderPerBatch={30}
         //updateCellsBatchingPeriod={10}
         initialNumToRender={160}
         getItemLayout={(data, index) => ({

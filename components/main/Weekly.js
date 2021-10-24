@@ -7,9 +7,9 @@ import {
   Text,
   Dimensions,
 } from "react-native";
-import Test from "./api/TimeSlotSelector.js";
+import Test from "./api/FunctionalTest";
 import TestDay from "./api/TimeSlotCell.js";
-export default class Weekly extends PureComponent {
+export default class Weekly extends Component {
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   state = {
     days: [],
@@ -19,7 +19,7 @@ export default class Weekly extends PureComponent {
     //beforeDate: new Date(),
     //afterDate: new Date(),
   };
-  ShouldComponentUpdate(){
+  ShouldComponentUpdate() {
     return false;
   }
   componentWillMount() {
@@ -33,10 +33,10 @@ export default class Weekly extends PureComponent {
   }
   getDate() {
     this.setState((state) => {
-      state.currentDate.setMinutes(new Date().getMinutes())
-      return {currentDate : state.currentDate}
-  })
-  };
+      state.currentDate.setMinutes(new Date().getMinutes());
+      return { currentDate: state.currentDate };
+    });
+  }
   componentDidMount() {
     this.oneMinuteCall = setInterval(() => this.getDate(), 60000);
   }
@@ -109,7 +109,7 @@ export default class Weekly extends PureComponent {
   }
 
   render() {
-    console.log('weekly render')
+    console.log("weekly render");
     const height = Dimensions.get("window").height;
     const width = Dimensions.get("window").width;
     //console.log("size: ", height, width);
@@ -268,6 +268,7 @@ export default class Weekly extends PureComponent {
             navigation={this.props.navigation}
             days={this.state.days}
             renderCell={this.renderCell}
+            cellsPerRow={8}
             //renderCell={renderItem}
             onSingleCellSelection={this.onSingleCellSelection}
             onMultiSelectionEnd={this.onMultiSelectionEnd}

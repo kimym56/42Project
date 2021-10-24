@@ -70,12 +70,7 @@ export default class Test extends Component {
       enddateValue: this.state.endselectDate,
     });
   }
-<<<<<<< HEAD
-  
-  
-=======
 
->>>>>>> 08b8f6b3eea4c986a8050920826aac6b8496d950
   componentDidUpdate() {
     const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
       this.state;
@@ -672,11 +667,7 @@ renderCell = ({ index, item }) => {
       }
     }
   };
-  getItemLayout = (data, index) => (
-   {length: 32,
-    offset: 32 * index,
-    index,}
-  );
+  getItemLayout = (data, index) => ({ length: 32, offset: 32 * index, index });
   onCalendarLayout = ({
     nativeEvent: {
       layout: { x, y, width, height },
@@ -737,7 +728,7 @@ renderCell = ({ index, item }) => {
           numColumns={cellsPerRow}
           keyExtractor={(item) => item.id.toString()}
           //keyExtractor={keyExtractor}
-          
+
           scrollEnabled={this.state.initialSelectedCellIndex === null}
           maxToRenderPerBatch={30}
           updateCellsBatchingPeriod={50}
