@@ -43,9 +43,21 @@ export default function TimeSlotSelector(props) {
 
   const flatList = useRef(null);
 
+  /*
   useEffect(() => {
     console.log("stn", sequentialTouchnum);
   }, [sequentialTouchnum]);
+*/
+  /*
+  useEffect(() => {
+    //setstartselectDate(new Date(props.startselectValue));
+    //setendselectDate(new Date(props.endselectValue));
+    if (resetstartselectDate.current) {
+      resetstartselectDate.current = false;
+      fetch();
+    }
+  }, [startselectDate]);
+*/
 
   //const [flatList, setflatList] = useState();
   const callbacktest = useCallback(() => {
@@ -62,8 +74,18 @@ export default function TimeSlotSelector(props) {
   };
 
   const changeToTimeFormat = (startIndex, endIndex) => {
+    /*
+    setstartselectDate((state) => {
+      console.log("imhere", props.startselectValue.getDate());
+      console.log("imssss", startselectDate.getDate());
+      setstartselectDate(new Date(props.startselectValue));
+      console.log("imaftereeee", startselectDate.getDate());
+      return new Date(props.startselectValue);
+    });
+    */
     setstartselectDate(new Date(props.startselectValue));
     setendselectDate(new Date(props.endselectValue));
+
     console.log(
       "inchangetotimeformat: ",
       startselectDate.getDate(),
@@ -437,6 +459,7 @@ export default function TimeSlotSelector(props) {
       (data, index) => ({ length: 32, offset: 32 * index, index }),
       []
     );*/
+
   return (
     <View>
       <FlatList
