@@ -17,7 +17,7 @@ const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
 
 export default function TimeSlotSelector(props) {
   let [sub, setsub] = useState(0);
-  let [beforeDate, setbeforeDate] = useState(new Date());
+  const [beforeDate, setbeforeDate] = useState(new Date());
   let [afterDate, setafterDate] = useState(new Date());
   let [currentDate, setcurrentDate] = useState(
     props.currentDate ? new Date(props.currentDate) : new Date()
@@ -78,7 +78,7 @@ export default function TimeSlotSelector(props) {
     let toFirstStartIndex =
       startTimeIndex - (startTimeIndex % props.cellsPerRow); // 모두 첫번째 열 index로 변환 (0~7 => 0 and 8~15 => 8)
     let toFirstEndIndex = endTimeIndex - (endTimeIndex % props.cellsPerRow);
-    currentDate = props.currentDate ? new Date(props.currentDate) : new Date();
+    //currentDate = props.currentDate ? new Date(props.currentDate) : new Date();
     if (props.cellsPerRow == 8) {
       // Weekly
       if (sub < 0) {
@@ -115,15 +115,22 @@ export default function TimeSlotSelector(props) {
         if (toFirstEndIndex % (props.cellsPerRow * 2) != 0) {
           endselectDate.setHours(
             ((endTimeIndex % props.cellsPerRow) - 1 - todayIndex) * 24 +
-              toFirstEndIndex / (props.cellsPerRow * 2) +
+              parseInt(toFirstEndIndex / (props.cellsPerRow * 2)) +
               1
           );
         } else {
           endselectDate.setHours(
             ((endTimeIndex % props.cellsPerRow) - 1 - todayIndex) * 24 +
-              toFirstEndIndex / (props.cellsPerRow * 2)
+              parseInt(toFirstEndIndex / (props.cellsPerRow * 2))
           );
         }
+
+        console.log(
+          "sub>=0, startselectDate:",
+          startselectDate,
+          "endselectDate:",
+          endselectDate
+        );
       }
     } else {
       //Daily
@@ -240,35 +247,30 @@ export default function TimeSlotSelector(props) {
     //console.log("sss: ", sequentialTouchnum);
     sequentialTouchfromto.push(cellIndex);
     if (sequentialTouchnum == 0) {
-      beforeDate = new Date(currentDate);
-      //beforeDate = new Date(props.startselectValue);
+      setbeforeDate(new Date(currentDate));
+
       console.log("before: ", beforeDate.getDate());
     } else {
       afterDate = new Date(currentDate);
-      //afterDate = new Date(props.endselectValue);
       console.log("after: ", afterDate.getDate());
       // 먼저 앞에 이른 시간을 선택하고 뒤에 나중 시간을 선택할 경우(반대의 경우는 안함)
 
-      afterDate.setMinutes(0);
-      afterDate.setSeconds(0);
-      afterDate.setMilliseconds(0);
-      beforeDate.setMinutes(0);
-      beforeDate.setSeconds(0);
-      beforeDate.setMilliseconds(0);
+      sub =
+        afterDate.getDate() == beforeDate.getDate()
+          ? 0
+          : Math.round(
+              (afterDate.getTime() - beforeDate.getTime()) /
+                (1000 * 60 * 60 * 24)
+            );
       console.log(
         "afterDate:",
         afterDate,
+
         "beforeDate:",
         beforeDate,
         "sub: ",
-        (afterDate.getTime() - beforeDate.getTime()) / (1000 * 60 * 60 * 24),
-        "dateDiff: ",
-        dateDiff(beforeDate, afterDate)
+        sub
       );
-
-      sub =
-        (afterDate.getTime() - beforeDate.getTime()) / (1000 * 60 * 60 * 24);
-      //sub = dateDiff(beforeDate, afterDate);
     }
     if (sequentialTouchnum == 1) {
       /*start = Math.min(
@@ -281,7 +283,7 @@ export default function TimeSlotSelector(props) {
       );*/
       let startIndex;
       let endIndex;
-      if (sub >= 0) {
+      if (sub == 0) {
         startIndex = Math.max(
           isTimeAearlierThanTimeB(
             sequentialTouchfromto[0],
@@ -300,7 +302,11 @@ export default function TimeSlotSelector(props) {
             : sequentialTouchfromto[0],
           props.days.length - 1
         );
+      } else if (sub > 0) {
+        startIndex = sequentialTouchfromto[0];
+        endIndex = sequentialTouchfromto[1];
       } else {
+        // sub < 0
         startIndex = sequentialTouchfromto[1];
         endIndex = sequentialTouchfromto[0];
       }
@@ -453,7 +459,7 @@ export default function TimeSlotSelector(props) {
   };
 
   //console.log("selector render");
-  //currentDate = props.currentDate ? new Date(props.currentDate) : new Date();
+  currentDate = props.currentDate ? new Date(props.currentDate) : new Date();
 
   //console.log("render date:", state.currentDate.getDate());
   const { days, cellsPerRow } = props;
