@@ -25,9 +25,7 @@ export default function TimeSlotSelector(props) {
   let [startselectDate, setstartselectDate] = useState(
     new Date(props.currentDate)
   );
-  let [endselectDate, setendselectDate] = useState(
-    new Date(props.currentDate)
-  );
+  let [endselectDate, setendselectDate] = useState(new Date(props.currentDate));
   const [sequentialTouchnum, setsequentialTouchnum] = useState(0);
   const [sequentialTouchfromto, setsequentialTouchfromto] = useState([]);
   const [initialSelectedCellIndex, setinitialSelectedCellIndex] =
@@ -43,21 +41,9 @@ export default function TimeSlotSelector(props) {
 
   const flatList = useRef(null);
 
-  /*
   useEffect(() => {
     console.log("stn", sequentialTouchnum);
   }, [sequentialTouchnum]);
-*/
-  /*
-  useEffect(() => {
-    //setstartselectDate(new Date(props.startselectValue));
-    //setendselectDate(new Date(props.endselectValue));
-    if (resetstartselectDate.current) {
-      resetstartselectDate.current = false;
-      fetch();
-    }
-  }, [startselectDate]);
-*/
 
   //const [flatList, setflatList] = useState();
   const callbacktest = useCallback(() => {
@@ -74,28 +60,15 @@ export default function TimeSlotSelector(props) {
   };
 
   const changeToTimeFormat = (startIndex, endIndex) => {
-<<<<<<< HEAD
-    /*
-    setstartselectDate((state) => {
-      console.log("imhere", props.startselectValue.getDate());
-      console.log("imssss", startselectDate.getDate());
-      setstartselectDate(new Date(props.startselectValue));
-      console.log("imaftereeee", startselectDate.getDate());
-      return new Date(props.startselectValue);
-    });
-    */
-    setstartselectDate(new Date(props.startselectValue));
-    setendselectDate(new Date(props.endselectValue));
-
-=======
     startselectDate = new Date(props.startselectValue);
     endselectDate = new Date(props.endselectValue);
->>>>>>> cb89acb25883c320aa483487859312ef5c3bc7f1
     console.log(
       "inchangetotimeformat: ",
       startselectDate.getDate(),
       endselectDate.getDate(),
-      "propsValue:",props.startselectValue,props.endselectValue
+      "propsValue:",
+      props.startselectValue,
+      props.endselectValue
     );
     const todayIndex = startselectDate.getDay();
     //console.log("todayIndex: ", todayIndex);
@@ -105,7 +78,7 @@ export default function TimeSlotSelector(props) {
     let toFirstStartIndex =
       startTimeIndex - (startTimeIndex % props.cellsPerRow); // 모두 첫번째 열 index로 변환 (0~7 => 0 and 8~15 => 8)
     let toFirstEndIndex = endTimeIndex - (endTimeIndex % props.cellsPerRow);
-
+    currentDate = props.currentDate ? new Date(props.currentDate) : new Date();
     if (props.cellsPerRow == 8) {
       // Weekly
       if (sub < 0) {
@@ -268,20 +241,34 @@ export default function TimeSlotSelector(props) {
     sequentialTouchfromto.push(cellIndex);
     if (sequentialTouchnum == 0) {
       beforeDate = new Date(currentDate);
+      //beforeDate = new Date(props.startselectValue);
       console.log("before: ", beforeDate.getDate());
     } else {
-      afterDate = new Date(currentDate)
+      afterDate = new Date(currentDate);
+      //afterDate = new Date(props.endselectValue);
       console.log("after: ", afterDate.getDate());
       // 먼저 앞에 이른 시간을 선택하고 뒤에 나중 시간을 선택할 경우(반대의 경우는 안함)
+
+      afterDate.setMinutes(0);
+      afterDate.setSeconds(0);
+      afterDate.setMilliseconds(0);
+      beforeDate.setMinutes(0);
+      beforeDate.setSeconds(0);
+      beforeDate.setMilliseconds(0);
       console.log(
-        "afterDate:",afterDate,"beforeDate:",beforeDate,
+        "afterDate:",
+        afterDate,
+        "beforeDate:",
+        beforeDate,
         "sub: ",
-        (afterDate.getTime() - beforeDate.getTime()) / (1000 * 60 * 60 * 24)
+        (afterDate.getTime() - beforeDate.getTime()) / (1000 * 60 * 60 * 24),
+        "dateDiff: ",
+        dateDiff(beforeDate, afterDate)
       );
-      
+
       sub =
-      parseInt((afterDate.getTime() - beforeDate.getTime()) /
-      (1000 * 60 * 60 * 24));
+        (afterDate.getTime() - beforeDate.getTime()) / (1000 * 60 * 60 * 24);
+      //sub = dateDiff(beforeDate, afterDate);
     }
     if (sequentialTouchnum == 1) {
       /*start = Math.min(
@@ -330,6 +317,26 @@ export default function TimeSlotSelector(props) {
       setsequentialTouchnum(0);
     }
   };
+  const dateDiff = (_date1, _date2) => {
+    var diffDate_1 = new Date(_date1);
+    var diffDate_2 = new Date(_date2);
+
+    diffDate_1 = new Date(
+      diffDate_1.getFullYear(),
+      diffDate_1.getMonth(),
+      diffDate_1.getDate()
+    );
+    diffDate_2 = new Date(
+      diffDate_2.getFullYear(),
+      diffDate_2.getMonth(),
+      diffDate_2.getDate()
+    );
+    console.log("imhere", "1: ", diffDate_1, "@@@2: ", diffDate_2);
+    var diff = diffDate_2.getTime() - diffDate_1.getTime();
+    diff = Math.ceil(diff / (1000 * 3600 * 24));
+
+    return diff;
+  };
 
   const isTimeAearlierThanTimeB = (aTime, bTime) => {
     if (aTime % props.cellsPerRow < bTime % props.cellsPerRow) {
@@ -350,11 +357,11 @@ export default function TimeSlotSelector(props) {
     },
   }) => {
     width = (Dimensions.get("window").width - width) / 7;
-    
-      setcellLayout({
-        height,
-        width,
-      });
+
+    setcellLayout({
+      height,
+      width,
+    });
   };
 
   const isCellSelected = (index) =>
@@ -373,7 +380,6 @@ export default function TimeSlotSelector(props) {
             onPress={() => {
               index % props.cellsPerRow ? selectSingleCell(index) : null;
             }}
-            
             delayLongPress={LONG_PRESS_TIMEOUT}
             onLayout={index === 0 ? onFirstcellLayout : () => {}}
           >
@@ -431,11 +437,10 @@ export default function TimeSlotSelector(props) {
       layout: { x, y, width, height },
     },
   }) => {
-    
-      setcalendarLayout({
-        height,
-        width,
-      });
+    setcalendarLayout({
+      height,
+      width,
+    });
   };
 
   const onScroll = (event) => {
@@ -448,9 +453,8 @@ export default function TimeSlotSelector(props) {
   };
 
   //console.log("selector render");
-  currentDate = 
-      props.currentDate ? new Date(props.currentDate) : new Date()
-    
+  //currentDate = props.currentDate ? new Date(props.currentDate) : new Date();
+
   //console.log("render date:", state.currentDate.getDate());
   const { days, cellsPerRow } = props;
   const renderedCells = days;
@@ -462,7 +466,6 @@ export default function TimeSlotSelector(props) {
       (data, index) => ({ length: 32, offset: 32 * index, index }),
       []
     );*/
-
   return (
     <View>
       <FlatList
