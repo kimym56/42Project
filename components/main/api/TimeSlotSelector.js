@@ -71,8 +71,12 @@ export default class Test extends Component {
     });
   }
   componentDidUpdate() {
-    const { shouldScrollUp, shouldScrollDown, scrollOffset, maxScrollOffset } =
-      this.state;
+    const {
+      shouldScrollUp,
+      shouldScrollDown,
+      scrollOffset,
+      maxScrollOffset,
+    } = this.state;
 
     if (shouldScrollUp) {
       this.flatList.scrollToOffset({
@@ -353,7 +357,7 @@ export default class Test extends Component {
       );*/
       let startIndex;
       let endIndex;
-      if (this.state.sub >= 0) {
+      if (this.state.sub == 0) {
         startIndex = Math.max(
           this.isTimeAearlierThanTimeB(
             this.state.sequentialTouchfromto[0],
@@ -372,7 +376,10 @@ export default class Test extends Component {
             : this.state.sequentialTouchfromto[0],
           this.props.days.length - 1
         );
-      } else {
+      } else if (this.state.sub > 0) {
+        startIndex = this.state.sequentialTouchfromto[0];
+        endIndex = this.state.sequentialTouchfromto[1];
+      } else { // this.state.sub < 0
         startIndex = this.state.sequentialTouchfromto[1];
         endIndex = this.state.sequentialTouchfromto[0];
       }
