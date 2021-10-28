@@ -41,7 +41,11 @@ export default class Calendar extends Component {
         renderScene={this.renderScene}
         renderLazyPlaceholder={this._renderLazyPlaceholder}
         onIndexChange={this._handleIndexChange}
+<<<<<<< HEAD
         initialLayout={{ width: Dimensions.get("window").width }}
+=======
+        //initialLayout={{ width: Dimensions.get("window").width }}
+>>>>>>> ff7d39d7c4a91831af4819c6da007973b867d003
       />
     );
   }

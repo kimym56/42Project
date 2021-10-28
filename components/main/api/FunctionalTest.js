@@ -28,9 +28,8 @@ export default function TimeSlotSelector(props) {
   let [endselectDate, setendselectDate] = useState(new Date(props.currentDate));
   const [sequentialTouchnum, setsequentialTouchnum] = useState(0);
   const [sequentialTouchfromto, setsequentialTouchfromto] = useState([]);
-  const [initialSelectedCellIndex, setinitialSelectedCellIndex] = useState(
-    null
-  );
+  const [initialSelectedCellIndex, setinitialSelectedCellIndex] =
+    useState(null);
   const [currentSelection, setcurrentSelection] = useState([]);
   const [cellLayout, setcellLayout] = useState({ height: 0, width: 0 });
   const [calendarLayout, setcalendarLayout] = useState({
@@ -47,17 +46,6 @@ export default function TimeSlotSelector(props) {
     console.log("stn", sequentialTouchnum);
   }, [sequentialTouchnum]);
 */
-  /*
-  useEffect(() => {
-    //setstartselectDate(new Date(props.startselectValue));
-    //setendselectDate(new Date(props.endselectValue));
-    if (resetstartselectDate.current) {
-      resetstartselectDate.current = false;
-      fetch();
-    }
-  }, [startselectDate]);
-*/
-
   //const [flatList, setflatList] = useState();
   const callbacktest = useCallback(() => {
     //index % props.cellsPerRow ? selectSingleCell(index) : null;
@@ -91,7 +79,7 @@ export default function TimeSlotSelector(props) {
     let toFirstStartIndex =
       startTimeIndex - (startTimeIndex % props.cellsPerRow); // 모두 첫번째 열 index로 변환 (0~7 => 0 and 8~15 => 8)
     let toFirstEndIndex = endTimeIndex - (endTimeIndex % props.cellsPerRow);
-
+    //currentDate = props.currentDate ? new Date(props.currentDate) : new Date();
     if (props.cellsPerRow == 8) {
       // Weekly
       if (sub < 0) {
@@ -260,8 +248,8 @@ export default function TimeSlotSelector(props) {
     //console.log("sss: ", sequentialTouchnum);
     sequentialTouchfromto.push(cellIndex);
     if (sequentialTouchnum == 0) {
-      setbeforeDate(new Date(currentDate))
-      a = beforeDate
+      setbeforeDate(new Date(currentDate));
+
       console.log("before: ", beforeDate.getDate());
     } else {
       afterDate = new Date(currentDate);
@@ -278,6 +266,10 @@ export default function TimeSlotSelector(props) {
       console.log(
         "afterDate:",
         afterDate,
+<<<<<<< HEAD
+=======
+
+>>>>>>> ff7d39d7c4a91831af4819c6da007973b867d003
         "beforeDate:",
         beforeDate,
         "sub: ",
@@ -334,6 +326,26 @@ export default function TimeSlotSelector(props) {
       sequentialTouchfromto.pop();
       setsequentialTouchnum(0);
     }
+  };
+  const dateDiff = (_date1, _date2) => {
+    var diffDate_1 = new Date(_date1);
+    var diffDate_2 = new Date(_date2);
+
+    diffDate_1 = new Date(
+      diffDate_1.getFullYear(),
+      diffDate_1.getMonth(),
+      diffDate_1.getDate()
+    );
+    diffDate_2 = new Date(
+      diffDate_2.getFullYear(),
+      diffDate_2.getMonth(),
+      diffDate_2.getDate()
+    );
+    console.log("imhere", "1: ", diffDate_1, "@@@2: ", diffDate_2);
+    var diff = diffDate_2.getTime() - diffDate_1.getTime();
+    diff = Math.ceil(diff / (1000 * 3600 * 24));
+
+    return diff;
   };
 
   const isTimeAearlierThanTimeB = (aTime, bTime) => {
@@ -464,8 +476,12 @@ export default function TimeSlotSelector(props) {
       (data, index) => ({ length: 32, offset: 32 * index, index }),
       []
     );*/
+<<<<<<< HEAD
 
     console.log("functional render");
+=======
+  console.log("functional render");
+>>>>>>> ff7d39d7c4a91831af4819c6da007973b867d003
   return (
     <View>
       <FlatList

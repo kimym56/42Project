@@ -92,7 +92,7 @@ export class Monthly extends Component {
   };
 
   render() {
-    console.log('monthly render')
+    console.log("monthly render");
     var matrix = this.generateMatrix();
 
     var rows = [];

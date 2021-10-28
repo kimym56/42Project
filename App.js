@@ -34,7 +34,6 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 export class App extends PureComponent {
-  
   state = {
     isLoading: true,
     loggedIn: false,
