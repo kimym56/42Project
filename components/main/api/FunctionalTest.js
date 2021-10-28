@@ -278,8 +278,6 @@ export default function TimeSlotSelector(props) {
       console.log(
         "afterDate:",
         afterDate,
-        "a:",
-        a,
         "beforeDate:",
         beforeDate,
         "sub: ",
@@ -467,6 +465,7 @@ export default function TimeSlotSelector(props) {
       []
     );*/
 
+    console.log("functional render");
   return (
     <View>
       <FlatList
