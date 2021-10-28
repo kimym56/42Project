@@ -41,10 +41,11 @@ export default function TimeSlotSelector(props) {
 
   const flatList = useRef(null);
 
+  /*
   useEffect(() => {
     console.log("stn", sequentialTouchnum);
   }, [sequentialTouchnum]);
-
+*/
   //const [flatList, setflatList] = useState();
   const callbacktest = useCallback(() => {
     //index % props.cellsPerRow ? selectSingleCell(index) : null;
@@ -472,6 +473,7 @@ export default function TimeSlotSelector(props) {
       (data, index) => ({ length: 32, offset: 32 * index, index }),
       []
     );*/
+  console.log("functional render");
   return (
     <View>
       <FlatList
