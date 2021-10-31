@@ -472,7 +472,6 @@ export default function TimeSlotSelector(props) {
       (data, index) => ({ length: 32, offset: 32 * index, index }),
       []
     );*/
-
   console.log("functional render");
   return (
     <View>
