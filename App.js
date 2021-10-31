@@ -12,7 +12,7 @@ import Landing from "./components/auth/Landing";
 import Login from "./components/auth/Login";
 
 import home from "./components/main/home";
-import Catch from "./components/main/Catch";
+
 import AddEvent from "./components/main/AddEvent";
 
 import Calendar from "./components/main/Calendar";
@@ -62,7 +62,7 @@ export class App extends PureComponent {
             <Tab.Screen name="Catch" component={Catch} />
           </Tab.Navigator>
         </NavigationContainer>
-        */
+*/
 
         <NavigationContainer>
           <Stack.Navigator initialRouteName="home">
