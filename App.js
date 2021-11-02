@@ -12,11 +12,12 @@ import Landing from "./components/auth/Landing";
 import Login from "./components/auth/Login";
 
 import home from "./components/main/home";
-import Catch from "./components/main/Catch";
+
 import AddEvent from "./components/main/AddEvent";
 
 import Calendar from "./components/main/Calendar";
 import test from "./components/main/test";
+import TotalList from "./components/main/TotalList";
 
 const CalendarStack = createStackNavigator();
 
@@ -62,7 +63,7 @@ export class App extends PureComponent {
             <Tab.Screen name="Catch" component={Catch} />
           </Tab.Navigator>
         </NavigationContainer>
-        */
+*/
 
         <NavigationContainer>
           <Stack.Navigator initialRouteName="home">
@@ -83,6 +84,11 @@ export class App extends PureComponent {
               name="AddEvent2"
               component={AddEvent}
               options={{ title: "AddEvent" }}
+            />
+            <Stack.Screen
+              name="TotalList"
+              component={TotalList}
+              options={{ headerShown: true }}
             />
 
             <Stack.Screen name="test" component={test} />

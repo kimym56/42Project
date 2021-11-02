@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import { View, Image, Dimensions } from "react-native";
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 export default function Total() {
+=======
+import { NavigationContainer } from "@react-navigation/native";
+import React, { useState } from "react";
+import { View, Image, Dimensions } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+export default function Total(props) {
+>>>>>>> e63e6dcbadf0d42de99bad5ebf3203bb3ff62420
   const [data, setData] = useState([
     {
       name: "banana",
@@ -34,6 +42,7 @@ export default function Total() {
   return (
     <FlatList
       data={data}
+<<<<<<< HEAD
       renderItem={({ item }) => (
         <TouchableOpacity>
           <Image
@@ -42,6 +51,27 @@ export default function Total() {
           />
         </TouchableOpacity>
       )}
+=======
+      renderItem={({ item }) => {
+        return (
+          <TouchableOpacity
+            onPress={() => {
+              //alert(item.name);
+              props.navigation.navigate("TotalList", {
+                item: data,
+                startIndex: item.id,
+                endIndex: Object.keys(data).length,
+              });
+            }}
+          >
+            <Image
+              style={{ width: Dimensions.get("window").width / 3 }}
+              source={item.source}
+            />
+          </TouchableOpacity>
+        );
+      }}
+>>>>>>> e63e6dcbadf0d42de99bad5ebf3203bb3ff62420
       keyExtractor={(item) => String(item.id)}
       numColumns={3}
     />

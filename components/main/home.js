@@ -1,13 +1,12 @@
 import React from "react";
 
-import Calendar from "./Calendar";
-
-import Landing from "../auth/Landing";
-import Feed from "./Feed"
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import Calendar from "./Calendar";
 import AddEvent from "./AddEvent";
+import MyPage from "./MyPage";
+import Feed from "./Feed";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,9 +20,9 @@ export default function home() {
       }}
     >
       <Tab.Screen name="Calendar" component={Calendar} />
-      <Tab.Screen name="Feed" component={Feed} />
       <Tab.Screen name="AddEvent" component={AddEvent} />
-      <Tab.Screen name="MyPage" component={Landing} />
+      <Tab.Screen name="Feed" component={Feed} />
+      <Tab.Screen name="MyPage" component={MyPage} />
     </Tab.Navigator>
   );
 }
