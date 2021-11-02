@@ -17,6 +17,7 @@ import AddEvent from "./components/main/AddEvent";
 
 import Calendar from "./components/main/Calendar";
 import test from "./components/main/test";
+import TotalList from "./components/main/TotalList";
 
 const CalendarStack = createStackNavigator();
 
@@ -83,6 +84,11 @@ export class App extends PureComponent {
               name="AddEvent2"
               component={AddEvent}
               options={{ title: "AddEvent" }}
+            />
+            <Stack.Screen
+              name="TotalList"
+              component={TotalList}
+              options={{ headerShown: true }}
             />
 
             <Stack.Screen name="test" component={test} />
