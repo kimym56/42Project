@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { StyleSheet, View, Button, TextInput } from "react-native";
 
-export class Login extends Component {
+export class Login extends PureComponent {
   constructor(props) {
     super(props);
 

@@ -396,7 +396,7 @@ export default function TimeSlotSelector(props) {
                   currentDate.getFullYear() == new Date().getFullYear() &&
                   currentDate.getMonth() == new Date().getMonth() &&
                   currentDate.getDate() == new Date().getDate() &&
-                  index % props.cellsPerRow == new Date().getDay() + 1
+                  (props.cellsPerRow==8 ? index % props.cellsPerRow == new Date().getDay() + 1 : true)
                     ? "silver"
                     : "skyblue",
               }}
@@ -408,7 +408,7 @@ export default function TimeSlotSelector(props) {
         </View>
       );
     else {
-      if (props.cellsPerRow == 8) {
+      if (props.cellsPerRow == 8) { //weekly time format
         return (
           <TouchableWithoutFeedback
             onLayout={index === 0 ? onFirstcellLayout : () => {}}
@@ -422,7 +422,7 @@ export default function TimeSlotSelector(props) {
           </TouchableWithoutFeedback>
         );
       } else {
-        return (
+        return (  //daily time format
           <TouchableWithoutFeedback
             onLayout={index === 0 ? onFirstcellLayout : () => {}}
           >

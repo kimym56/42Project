@@ -51,7 +51,7 @@ export default class Daily extends Component {
     this.setState({ days });
   };
 
-  renderCell = (day) => <TestDay {...day} />;
+  renderCell = (day,cday) => <TestDay cellsPerRow={2} currentDate={cday} {...day} />;
   changeDate = (n) => {
     this.setState(() => {
       this.state.currentDate.setDate(this.state.currentDate.getDate() + n);

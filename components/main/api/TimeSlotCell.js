@@ -11,6 +11,7 @@ export default class CalendarDay extends PureComponent {
   };
   
   render() {
+    //console.log('number:',this.props.number)
     //console.log('cell render',this.state.currentDate)
     this.state.currentDate = this.props.currentDate
       ? new Date(this.props.currentDate)
@@ -61,7 +62,7 @@ export default class CalendarDay extends PureComponent {
         this.state.currentDate.getFullYear() == new Date().getFullYear() &&
         this.state.currentDate.getMonth() == new Date().getMonth() &&
         this.state.currentDate.getDate() == new Date().getDate() &&
-        this.state.currentDate.getDay() + 1 == Math.floor(number / 48) &&
+        (this.props.cellsPerRow==8?this.state.currentDate.getDay() + 1 == Math.floor(number / 48) :true)&&
         this.state.currentDate.getHours() ==
           Math.floor((number % 48) / 2 - 0.5) &&
         Math.floor(this.state.currentDate.getMinutes() / 30) ==
