@@ -2,8 +2,8 @@
 
 import React, { Component } from "react";
 import { View, StyleSheet, Button, TouchableOpacity, Text } from "react-native";
-import Test from "./api/FunctionalTest.js";
-import TestDay from "./api/TimeSlotCell.js";
+import Test from "../../../components/TimeSlot/TimeSlotSelector.js";
+import TestDay from "../../../components/TimeSlot/TimeSlotCell.js";
 export default class Daily extends Component {
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   state = {

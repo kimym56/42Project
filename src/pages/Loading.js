@@ -6,7 +6,7 @@ export default class Loading extends PureComponent {
   render() {
     return (
       <ImageBackground
-        source={require("../../logo.jpg")}
+        source={require("../assets/images/logo.jpg")}
         style={{ width: "100%", height: "100%" }}
       />
     );

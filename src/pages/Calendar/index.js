@@ -1,10 +1,10 @@
 import React, { Component, PureComponent, useState } from "react";
 import { View, StyleSheet, Dimensions, Text } from "react-native";
-import Monthly from "./Monthly";
-import Weekly from "./Weekly";
-import Daily from "./Daily.js";
+import Monthly from "./Monthly/Monthly";
+import Weekly from "./Weekly/Weekly";
+import Daily from "./Daily/Daily.js";
 import { TabView, SceneMap } from "react-native-tab-view";
-import AddEvent from "./AddEvent";
+import AddEvent from "../AddEvent";
 
 const LazyPlaceholder = ({ route }) => (
   <View>

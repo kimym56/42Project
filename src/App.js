@@ -6,18 +6,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Loading from "./components/auth/Loading";
-import Register from "./components/auth/Register";
-import Landing from "./components/auth/Landing";
-import Login from "./components/auth/Login";
+import Loading from "./pages/Loading";
+import Register from "./pages/MyPage/Register";
+import Login from "./pages/MyPage/Login";
 
-import home from "./components/main/home";
+import Home from "./pages/Home";
 
-import AddEvent from "./components/main/AddEvent";
+import AddEvent from "./pages/AddEvent";
 
-import Calendar from "./components/main/Calendar";
-import test from "./components/main/test";
-import TotalList from "./components/main/TotalList";
+import Calendar from "./pages/Calendar";
+import TotalList from "./pages/Feed/Total/TotalList";
 
 const CalendarStack = createStackNavigator();
 
@@ -66,18 +64,14 @@ export class App extends PureComponent {
 */
 
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="home">
-            <Stack.Screen
-              name="Landing"
-              component={Landing}
-              options={{ headerShown: false }}
-            />
+          <Stack.Navigator initialRouteName="Home">
+            
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
 
             <Stack.Screen
-              name="home"
-              component={home}
+              name="Home"
+              component={Home}
               options={{ headerShown: false }}
             />
             <Stack.Screen
@@ -91,7 +85,6 @@ export class App extends PureComponent {
               options={{ headerShown: true }}
             />
 
-            <Stack.Screen name="test" component={test} />
           </Stack.Navigator>
         </NavigationContainer>
       );

@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, FlatList, Image, Dimensions, Text, Button } from "react-native";
+import {
+  View,
+  FlatList,
+  Image,
+  Dimensions,
+  Text,
+  Button,
+  ScrollView,
+} from "react-native";
 export default function TotalList(props) {
   const [startIndex, setstartIndex] = useState(props.route.params.startIndex);
   const [endIndex, setendIndex] = useState(props.route.params.endIndex);
@@ -22,6 +30,7 @@ export default function TotalList(props) {
             borderWidth: 5,
             borderColor: "skyblue",
             marginBottom: 10,
+            justifyContent: "center",
           }}
         >
           <Text>이름</Text>
@@ -37,6 +46,12 @@ export default function TotalList(props) {
             }}
             source={item.source}
             resizeMode="contain"
+            /*
+           style={{flex:1}}
+              width= "100%"         
+            source={item.source}
+            resizeMode="cover"
+            */
           />
           <Text>{(item.name, item.id)}</Text>
           <Button title="신고하기"></Button>
