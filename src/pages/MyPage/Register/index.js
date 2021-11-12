@@ -11,7 +11,7 @@ export default class Register extends Component {
   render() {
     return (
       <View style={style.container}>
-        <Image source={require("../../logo.jpg")} style={style.logo} />
+        <Image source={require("../../../assets/images/logo.jpg")} style={style.logo} />
         <TextInput
           style={style.input}
           placeholder="이메일 주소"

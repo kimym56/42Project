@@ -5,8 +5,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Calendar from "./Calendar";
 import AddEvent from "./AddEvent";
-import MyPage from "./MyPage";
-import Feed from "./Feed";
+import MyPage from "./MyPage/MyPage";
+import Feed from "./Feed/Feed";
 
 const Tab = createBottomTabNavigator();
 

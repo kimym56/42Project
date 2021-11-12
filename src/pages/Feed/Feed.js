@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 
-import Total from "./Total.js";
-import Interest from "./Interest.js";
+import Total from "./Total/Total.js";
+import Interest from "./Interest/Interest.js";
 
 import { TabView, SceneMap } from "react-native-tab-view";
 const LazyPlaceholder = ({ route }) => (
