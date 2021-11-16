@@ -36,7 +36,7 @@ export default function Total(props) {
     },
     // and so on...
   ]);
-  console.log(data[1])
+  console.log(data[1]);
   return (
     <FlatList
       data={data}
@@ -53,7 +53,10 @@ export default function Total(props) {
             }}
           >
             <Image
-              style={{ width: Dimensions.get("window").width / 3, height: Dimensions.get("window").width / 3 }}
+              style={{
+                width: Dimensions.get("window").width / 3,
+                height: Dimensions.get("window").width / 3,
+              }}
               source={item.source}
             />
           </TouchableOpacity>
