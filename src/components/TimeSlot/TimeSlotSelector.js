@@ -1,19 +1,12 @@
-import React, { useCallback, useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   FlatList,
   TouchableWithoutFeedback,
-  Vibration,
-  ScrollView,
   Dimensions,
-  Button,
-  Platform,
 } from "react-native";
 
 const LONG_PRESS_TIMEOUT = 200;
-const VIBRATION_DURATION = 300;
-const SCROLL_INCREMENTATION = 15;
-const DISTANCE_BEFORE_MANUAL_SCROLL = 50;
 
 export default function TimeSlotSelector(props) {
   let [sub, setsub] = useState(0);
@@ -36,21 +29,7 @@ export default function TimeSlotSelector(props) {
     height: 0,
     width: 0,
   });
-  const [scrollOffset, setscrollOffset] = useState(0);
-  const [maxScrollOffset, setmaxScrollOffset] = useState(1000);
-
   const flatList = useRef(null);
-
-  /*
-  useEffect(() => {
-    console.log("stn", sequentialTouchnum);
-  }, [sequentialTouchnum]);
-*/
-  //const [flatList, setflatList] = useState();
-  const callbacktest = useCallback(() => {
-    //index % props.cellsPerRow ? selectSingleCell(index) : null;
-    selectSingleCell(4);
-  }, []);
 
   const goAddSchedule = () => {
     console.log("goAdd called");
@@ -72,18 +51,14 @@ export default function TimeSlotSelector(props) {
       props.endselectValue
     );
     const todayIndex = startselectDate.getDay();
-    //console.log("todayIndex: ", todayIndex);
-
     let startTimeIndex = startIndex;
     let endTimeIndex = endIndex;
     let toFirstStartIndex =
       startTimeIndex - (startTimeIndex % props.cellsPerRow); // 모두 첫번째 열 index로 변환 (0~7 => 0 and 8~15 => 8)
     let toFirstEndIndex = endTimeIndex - (endTimeIndex % props.cellsPerRow);
-    //currentDate = props.currentDate ? new Date(props.currentDate) : new Date();
-    if (props.cellsPerRow == 8) {
-      // Weekly
-      if (sub < 0) {
-        // 역선택
+
+    if (props.cellsPerRow == 8) { // Weekly
+      if (sub < 0) { // 역선택
         startselectDate.setHours(
           ((startTimeIndex % props.cellsPerRow) - 1 - todayIndex) * 24 +
             parseInt(toFirstStartIndex / (props.cellsPerRow * 2))
@@ -92,15 +67,13 @@ export default function TimeSlotSelector(props) {
         // -todayIndex : 선택 날짜 보정
         // parseInt(toFirstStartIndex / (props.cellsPerRow * 2)) : 0,0.5,1,1.5 ... => 0,0,1,1 ...
         // parseInt를 붙이는 조건 : () * 24가 0보다 작을 때
-        if (toFirstEndIndex % (props.cellsPerRow * 2) != 0) {
-          //0:30, 1:30, 2:30 ...
+        if (toFirstEndIndex % (props.cellsPerRow * 2) != 0) { //0:30, 1:30, 2:30 ...
           endselectDate.setHours(
             ((endTimeIndex % props.cellsPerRow) - 1 - todayIndex - sub) * 24 +
               toFirstEndIndex / (props.cellsPerRow * 2) +
               1
           );
-        } else {
-          //0:00, 1:00, 2:00 ...
+        } else { //0:00, 1:00, 2:00 ...
           endselectDate.setHours(
             ((endTimeIndex % props.cellsPerRow) - 1 - todayIndex - sub) * 24 +
               toFirstEndIndex / (props.cellsPerRow * 2)
@@ -161,8 +134,6 @@ export default function TimeSlotSelector(props) {
           ((startTimeIndex % props.cellsPerRow) - 1 - sub) * 24 +
             parseInt(toFirstStartIndex / (props.cellsPerRow * 2))
         );
-
-        //console.log(state.startselectDate);
         if (toFirstEndIndex % (props.cellsPerRow * 2) != 0) {
           endselectDate.setHours(
             ((endTimeIndex % props.cellsPerRow) - 1) * 24 +
@@ -177,8 +148,6 @@ export default function TimeSlotSelector(props) {
         }
       }
     }
-    //console.log(startIndex, endIndex);
-
     if (toFirstStartIndex % (props.cellsPerRow * 2) != 0) {
       startselectDate.setMinutes(30);
     } else {
@@ -232,9 +201,6 @@ export default function TimeSlotSelector(props) {
     }
   };
   const selectSingleCell = (cellIndex) => {
-    /*if (cellIndex % props.cellsPerRow == 0) {
-      return;
-    }*/
     console.log(
       "props##:",
       props.startselectValue.getDate(),
@@ -245,7 +211,6 @@ export default function TimeSlotSelector(props) {
     setsequentialTouchnum(sequentialTouchnum + 1);
 
     console.log("sequentialtouchnum: ", sequentialTouchnum);
-    //console.log("sss: ", sequentialTouchnum);
     sequentialTouchfromto.push(cellIndex);
     if (sequentialTouchnum == 0) {
       setbeforeDate(new Date(currentDate));
@@ -273,14 +238,6 @@ export default function TimeSlotSelector(props) {
       );
     }
     if (sequentialTouchnum == 1) {
-      /*start = Math.min(
-        state.sequentialTouchfromto[0],
-        state.sequentialTouchfromto[1]
-      );
-      end = Math.max(
-        state.sequentialTouchfromto[0],
-        state.sequentialTouchfromto[1]
-      );*/
       let startIndex;
       let endIndex;
       if (sub == 0) {
@@ -313,35 +270,12 @@ export default function TimeSlotSelector(props) {
       console.log("sti:", startIndex, "ei:", endIndex, "sub:", sub);
 
       changeToTimeFormat(startIndex, endIndex);
-      /*for (let i = start + 1; i <= end - 1; i++) {
-        props.onSingleCellSelection(i);
-      }*/
       fillSpaceBtwStartAndEnd(false, startIndex, endIndex);
       goAddSchedule();
       sequentialTouchfromto.pop();
       sequentialTouchfromto.pop();
       setsequentialTouchnum(0);
     }
-  };
-  const dateDiff = (_date1, _date2) => {
-    var diffDate_1 = new Date(_date1);
-    var diffDate_2 = new Date(_date2);
-
-    diffDate_1 = new Date(
-      diffDate_1.getFullYear(),
-      diffDate_1.getMonth(),
-      diffDate_1.getDate()
-    );
-    diffDate_2 = new Date(
-      diffDate_2.getFullYear(),
-      diffDate_2.getMonth(),
-      diffDate_2.getDate()
-    );
-    console.log("imhere", "1: ", diffDate_1, "@@@2: ", diffDate_2);
-    var diff = diffDate_2.getTime() - diffDate_1.getTime();
-    diff = Math.ceil(diff / (1000 * 3600 * 24));
-
-    return diff;
   };
 
   const isTimeAearlierThanTimeB = (aTime, bTime) => {
@@ -375,14 +309,10 @@ export default function TimeSlotSelector(props) {
 
   const renderCell = ({ index, item }) => {
     item.selected = isCellSelected(index);
-    //item.deselected = isCellDeselected(index);
-
     if (index % props.cellsPerRow)
       return (
         <View style={{ flex: 1 }}>
           <TouchableWithoutFeedback
-            //onPress={callbacktest}
-
             onPress={() => {
               index % props.cellsPerRow ? selectSingleCell(index) : null;
             }}
@@ -449,29 +379,9 @@ export default function TimeSlotSelector(props) {
     });
   };
 
-  const onScroll = (event) => {
-    const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
-    const maxScrollOffset = contentSize.height - layoutMeasurement.height;
-    //console.log('conoff:',contentOffset.y,'max:',maxScrollOffset,'cs:',contentSize,'lm:',layoutMeasurement)
-    //setState({ maxScrollOffset, scrollOffset: contentOffset.y });
-    setmaxScrollOffset(maxScrollOffset);
-    setscrollOffset(contentOffset.y);
-  };
-
-  //console.log("selector render");
   currentDate = props.currentDate ? new Date(props.currentDate) : new Date();
-
-  //console.log("render date:", state.currentDate.getDate());
   const { days, cellsPerRow } = props;
   const renderedCells = days;
-
-  //Flatlist optimization
-  /*
-    const keyExtractor = useCallback((item) => item.id.toString(), []);
-    const getItemLayout = useCallback(
-      (data, index) => ({ length: 32, offset: 32 * index, index }),
-      []
-    );*/
   console.log("functional render");
   return (
     <View>
@@ -481,16 +391,11 @@ export default function TimeSlotSelector(props) {
           onCalendarLayout;
         }}
         data={renderedCells}
-        onScroll={() => {
-          onScroll;
-        }}
         renderItem={renderCell}
         numColumns={cellsPerRow}
         keyExtractor={(item) => item.id.toString()}
-        //keyExtractor={keyExtractor}
         scrollEnabled={initialSelectedCellIndex === null}
         maxToRenderPerBatch={30}
-        //updateCellsBatchingPeriod={10}
         initialNumToRender={160}
         getItemLayout={(data, index) => ({
           length: 32,
@@ -500,7 +405,6 @@ export default function TimeSlotSelector(props) {
         initialScrollIndex={new Date().getHours() * 2}
         lagacyImplementation={true}
         refreshing={true}
-        //contentContainerStyle={{ paddingBottom: 180 }}
       />
     </View>
   );

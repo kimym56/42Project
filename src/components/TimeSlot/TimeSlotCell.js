@@ -11,8 +11,6 @@ export default class CalendarDay extends PureComponent {
   };
   
   render() {
-    //console.log('number:',this.props.number)
-    //console.log('cell render',this.state.currentDate)
     this.state.currentDate = this.props.currentDate
       ? new Date(this.props.currentDate)
       : new Date();
@@ -48,13 +46,6 @@ export default class CalendarDay extends PureComponent {
           { backgroundColor: "blue" },
         ];
       }
-      /*
-      if (first) {
-        dayContainerStyle.push(styles.firstActiveDayContainer);
-      }
-      if (last) {
-        dayContainerStyle.push(styles.lastActiveDayContainer);
-      }*/
     }
 
     if (number > 48) {
