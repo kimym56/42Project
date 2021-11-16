@@ -7,32 +7,32 @@ export default function Total(props) {
     {
       name: "banana",
       id: "1",
-      source: require("../../../assets/images/1.png"),
+      source: require("assets/images/7.jpeg"),
     },
     {
       name: "china",
       id: "2",
-      source: require("../../../assets/images/2.png"),
+      source: require("assets/images/1.png"),
     },
     {
       name: "halloween",
       id: "3",
-      source: require("../../../assets/images/3.png"),
+      source: require("assets/images/4.png"),
     },
     {
       name: "mawin",
       id: "4",
-      source: require("../../../assets/images/4.png"),
+      source: require("assets/images/2.png"),
     },
     {
       name: "sunglasses",
       id: "5",
-      source: require("../../../assets/images/5.png"),
+      source: require("assets/images/5.png"),
     },
     {
       name: "Paris",
       id: "6",
-      source: require("../../../assets/images/6.png"),
+      source: require("assets/images/6.png"),
     },
     // and so on...
   ]);

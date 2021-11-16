@@ -9,11 +9,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Loading from "./pages/Loading";
 import Register from "./pages/MyPage/Register";
 import Login from "./pages/MyPage/Login";
-
 import Home from "./pages/Home";
-
 import AddEvent from "./pages/AddEvent";
-
 import Calendar from "./pages/Calendar";
 import TotalList from "./pages/Feed/Total/TotalList";
 

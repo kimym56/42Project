@@ -6807,7 +6807,7 @@
   dependencies:
     "prop-types" "^15.7.2"
 
-"react-native-pager-view@*", "react-native-pager-view@>= 4.0.0":
+"react-native-pager-view@*", "react-native-pager-view@^5.4.4", "react-native-pager-view@>= 4.0.0":
   "integrity" "sha512-5zyol+FZ9X4N4OEz92IyaFFROR3KtgAgTmgqlUvG59Eigf+f6aWs5fvcbWwzuz/AlLZbrxIDrnLmSpMUOK57ww=="
   "resolved" "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-5.4.4.tgz"
   "version" "5.4.4"
