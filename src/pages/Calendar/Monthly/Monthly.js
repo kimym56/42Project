@@ -1,21 +1,10 @@
 import React, { Component } from "react";
-import { View, Button, Text } from "react-native";
+import { View, Text } from "react-native";
 
+import PrevCalendarButton from "components/Buttons/PrevCalendarButton";
+import NextCalendarButton from "components/Buttons/NextCalendarButton";
+import DateCalendarText from "components/Texts/DateCalendarText"
 export class Monthly extends Component {
-  months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -27,10 +16,8 @@ export class Monthly extends Component {
   };
   generateMatrix() {
     var matrix = [];
-    // Create header
     matrix[0] = this.weekDays;
 
-    // More code here
     var year = this.state.selectDate.getFullYear();
     var month = this.state.selectDate.getMonth();
     var firstDay = new Date(year, month, 1).getDay();
@@ -41,7 +28,6 @@ export class Monthly extends Component {
         maxDays += 1;
       }
     }
-
     var counter = 1;
     for (var row = 1; row < 7; row++) {
       matrix[row] = [];
@@ -57,36 +43,18 @@ export class Monthly extends Component {
         }
       }
     }
-
     return matrix;
   }
-  /*
-  _onPress = (item) => {
-    this.setState(() => {
-      if (!item.match && item != -1) {
-        this.state.activeDate.setDate(item);
-
-        return this.state;
-      }
-    });
-  };
-  */
-
   _onPress2 = (item) => {
     this.setState(() => {
       this.state.selectDate.setDate(item);
-      //console.log(this.state.selectDate.getMonth());
-      //console.log(this.state.selectDate.getDate());
-
-      this.goAddSchedule();
-      //return this.state;
+     this.goAddSchedule();
     });
   };
 
   changeMonth = (n) => {
     this.setState(() => {
-      //this.state.activeDate.setMonth(this.state.activeDate.getMonth() + n);
-      this.state.selectDate.setMonth(this.state.selectDate.getMonth() + n);
+       this.state.selectDate.setMonth(this.state.selectDate.getMonth() + n);
       return this.state;
     });
   };
@@ -106,11 +74,11 @@ export class Monthly extends Component {
               textAlign: "center",
               // Highlight header
               backgroundColor: rowIndex == 0 ? "#ddd" : "#fff",
+ 
               // Highlight Sundays
               color: colIndex == 0 ? "#a00" : "#000",
               // Highlight current date
 
-              //fontWeight: item == this.state.activeDate.getDate() ? "bold" : "",
               color:
                 item == this.state.activeDate.getDate() &&
                 this.state.activeDate.getMonth() ==
@@ -125,12 +93,9 @@ export class Monthly extends Component {
                   ? "bold"
                   : "",
             }}
-            //onPress={() => this._onPress(item)}
 
             onPress={() => {
               this._onPress2(item);
-              //alert(item),
-              //alert(this.state.activeDate.getDate());
             }}
           >
             {item != -1 ? item : ""}
@@ -144,7 +109,6 @@ export class Monthly extends Component {
             flexDirection: "row",
             padding: 15,
             justifyContent: "space-around",
-            alignItems: "center",
           }}
         >
           {rowItems}
@@ -153,21 +117,13 @@ export class Monthly extends Component {
     });
 
     return (
-      <View>
-        <Button title="Previous" onPress={() => this.changeMonth(-1)} />
-        <Button title="Next" onPress={() => this.changeMonth(+1)} />
-
-        <Text
-          style={{
-            fontWeight: "bold",
-            fontSize: 18,
-            textAlign: "center",
-          }}
-        >
-          {this.months[this.state.selectDate.getMonth()]} &nbsp;
-          {this.state.selectDate.getFullYear()}
-        </Text>
-        {rows}
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 0.8 ,flexDirection: "row", }}>
+          <PrevCalendarButton onPress={() => this.changeMonth(-1)} />
+          <DateCalendarText isMWD = "M" selectDate={this.state.selectDate} />
+          <NextCalendarButton onPress={() => this.changeMonth(+1)} />
+        </View>
+        <View style={{flex:11}}>{rows}</View>
       </View>
     );
   }
@@ -176,7 +132,6 @@ export class Monthly extends Component {
     this.props.navigation.navigate("AddEvent2", {
       startdateValue: this.state.selectDate,
       enddateValue: this.state.selectDate,
-      //monthValue: this.state.selectDate.getMonth()
     });
   }
 }

@@ -1,15 +1,15 @@
-import React, { Component, PureComponent } from "react";
+import React, { Component } from "react";
 import {
   View,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
   Text,
   Dimensions,
 } from "react-native";
 
 import Test from "components/TimeSlot/TimeSlotSelector.js";
 import TestDay from "components/TimeSlot/TimeSlotCell.js";
+import PrevCalendarButton from "components/Buttons/PrevCalendarButton";
+import NextCalendarButton from "components/Buttons/NextCalendarButton";
+import DateCalendarText from "components/Texts/DateCalendarText";
 export default class Weekly extends Component {
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   state = {
@@ -17,8 +17,6 @@ export default class Weekly extends Component {
     currentDate: new Date(),
     todayDate: new Date(),
     tempDate: new Date(),
-    //beforeDate: new Date(),
-    //afterDate: new Date(),
   };
   componentWillMount() {
     for (let i = 0; i < 384; i++) {
@@ -44,8 +42,6 @@ export default class Weekly extends Component {
 
   onSingleCellSelection = (dayIndex) => {
     const days = this.state.days;
-
-    //days[dayIndex].active = !days[dayIndex].active;
     days[dayIndex].active = true;
     this.setState({
       days,
@@ -60,7 +56,9 @@ export default class Weekly extends Component {
     this.setState({ days });
   };
 
-  renderCell = (day, cday) => <TestDay currentDate={cday} cellsPerRow={8} {...day} />;
+  renderCell = (day, cday) => (
+    <TestDay currentDate={cday} cellsPerRow={8} {...day} />
+  );
   changeDate = (n) => {
     this.setState(() => {
       this.state.currentDate.setDate(this.state.currentDate.getDate() + n);
@@ -71,30 +69,20 @@ export default class Weekly extends Component {
 
   generateMatrix(isDate) {
     var matrix = [];
-    //matrix[0] = this.state.currentDate.getDate();
     if (!isDate) {
-      matrix[0] = "Sun";
-      matrix[1] = "Mon";
-      matrix[2] = "Tue";
-      matrix[3] = "Wed";
-      matrix[4] = "Thu";
-      matrix[5] = "Fri";
-      matrix[6] = "Sat";
+      matrix = this.weekDays;
     } else {
       let todayDay = this.state.currentDate.getDay();
       matrix[todayDay] = this.state.currentDate.getDate();
 
       for (let i = todayDay - 1; i >= 0; i--) {
-        //matrix[i] = matrix[i + 1] - 1;
         this.state.tempDate.setMonth(this.state.currentDate.getMonth());
         this.state.tempDate.setDate(
           this.state.currentDate.getDate() - (todayDay - i)
         );
-        //console.log('index:',i,'tempdate',tempDate)
         matrix[i] = this.state.tempDate.getDate();
       }
       for (let i = todayDay + 1; i <= 6; i++) {
-        //matrix[i] = matrix[i - 1] + 1;
         this.state.tempDate.setMonth(this.state.currentDate.getMonth());
         this.state.tempDate.setDate(
           this.state.currentDate.getDate() + (i - todayDay)
@@ -102,7 +90,6 @@ export default class Weekly extends Component {
         matrix[i] = this.state.tempDate.getDate();
       }
     }
-
     return matrix;
   }
 
@@ -110,11 +97,6 @@ export default class Weekly extends Component {
     console.log("weekly render");
     const height = Dimensions.get("window").height;
     const width = Dimensions.get("window").width;
-    //console.log("size: ", height, width);
-    /*
-    const renderItem = useCallback((day, cday) => (
-      <TestDay currentDate={cday} {...day} />
-    ));*/
 
     var date = this.generateMatrix(1);
     var dates = [];
@@ -134,7 +116,6 @@ export default class Weekly extends Component {
               flex: 1,
               height: 20,
               textAlign: "center",
-              //color: rowIndex == 0 ? "#f00" : rowIndex == 6 ? "#00f" : "",
               // Highlight current date
               fontWeight:
                 item == this.state.todayDate.getDate()
@@ -144,7 +125,6 @@ export default class Weekly extends Component {
                     : ""
                   : "",
             }}
-            //onPress={() => this._onPress(item)}
           >
             {item}
           </Text>
@@ -171,11 +151,7 @@ export default class Weekly extends Component {
               height: 20,
               textAlign: "center",
               color: rowIndex == 0 ? "#f00" : rowIndex == 6 ? "#00f" : "",
-
-              // Highlight current date
-              //fontWeight: item == this.state.activeDate.getDate() ? "bold" : "",
             }}
-            //onPress={() => this._onPress(item)}
           >
             {item}
           </Text>
@@ -189,50 +165,12 @@ export default class Weekly extends Component {
           style={{
             flex: 0.8,
             flexDirection: "row",
-            alignItmes: "center",
             justifyContent: "center",
-            backgroundColor: "red",
           }}
         >
-          <TouchableOpacity
-            title="Previous"
-            onPress={() => this.changeDate(-7)}
-            style={{ flex: 1, backgroundColor: "blue" }}
-            underlayColor="#fff"
-          >
-            <Text
-              style={{
-                color: "#fff",
-                textAlign: "center",
-                paddingLeft: 10,
-                paddingRight: 10,
-              }}
-            >
-              Previous
-            </Text>
-          </TouchableOpacity>
-          <Text style={{ textAlign: "center", flex: 1 }}>
-            {this.state.currentDate.getMonth() + 1} &nbsp;
-            {this.state.currentDate.getDate()} &nbsp;
-            {this.weekDays[this.state.currentDate.getDay()]}
-          </Text>
-          <TouchableOpacity
-            title="Next"
-            onPress={() => this.changeDate(+7)}
-            style={{ flex: 1, backgroundColor: "blue" }}
-            underlayColor="#fff"
-          >
-            <Text
-              style={{
-                color: "#fff",
-                textAlign: "center",
-                paddingLeft: 10,
-                paddingRight: 10,
-              }}
-            >
-              Next
-            </Text>
-          </TouchableOpacity>
+          <PrevCalendarButton onPress={() => this.changeDate(-7)} />
+          <DateCalendarText isMWD="W" currentDate={this.state.currentDate} />
+          <NextCalendarButton onPress={() => this.changeDate(+7)} />
         </View>
         <View
           style={{
@@ -240,7 +178,6 @@ export default class Weekly extends Component {
             flexDirection: "row",
             alignItmes: "center",
             justifyContent: "center",
-            //backgroundColor: "red",
             marginLeft: (width / 7.6) * 0.6,
           }}
         >
@@ -252,7 +189,6 @@ export default class Weekly extends Component {
             flexDirection: "row",
             alignItmes: "center",
             justifyContent: "center",
-            //backgroundColor: "red",
             marginLeft: (width / 7.6) * 0.6,
           }}
         >
@@ -267,7 +203,6 @@ export default class Weekly extends Component {
             days={this.state.days}
             renderCell={this.renderCell}
             cellsPerRow={8}
-            //renderCell={renderItem}
             onSingleCellSelection={this.onSingleCellSelection}
             onMultiSelectionEnd={this.onMultiSelectionEnd}
           />
