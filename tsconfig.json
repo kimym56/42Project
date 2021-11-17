@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "src"
+    "baseUrl": ""
   },
-  "include": ["src"],
   "extends": "expo/tsconfig.base"
 }
