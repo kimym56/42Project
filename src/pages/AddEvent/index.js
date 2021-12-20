@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import {useDispatch, useSelector} from 'react-redux'
+import {changeStartdate, changeEnddate} from '../../rdx/index'
 import {
   View,
   StyleSheet,
@@ -10,7 +12,7 @@ import {
   Alert,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-//import Toast from "react-native-simple-toast";
+
 
 Date.prototype.format = function (f) {
   if (!this.valueOf()) return " ";
@@ -67,36 +69,29 @@ Number.prototype.zf = function (len) {
 };
 
 export default function AddEvent(props) { 
- 
-/*
-  React.useEffect(() => {
-    const reSet = props.navigation.addListener('focus', () => {
-      setStartDate(props.route.params
-        ? new Date(props.route.params.startdateValue)
-        : new Date())
-      setEndDate(props.route.params
-        ? new Date(props.route.params.enddateValue)
-        : new Date())
-    });
 
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return reSet;
-  }, [[props.navigation]]);*/
-  
+  /*
+const startDate=useSelector((state)=>state.startDate)
+const endDate=useSelector((state)=>state.endDate)
+*/
+const {startDate,endDate}=useSelector(state=>state.dateReducer)
+
+const dispatch=useDispatch()  
+
   const [contents, setContents] = useState("");
-  //console.log(props);
+
+  /*
   const [startDate, setStartDate] = useState(
-    //new Date(props.route.params.startdateValue.setMinutes(0))
+    
     props.route.params
       ? new Date(props.route.params.startdateValue)
       : new Date()
-    //new Date(props.route.params.startdateValue)
   );
   const [endDate, setEndDate] = useState(
-    //new Date(props.route.params.enddateValue.setMinutes(0))
     props.route.params ? new Date(props.route.params.enddateValue) : new Date()
-    //new Date(props.route.params.enddateValue)
+    
   );
+  */
 
   const [startDateVisible, setStartDateVisible] = useState(false);
   const [startTimeVisible, setStartTimeVisible] = useState(false);
@@ -136,28 +131,31 @@ export default function AddEvent(props) {
 
   const SDhandleConfirm = (date) => {
     hideStartDatePicker();
-    setStartDate(date);
+    //setStartDate(date);
+    dispatch(changeStartdate(date))
     onChangeSDText(date.format("yyyy/MM/dd"));
   };
   const SThandleConfirm = (date) => {
     hideStartTimePicker();
-    setStartDate(date);
+    //setStartDate(date);
+    dispatch(changeStartdate(date))
     onChangeSTText(date.format("a/p  hh:mm"));
   };
   const EDhandleConfirm = (date) => {
     hideEndDatePicker();
-    setEndDate(date);
+    //setEndDate(date);
+    dispatch(changeEnddate(date))
     onChangeEDText(date.format("yyyy/MM/dd"));
   };
   const EThandleConfirm = (date) => {
     hideEndTimePicker();
-    setEndDate(date);
+    //setEndDate(date);
+    dispatch(changeEnddate(date))
     onChangeETText(date.format("a/p  hh:mm"));
   };
 
   function isCorrect(n) {
     if (n == 1) {
-      //Toast.show("Success");
       props.navigation.goBack();
     } else {
       Alert.alert("error");
@@ -256,7 +254,6 @@ export default function AddEvent(props) {
         <TextInput
           style={styles.input}
           placeholder="내용"
-          //secureTextEntry={true}
           onChangeText={(contents) => setContents(contents)}
         />
       </View>
@@ -276,11 +273,12 @@ export default function AddEvent(props) {
             );
           }}
         />
+        
       </View>
     </View>
   );
 }
-
+//localStorage에서 setItem 사용 vs props로 startDate, endDate, content 넘기기
 const styles = StyleSheet.create({
   container: {
     flex: 1,

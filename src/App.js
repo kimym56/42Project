@@ -13,6 +13,8 @@ import Home from "./pages/Home";
 import AddEvent from "./pages/AddEvent";
 import Calendar from "./pages/Calendar";
 import TotalList from "./pages/Feed/Total/TotalList";
+import {store} from "./rdx/store"
+import {Provider } from 'react-redux'
 
 const CalendarStack = createStackNavigator();
 
@@ -59,31 +61,30 @@ export class App extends PureComponent {
           </Tab.Navigator>
         </NavigationContainer>
 */
+        <Provider store={store}>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Home">
+              <Stack.Screen name="Register" component={Register} />
+              <Stack.Screen name="Login" component={Login} />
 
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
-            
-            <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="Login" component={Login} />
-
-            <Stack.Screen
-              name="Home"
-              component={Home}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="AddEvent2"
-              component={AddEvent}
-              options={{ title: "AddEvent" }}
-            />
-            <Stack.Screen
-              name="TotalList"
-              component={TotalList}
-              options={{ headerShown: true }}
-            />
-
-          </Stack.Navigator>
-        </NavigationContainer>
+              <Stack.Screen
+                name="Home"
+                component={Home}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="AddEvent2"
+                component={AddEvent}
+                options={{ title: "AddEvent" }}
+              />
+              <Stack.Screen
+                name="TotalList"
+                component={TotalList}
+                options={{ headerShown: true }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Provider>
       );
     }
   }
