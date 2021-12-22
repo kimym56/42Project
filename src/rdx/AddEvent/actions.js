@@ -42,12 +42,16 @@ export function changeEnddate(date) {
 */
 
 
-import { CHANGE_STARTDATE, CHANGE_ENDDATE } from "./types";
+import { CHANGE_STARTDATE, CHANGE_ENDDATE, CHANGE_CURRENTDATE} from "./types";
 
 export const changeStartdate=(date)=> ({
   type: CHANGE_STARTDATE, payload: date
 })
 export const changeEnddate=(date)=> ({
   type: CHANGE_ENDDATE,
+      payload: date,
+})
+export const changeCurrentdate=(date)=> ({
+  type: CHANGE_CURRENTDATE,
       payload: date,
 })

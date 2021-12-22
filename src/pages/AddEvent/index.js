@@ -75,7 +75,7 @@ const startDate=useSelector((state)=>state.startDate)
 const endDate=useSelector((state)=>state.endDate)
 */
 const {startDate,endDate}=useSelector(state=>state.dateReducer)
-
+console.log("startDate in AddEvent",startDate)
 const dispatch=useDispatch()  
 
   const [contents, setContents] = useState("");
