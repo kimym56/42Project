@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {useDispatch, useSelector} from 'react-redux'
-import {changeStartdate, changeEnddate} from '../../rdx/index'
 import {
   View,
   StyleSheet,
@@ -12,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+//import Toast from "react-native-simple-toast";
 
 Date.prototype.format = function (f) {
   if (!this.valueOf()) return " ";
@@ -68,30 +66,36 @@ Number.prototype.zf = function (len) {
   return this.toString().zf(len);
 };
 
-export default function AddEvent(props) { 
-
+export default function AddEvent(props) {
   /*
-const startDate=useSelector((state)=>state.startDate)
-const endDate=useSelector((state)=>state.endDate)
-*/
-const {startDate,endDate}=useSelector(state=>state.dateReducer)
-console.log("startDate in AddEvent",startDate)
-const dispatch=useDispatch()  
+  React.useEffect(() => {
+    const reSet = props.navigation.addListener('focus', () => {
+      setStartDate(props.route.params
+        ? new Date(props.route.params.startdateValue)
+        : new Date())
+      setEndDate(props.route.params
+        ? new Date(props.route.params.enddateValue)
+        : new Date())
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return reSet;
+  }, [[props.navigation]]);*/
 
   const [contents, setContents] = useState("");
-
-  /*
+  //console.log(props);
   const [startDate, setStartDate] = useState(
-    
+    //new Date(props.route.params.startdateValue.setMinutes(0))
     props.route.params
       ? new Date(props.route.params.startdateValue)
       : new Date()
+    //new Date(props.route.params.startdateValue)
   );
   const [endDate, setEndDate] = useState(
+    //new Date(props.route.params.enddateValue.setMinutes(0))
     props.route.params ? new Date(props.route.params.enddateValue) : new Date()
-    
+    //new Date(props.route.params.enddateValue)
   );
-  */
 
   const [startDateVisible, setStartDateVisible] = useState(false);
   const [startTimeVisible, setStartTimeVisible] = useState(false);
@@ -131,31 +135,28 @@ const dispatch=useDispatch()
 
   const SDhandleConfirm = (date) => {
     hideStartDatePicker();
-    //setStartDate(date);
-    dispatch(changeStartdate(date))
+    setStartDate(date);
     onChangeSDText(date.format("yyyy/MM/dd"));
   };
   const SThandleConfirm = (date) => {
     hideStartTimePicker();
-    //setStartDate(date);
-    dispatch(changeStartdate(date))
+    setStartDate(date);
     onChangeSTText(date.format("a/p  hh:mm"));
   };
   const EDhandleConfirm = (date) => {
     hideEndDatePicker();
-    //setEndDate(date);
-    dispatch(changeEnddate(date))
+    setEndDate(date);
     onChangeEDText(date.format("yyyy/MM/dd"));
   };
   const EThandleConfirm = (date) => {
     hideEndTimePicker();
-    //setEndDate(date);
-    dispatch(changeEnddate(date))
+    setEndDate(date);
     onChangeETText(date.format("a/p  hh:mm"));
   };
 
   function isCorrect(n) {
     if (n == 1) {
+      //Toast.show("Success");
       props.navigation.goBack();
     } else {
       Alert.alert("error");
@@ -254,6 +255,7 @@ const dispatch=useDispatch()
         <TextInput
           style={styles.input}
           placeholder="내용"
+          //secureTextEntry={true}
           onChangeText={(contents) => setContents(contents)}
         />
       </View>
@@ -273,12 +275,11 @@ const dispatch=useDispatch()
             );
           }}
         />
-        
       </View>
     </View>
   );
 }
-//localStorage에서 setItem 사용 vs props로 startDate, endDate, content 넘기기
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

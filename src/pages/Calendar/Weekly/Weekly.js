@@ -1,130 +1,100 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  Dimensions,
-} from "react-native";
+import { View, Text, Dimensions } from "react-native";
 
 import Test from "components/TimeSlot/TimeSlotSelector.js";
 import TestDay from "components/TimeSlot/TimeSlotCell.js";
 import PrevCalendarButton from "components/Buttons/PrevCalendarButton";
 import NextCalendarButton from "components/Buttons/NextCalendarButton";
 import DateCalendarText from "components/Texts/DateCalendarText";
-
-import { useSelector, useDispatch } from "react-redux";
-import { changeStartdate, changeEnddate } from "../../../rdx/index";
-import { changeCurrentdate} from "../../../rdx/index";
-
-export default function Weekly(props) {
-  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  /*
+export default class Weekly extends Component {
+  weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   state = {
     days: [],
     currentDate: new Date(),
     todayDate: new Date(),
     tempDate: new Date(),
   };
-  */
- let days=[];
- const currentDate=useSelector((state)=>state.dateReducer.currentDate)
- const todayDate=new Date()
- //tempDate는 props로 안넘기고, weekly 내에서만 하기때문에 redux로 안넘김
- //const [tempDate, setTempDate]=useState(new Date())
- let tempDate=new Date()
-const dispatch=useDispatch();
-
-  
+  componentWillMount() {
     for (let i = 0; i < 384; i++) {
-      days.push({
+      this.state.days.push({
         id: Math.floor(48 * (i % 8) + (i / 8 + 1)),
         number: Math.floor(48 * (i % 8) + (i / 8 + 1)),
         active: false,
       });
     }
-  
-  const getDate=()=> {
-    /*
+  }
+  getDate() {
     this.setState((state) => {
       state.currentDate.setMinutes(new Date().getMinutes());
       return { currentDate: state.currentDate };
     });
-    */
-   const date=new Date(currentDate.setMinutes(new Date().getMinutes()))
-    dispatch(changeCurrentdate(date))
-      //return { currentDate: state.currentDate };
   }
-  // componentDidMount=()=> {  // 1분마다 갱신
-  //   oneMinuteCall = setInterval(() => getDate(), 60000);
-  // }
-  // componentWillUnmount=()=> {
-  //   clearInterval(oneMinuteCall);
-  // }
+  componentDidMount() {
+    this.oneMinuteCall = setInterval(() => this.getDate(), 60000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.oneMinuteCall);
+  }
 
-  const onSingleCellSelection = (dayIndex) => {
-    //const days = days;
+  onSingleCellSelection = (dayIndex) => {
+    const days = this.state.days;
     days[dayIndex].active = true;
-    /*
     this.setState({
       days,
     });
-    */
   };
 
-  const onMultiSelectionEnd = (selectionMode, selection) => {
-    //const days = days;
+  onMultiSelectionEnd = (selectionMode, selection) => {
+    const days = this.state.days;
     for (const index in selection) {
       days[selection[index]].active = selectionMode === "select";
     }
-    //this.setState({ days });
+    this.setState({ days });
   };
 
-  const renderCell = (day, cday) => (
+  renderCell = (day, cday) => (
     <TestDay currentDate={cday} cellsPerRow={8} {...day} />
   );
-  const changeDate = (n) => {
-    /*
+  changeDate = (n) => {
     this.setState(() => {
       this.state.currentDate.setDate(this.state.currentDate.getDate() + n);
 
       return this.state;
     });
-*/
-    const date=new Date(currentDate.setDate(currentDate.getDate() + n))
-    dispatch(changeCurrentdate(date))
   };
 
-  const generateMatrix=(isDate)=> {
+  generateMatrix(isDate) {
     var matrix = [];
     if (!isDate) {
-      matrix = weekDays;
+      matrix = this.weekDays;
     } else {
-      let todayDay =currentDate.getDay();
-      matrix[todayDay] = currentDate.getDate();
+      let todayDay = this.state.currentDate.getDay();
+      matrix[todayDay] = this.state.currentDate.getDate();
 
       for (let i = todayDay - 1; i >= 0; i--) {
-        tempDate.setMonth(currentDate.getMonth());
-        tempDate.setDate(
-          currentDate.getDate() - (todayDay - i)
+        this.state.tempDate.setMonth(this.state.currentDate.getMonth());
+        this.state.tempDate.setDate(
+          this.state.currentDate.getDate() - (todayDay - i)
         );
-        matrix[i] = tempDate.getDate();
+        matrix[i] = this.state.tempDate.getDate();
       }
       for (let i = todayDay + 1; i <= 6; i++) {
-        tempDate.setMonth(currentDate.getMonth());
-        tempDate.setDate(
-          currentDate.getDate() + (i - todayDay)
+        this.state.tempDate.setMonth(this.state.currentDate.getMonth());
+        this.state.tempDate.setDate(
+          this.state.currentDate.getDate() + (i - todayDay)
         );
-        matrix[i] = tempDate.getDate();
+        matrix[i] = this.state.tempDate.getDate();
       }
     }
     return matrix;
   }
 
-  
+  render() {
     console.log("weekly render");
     const height = Dimensions.get("window").height;
     const width = Dimensions.get("window").width;
 
-    var date = generateMatrix(1);
+    var date = this.generateMatrix(1);
     var dates = [];
     dates = date.map((item, rowIndex) => {
       return (
@@ -144,9 +114,9 @@ const dispatch=useDispatch();
               textAlign: "center",
               // Highlight current date
               fontWeight:
-                item == todayDate.getDate()
-                  ? todayDate.getMonth() ==
-                    currentDate.getMonth()
+                item == this.state.todayDate.getDate()
+                  ? this.state.todayDate.getMonth() ==
+                    this.state.currentDate.getMonth()
                     ? "bold"
                     : ""
                   : "",
@@ -158,7 +128,7 @@ const dispatch=useDispatch();
       );
     });
 
-    var matrix =generateMatrix(0);
+    var matrix = this.generateMatrix(0);
     var rows = [];
     rows = matrix.map((item, rowIndex) => {
       return (
@@ -194,9 +164,9 @@ const dispatch=useDispatch();
             justifyContent: "center",
           }}
         >
-          <PrevCalendarButton onPress={() => changeDate(-7)} />
-          <DateCalendarText isMWD="W" currentDate={currentDate} />
-          <NextCalendarButton onPress={() => changeDate(+7)} />
+          <PrevCalendarButton onPress={() => this.changeDate(-7)} />
+          <DateCalendarText isMWD="W" currentDate={this.state.currentDate} />
+          <NextCalendarButton onPress={() => this.changeDate(+7)} />
         </View>
         <View
           style={{
@@ -222,18 +192,18 @@ const dispatch=useDispatch();
         </View>
         <View style={{ flex: 10 }}>
           <Test
-            currentDate={currentDate}
-            startselectValue={currentDate}
-            endselectValue={currentDate}
-            navigation={props.navigation}
-            days={days}
-            renderCell={renderCell}
+            currentDate={this.state.currentDate}
+            startselectValue={this.state.currentDate}
+            endselectValue={this.state.currentDate}
+            navigation={this.props.navigation}
+            days={this.state.days}
+            renderCell={this.renderCell}
             cellsPerRow={8}
-            onSingleCellSelection={onSingleCellSelection}
-            onMultiSelectionEnd={onMultiSelectionEnd}
+            onSingleCellSelection={this.onSingleCellSelection}
+            onMultiSelectionEnd={this.onMultiSelectionEnd}
           />
         </View>
       </View>
     );
-  
+  }
 }

@@ -5,46 +5,36 @@ import PrevCalendarButton from "components/Buttons/PrevCalendarButton";
 import NextCalendarButton from "components/Buttons/NextCalendarButton";
 import DateCalendarText from "components/Texts/DateCalendarText";
 import Calendar from "..";
+export class Monthly extends Component {
+  weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-import { useSelector, useDispatch } from "react-redux";
-import { changeStartdate, changeEnddate } from "../../../rdx/index";
+  nDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-
-export default function Monthly(props) {
-  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const nDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  
-  const activeDate = new Date();
-  const selectDate = useSelector((state) => state.dateReducer.startDate);
-  console.log("SelectDate : ",selectDate);
-  const dispatch = useDispatch();
-  
-  const generateMatrix = () => {
-    const matrix = [];
+  state = {
+    activeDate: new Date(),
+    selectDate: new Date(),
+  };
+  generateMatrix() {
+    var matrix = [];
     //matrix[0] = this.weekDays;
 
-    //var year = this.state.selectDate.getFullYear();
-    //var month = this.state.selectDate.getMonth();
-    //var firstDay = new Date(year, month, 1).getDay();
-
-    const year = selectDate.getFullYear();
-    const month = selectDate.getMonth();
-    const firstDay = selectDate.getDay();
-    console.log("SelectDate : ",selectDate);
-    const maxDays = nDays[month];
+    var year = this.state.selectDate.getFullYear();
+    var month = this.state.selectDate.getMonth();
+    var firstDay = new Date(year, month, 1).getDay();
+    var maxDays = this.nDays[month];
     if (month == 1) {
       // February
       if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
         maxDays += 1;
       }
     }
-    let counter = 1;
-    for (let row = 1; row < 7; row++) {
+    var counter = 1;
+    for (var row = 1; row < 7; row++) {
       matrix[row] = [];
       if (counter > maxDays) {
         break;
       }
-      for (let col = 0; col < 7; col++) {
+      for (var col = 0; col < 7; col++) {
         matrix[row][col] = -1;
         if (row == 1 && col >= firstDay) {
           // Fill in rows only after the first day of the month
@@ -57,42 +47,26 @@ export default function Monthly(props) {
       }
     }
     return matrix;
-  };
-  const _onPress2 = (item) => {
-   
-      //this.state.selectDate.setDate(item);
-
-      const date = new Date(selectDate.setDate(item));
-      dispatch(changeStartdate(date));
-      dispatch(changeEnddate(date))
-      goAddSchedule();
-   
-  };
-
-  const changeMonth = (n) => {
-   
-      //this.state.selectDate.setMonth(this.state.selectDate.getMonth() + n);
-      const date = new Date(
-        selectDate.setMonth(selectDate.getMonth() + n)
-      );
-      dispatch(changeStartdate(date));
-      //return this.state;
-      return selectDate;
-  
-  };
-  const goAddSchedule = () => {
-    props.navigation.navigate("AddEvent2", {
-      //startdateValue: this.state.selectDate,
-      //enddateValue: this.state.selectDate,
-
+  }
+  _onPress2 = (item) => {
+    this.setState(() => {
+      this.state.selectDate.setDate(item);
+      this.goAddSchedule();
     });
   };
 
-  
+  changeMonth = (n) => {
+    this.setState(() => {
+      this.state.selectDate.setMonth(this.state.selectDate.getMonth() + n);
+      return this.state;
+    });
+  };
+
+  render() {
     console.log("monthly render");
-    const matrix = generateMatrix();
-    const dayMatrix = weekDays;
-    let days = [];
+    var matrix = this.generateMatrix();
+    var dayMatrix = this.weekDays;
+    var days = [];
     days = dayMatrix.map((item, rowIndex) => {
       return (
         <View
@@ -119,9 +93,9 @@ export default function Monthly(props) {
       );
     });
 
-    let rows = [];
+    var rows = [];
     rows = matrix.map((row, rowIndex) => {
-      const rowItems = row.map((item, colIndex) => {
+      var rowItems = row.map((item, colIndex) => {
         return (
           <TouchableOpacity
             style={{ flex: 1, borderWidth: 1, flexDirection: "row" }}
@@ -138,20 +112,22 @@ export default function Monthly(props) {
                 // Highlight current date
 
                 color:
-                  item == activeDate.getDate() &&
-                  activeDate.getMonth() == selectDate.getMonth()
+                  item == this.state.activeDate.getDate() &&
+                  this.state.activeDate.getMonth() ==
+                    this.state.selectDate.getMonth()
                     ? "blue"
                     : "black",
 
                 fontWeight:
-                  item == activeDate.getDate() &&
-                  activeDate.getMonth() == selectDate.getMonth()
+                  item == this.state.activeDate.getDate() &&
+                  this.state.activeDate.getMonth() ==
+                    this.state.selectDate.getMonth()
                     ? "bold"
                     : "",
               }}
               onPress={() => {
                 if (item != -1) {
-                  _onPress2(item);
+                  this._onPress2(item);
                 }
               }}
             >
@@ -177,9 +153,9 @@ export default function Monthly(props) {
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 0.8, flexDirection: "row" }}>
-          <PrevCalendarButton onPress={() => changeMonth(-1)} />
-          <DateCalendarText isMWD="M" selectDate={selectDate} />
-          <NextCalendarButton onPress={() => changeMonth(+1)} />
+          <PrevCalendarButton onPress={() => this.changeMonth(-1)} />
+          <DateCalendarText isMWD="M" selectDate={this.state.selectDate} />
+          <NextCalendarButton onPress={() => this.changeMonth(+1)} />
         </View>
         <View
           style={{
@@ -195,7 +171,13 @@ export default function Monthly(props) {
         <View style={{ flex: 11, backgroundColor: "white" }}>{rows}</View>
       </View>
     );
-  
+  }
   //render 끝나는 부분
-
+  goAddSchedule() {
+    this.props.navigation.navigate("AddEvent2", {
+      startdateValue: this.state.selectDate,
+      enddateValue: this.state.selectDate,
+    });
+  }
 }
+export default Monthly;

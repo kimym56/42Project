@@ -57,8 +57,10 @@ export default function TimeSlotSelector(props) {
       startTimeIndex - (startTimeIndex % props.cellsPerRow); // 모두 첫번째 열 index로 변환 (0~7 => 0 and 8~15 => 8)
     let toFirstEndIndex = endTimeIndex - (endTimeIndex % props.cellsPerRow);
 
-    if (props.cellsPerRow == 8) { // Weekly
-      if (sub < 0) { // 역선택
+    if (props.cellsPerRow == 8) {
+      // Weekly
+      if (sub < 0) {
+        // 역선택
         startselectDate.setHours(
           ((startTimeIndex % props.cellsPerRow) - 1 - todayIndex) * 24 +
             parseInt(toFirstStartIndex / (props.cellsPerRow * 2))
@@ -67,13 +69,15 @@ export default function TimeSlotSelector(props) {
         // -todayIndex : 선택 날짜 보정
         // parseInt(toFirstStartIndex / (props.cellsPerRow * 2)) : 0,0.5,1,1.5 ... => 0,0,1,1 ...
         // parseInt를 붙이는 조건 : () * 24가 0보다 작을 때
-        if (toFirstEndIndex % (props.cellsPerRow * 2) != 0) { //0:30, 1:30, 2:30 ...
+        if (toFirstEndIndex % (props.cellsPerRow * 2) != 0) {
+          //0:30, 1:30, 2:30 ...
           endselectDate.setHours(
             ((endTimeIndex % props.cellsPerRow) - 1 - todayIndex - sub) * 24 +
               toFirstEndIndex / (props.cellsPerRow * 2) +
               1
           );
-        } else { //0:00, 1:00, 2:00 ...
+        } else {
+          //0:00, 1:00, 2:00 ...
           endselectDate.setHours(
             ((endTimeIndex % props.cellsPerRow) - 1 - todayIndex - sub) * 24 +
               toFirstEndIndex / (props.cellsPerRow * 2)
@@ -326,7 +330,9 @@ export default function TimeSlotSelector(props) {
                   currentDate.getFullYear() == new Date().getFullYear() &&
                   currentDate.getMonth() == new Date().getMonth() &&
                   currentDate.getDate() == new Date().getDate() &&
-                  (props.cellsPerRow==8 ? index % props.cellsPerRow == new Date().getDay() + 1 : true)
+                  (props.cellsPerRow == 8
+                    ? index % props.cellsPerRow == new Date().getDay() + 1
+                    : true)
                     ? "silver"
                     : "skyblue",
               }}
@@ -338,7 +344,8 @@ export default function TimeSlotSelector(props) {
         </View>
       );
     else {
-      if (props.cellsPerRow == 8) { //weekly time format
+      if (props.cellsPerRow == 8) {
+        //weekly time format
         return (
           <TouchableWithoutFeedback
             onLayout={index === 0 ? onFirstcellLayout : () => {}}
@@ -352,7 +359,8 @@ export default function TimeSlotSelector(props) {
           </TouchableWithoutFeedback>
         );
       } else {
-        return (  //daily time format
+        return (
+          //daily time format
           <TouchableWithoutFeedback
             onLayout={index === 0 ? onFirstcellLayout : () => {}}
           >

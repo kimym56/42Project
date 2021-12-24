@@ -1,5 +1,3 @@
-// @flow
-
 import React, { PureComponent } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
@@ -9,7 +7,7 @@ export default class CalendarDay extends PureComponent {
       ? new Date(this.props.currentDate)
       : new Date(),
   };
-  
+
   render() {
     this.state.currentDate = this.props.currentDate
       ? new Date(this.props.currentDate)
@@ -53,7 +51,9 @@ export default class CalendarDay extends PureComponent {
         this.state.currentDate.getFullYear() == new Date().getFullYear() &&
         this.state.currentDate.getMonth() == new Date().getMonth() &&
         this.state.currentDate.getDate() == new Date().getDate() &&
-        (this.props.cellsPerRow==8?this.state.currentDate.getDay() + 1 == Math.floor(number / 48) :true)&&
+        (this.props.cellsPerRow == 8
+          ? this.state.currentDate.getDay() + 1 == Math.floor(number / 48)
+          : true) &&
         this.state.currentDate.getHours() ==
           Math.floor((number % 48) / 2 - 0.5) &&
         Math.floor(this.state.currentDate.getMinutes() / 30) ==
@@ -67,10 +67,11 @@ export default class CalendarDay extends PureComponent {
               style={{
                 flex: 1,
                 backgroundColor: "red",
-                height:2,
-                marginTop:this.state.currentDate.getMinutes()%30
-              }}/>
-            
+                height: 2,
+                marginTop: this.state.currentDate.getMinutes() % 30,
+              }}
+            />
+
             <Text style={{ width: 0 }}> {}</Text>
           </View>
         );
