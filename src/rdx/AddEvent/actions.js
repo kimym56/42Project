@@ -41,17 +41,21 @@ export function changeEnddate(date) {
 
 */
 
+import {
+  CHANGE_DAILY_CURRENTDATE,
+  CHANGE_WEEKLY_CURRENTDATE,
+  CHANGE_MONTHLY_CURRENTDATE,
+} from "./types";
 
-import { CHANGE_STARTDATE, CHANGE_ENDDATE, CHANGE_CURRENTDATE} from "./types";
-
-export const changeStartdate=(date)=> ({
-  type: CHANGE_STARTDATE, payload: date
-})
-export const changeEnddate=(date)=> ({
-  type: CHANGE_ENDDATE,
-      payload: date,
-})
-export const changeCurrentdate=(date)=> ({
-  type: CHANGE_CURRENTDATE,
-      payload: date,
-})
+export const changeMonthlyCurrentDate = (date) => ({
+  type: CHANGE_MONTHLY_CURRENTDATE,
+  payload: date,
+});
+export const changeDailyCurrentDate = (date) => ({
+  type: CHANGE_DAILY_CURRENTDATE,
+  payload: date,
+});
+export const changeWeeklyCurrentDate = (date) => ({
+  type: CHANGE_WEEKLY_CURRENTDATE,
+  payload: date,
+});

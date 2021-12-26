@@ -1,32 +1,34 @@
-import {CHANGE_STARTDATE, CHANGE_ENDDATE, CHANGE_CURRENTDATE} from './types'
-
-
+import {
+  CHANGE_DAILY_CURRENTDATE,
+  CHANGE_WEEKLY_CURRENTDATE,
+  CHANGE_MONTHLY_CURRENTDATE,
+} from "./types";
 const initialState = {
-    
-    startDate: new Date(),
-    endDate: new Date(),
-    currentDate: new Date()
-  };
+  dailyDate: new Date(),
+  weeklyDate: new Date(),
+  monthlyDate: new Date(),
+};
 
-  export const dateReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case CHANGE_STARTDATE:
-        return {
-          ...state,
-          startDate: action.payload,
-        };
-      case CHANGE_ENDDATE:
-        return {
-          ...state,
-          endDate: action.payload,
-        };
-        case CHANGE_CURRENTDATE:
-          return {
-            ...state,
-            currentDate: action.payload,
-          };
-      default:
-        return state;
-    }
-  };
-  export default dateReducer;
+export const dateReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CHANGE_DAILY_CURRENTDATE:
+      return {
+        //...state,
+        dailyDate: action.payload,
+      };
+    case CHANGE_WEEKLY_CURRENTDATE:
+      return {
+        //...state,
+        weeklyDate: action.payload,
+      };
+    case CHANGE_MONTHLY_CURRENTDATE:
+      return {
+        //...state,
+        monthlyDate: action.payload,
+      };
+    default:
+      console.log(state);
+      return state;
+  }
+};
+export default dateReducer;
