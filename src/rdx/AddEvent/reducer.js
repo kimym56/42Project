@@ -14,6 +14,7 @@ export const dateReducer = (state = initialState, action) => {
     case CHANGE_DAILY_CURRENTDATE:
       return {
         //...state,
+        //dailyDate: state.dailyDate.setDate(action.payload),는 왜 안됨? 1226
         dailyDate: action.payload,
       };
     case CHANGE_WEEKLY_CURRENTDATE:
@@ -27,7 +28,6 @@ export const dateReducer = (state = initialState, action) => {
         monthlyDate: action.payload,
       };
     default:
-      console.log(state);
       return state;
   }
 };
