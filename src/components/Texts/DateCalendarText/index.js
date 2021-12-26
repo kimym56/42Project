@@ -4,7 +4,9 @@ import styles from "./style";
 import { useSelector, useDispatch } from "react-redux";
 export default function index(props) {
   const dailyDate = useSelector((state) => state.dailyDate);
-  const weeklyDate = useSelector((state) => state.weeklyDate);
+  const weeklyDate = useSelector((state) => {
+    return state.dateReducer.weeklyDate;
+  });
   console.log("cur@@", props.currentDate);
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   months = [
@@ -32,9 +34,9 @@ export default function index(props) {
     case "W":
       return (
         <Text style={styles.text}>
-          {props.currentDate.getMonth() + 1} &nbsp;
-          {props.currentDate.getDate()} &nbsp;
-          {weekDays[props.currentDate.getDay()]}
+          {weeklyDate.getMonth() + 1} &nbsp;
+          {weeklyDate.getDate()} &nbsp;
+          {weekDays[weeklyDate.getDay()]}
         </Text>
       );
     case "D":

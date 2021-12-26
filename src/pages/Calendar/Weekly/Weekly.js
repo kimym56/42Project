@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { View, Text, Dimensions } from "react-native";
 
 import Test from "components/TimeSlot/TimeSlotSelector.js";
@@ -22,8 +22,12 @@ export default function Weekly(props) {
   */
   const dispatch = useDispatch();
   let days = [];
-  //const currentDate = useSelector((state) => state.weeklyDate);
-  let currentDate = new Date();
+  const currentDate = useSelector((state) => {
+    return state.dateReducer.weeklyDate;
+  });
+  //const [currentDate, setCurrentDate] = useState(new Date());
+
+  //let currentDate = new Date();
   let todayDate = new Date();
   let tempDate = new Date();
   for (let i = 0; i < 384; i++) {
@@ -51,7 +55,10 @@ export default function Weekly(props) {
       return { currentDate: state.currentDate };
     });
     */
-    currentDate.setMinutes(new Date().getMinutes());
+    //setCurrentDate(new Date(currentDate.setMinutes(new Date().getMinutes())));
+
+    const date = currentDate.setMinutes(new Date().getMinutes());
+    dispatch(changeWeeklyCurrentDate(date));
     return { currentDate };
   };
   /*
@@ -86,10 +93,11 @@ export default function Weekly(props) {
       return this.state;
     });
     */
-    //const date = currentDate.setDate(currentDate.getDate() + n);
-    //dispatch(changeWeeklyCurrentDate(date));
-    currentDate.setDate(currentDate.getDate() + n);
-    console.log("cur!!", currentDate);
+    const date = currentDate.setDate(currentDate.getDate() + n);
+    dispatch(changeWeeklyCurrentDate(new Date(date)));
+    //setCurrentDate(new Date(currentDate.setDate(currentDate.getDate() + n)));
+
+    console.log("cur!", currentDate);
     return currentDate;
   };
 
@@ -98,6 +106,7 @@ export default function Weekly(props) {
     if (!isDate) {
       matrix = weekDays;
     } else {
+      console.log("Ssssss", currentDate);
       let todayDay = currentDate.getDay();
       matrix[todayDay] = currentDate.getDate();
 
@@ -114,9 +123,10 @@ export default function Weekly(props) {
     }
     return matrix;
   };
-  console.log("weekly render");
   const height = Dimensions.get("window").height;
   const width = Dimensions.get("window").width;
+
+  console.log("weekly render");
 
   var date = generateMatrix(1);
   var dates = [];
