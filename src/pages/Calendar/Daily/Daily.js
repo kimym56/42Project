@@ -12,9 +12,11 @@ export default function Daily(props) {
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let days = [];
   const dispatch = useDispatch();
-  const currentDate = useSelector((state) => {return state.dateReducer.dailyDate});
-  console.log('after useS : ',currentDate)
- 
+  const currentDate = useSelector((state) => {
+    return state.dateReducer.dailyDate;
+  });
+  console.log("after useS : ", currentDate);
+
   for (let i = 0; i < 96; i++) {
     days.push({
       id: Math.floor(48 * (i % 2) + (i / 2 + 1)),
@@ -38,10 +40,25 @@ export default function Daily(props) {
   );
 
   const changeDate = (n) => {
-    console.log('currentDate in changeDate : ', currentDate)
-    dispatch(changeDailyCurrentDate(new Date(currentDate.setDate(currentDate.getDate()+n))))};
-    //그냥 new Date(currentDate.getDate()+n)은 왜 안됨? 1226
+    const newDate = new Date(currentDate.setDate(currentDate.getDate() + n));
+
+    dispatch(changeDailyCurrentDate(newDate));
+  };
   console.log("daily render");
+
+  const getDate = () => {
+    const date = currentDate.setMinutes(new Date().getMinutes())
+    dispatch(changeDailyCurrentDate(new Date(date)))
+    return {currentDate}
+
+  }
+  useEffect(()=>{
+    const interval = setInterval(() => getDate(), 60000)
+    return () => {
+      clearInterval(interval);
+    }
+  },[])
+
   return (
     <View style={{ flex: 1 }}>
       <View
