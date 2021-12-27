@@ -47,17 +47,16 @@ export default function Daily(props) {
   console.log("daily render");
 
   const getDate = () => {
-    const date = currentDate.setMinutes(new Date().getMinutes())
-    dispatch(changeDailyCurrentDate(new Date(date)))
-    return {currentDate}
-
-  }
-  useEffect(()=>{
-    const interval = setInterval(() => getDate(), 60000)
+    const date = currentDate.setMinutes(new Date().getMinutes());
+    dispatch(changeDailyCurrentDate(new Date(date)));
+    return { currentDate };
+  };
+  useEffect(() => {
+    const interval = setInterval(() => getDate(), 60000);
     return () => {
       clearInterval(interval);
-    }
-  },[])
+    };
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>

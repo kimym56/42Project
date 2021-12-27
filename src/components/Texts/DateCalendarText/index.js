@@ -9,7 +9,6 @@ export default function index(props) {
   const weeklyDate = useSelector((state) => {
     return state.dateReducer.weeklyDate;
   });
-
   const monthlyDate = useSelector((state) => {
     return state.dateReducer.monthlyDate;
   });
