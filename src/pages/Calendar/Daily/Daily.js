@@ -75,8 +75,6 @@ export default function Daily(props) {
       <View style={{ flex: 11 }}>
         <Test
           currentDate={currentDate}
-          startselectValue={currentDate}
-          endselectValue={currentDate}
           navigation={props.navigation}
           cellsPerRow={2}
           days={days}

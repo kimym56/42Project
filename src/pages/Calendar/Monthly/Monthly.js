@@ -171,7 +171,7 @@ export default function Monthly(props) {
     <View style={{ flex: 1 }}>
       <View style={{ flex: 0.8, flexDirection: "row" }}>
         <PrevCalendarButton onPress={() => changeMonth(-1)} />
-        <DateCalendarText isMWD="M" selectDate={selectDate} />
+        <DateCalendarText isMWD="M"/>
         <NextCalendarButton onPress={() => changeMonth(+1)} />
       </View>
       <View

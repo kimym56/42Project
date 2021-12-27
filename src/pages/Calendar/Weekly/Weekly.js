@@ -232,8 +232,6 @@ export default function Weekly(props) {
       <View style={{ flex: 10 }}>
         <Test
           currentDate={currentDate}
-          startselectValue={currentDate}
-          endselectValue={currentDate}
           navigation={props.navigation}
           days={days}
           renderCell={renderCell}

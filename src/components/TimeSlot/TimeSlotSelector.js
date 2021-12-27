@@ -21,8 +21,9 @@ export default function TimeSlotSelector(props) {
   let [endselectDate, setendselectDate] = useState(new Date(props.currentDate));
   const [sequentialTouchnum, setsequentialTouchnum] = useState(0);
   const [sequentialTouchfromto, setsequentialTouchfromto] = useState([]);
-  const [initialSelectedCellIndex, setinitialSelectedCellIndex] =
-    useState(null);
+  const [initialSelectedCellIndex, setinitialSelectedCellIndex] = useState(
+    null
+  );
   const [currentSelection, setcurrentSelection] = useState([]);
   const [cellLayout, setcellLayout] = useState({ height: 0, width: 0 });
   const [calendarLayout, setcalendarLayout] = useState({
@@ -40,15 +41,14 @@ export default function TimeSlotSelector(props) {
   };
 
   const changeToTimeFormat = (startIndex, endIndex) => {
-    startselectDate = new Date(props.startselectValue);
-    endselectDate = new Date(props.endselectValue);
+    startselectDate = new Date(props.currentDate);
+    endselectDate = new Date(props.currentDate);
     console.log(
       "inchangetotimeformat: ",
       startselectDate.getDate(),
       endselectDate.getDate(),
       "propsValue:",
-      props.startselectValue,
-      props.endselectValue
+      props.currentDate
     );
     const todayIndex = startselectDate.getDay();
     let startTimeIndex = startIndex;
@@ -205,11 +205,7 @@ export default function TimeSlotSelector(props) {
     }
   };
   const selectSingleCell = (cellIndex) => {
-    console.log(
-      "props##:",
-      props.startselectValue.getDate(),
-      props.endselectValue.getDate()
-    );
+    console.log("props##:", props.currentDate.getDate());
 
     props.onSingleCellSelection(cellIndex);
     setsequentialTouchnum(sequentialTouchnum + 1);
