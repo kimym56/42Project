@@ -8,7 +8,7 @@ export default function index(props) {
   const weeklyDate = useSelector((state) => {
     return state.dateReducer.weeklyDate;
   });
-  console.log("cur@@", props.currentDate);
+  //console.log("cur@@", props.currentDate);
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   months = [
     "January",
