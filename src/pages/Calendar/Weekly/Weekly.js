@@ -48,6 +48,12 @@ export default function Weekly(props) {
     }
   }
   */
+  useEffect(() => {
+    const interval = setInterval(() => getDate(), 60000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
   const getDate = () => {
     /*
     setState((state) => {
@@ -58,7 +64,7 @@ export default function Weekly(props) {
     //setCurrentDate(new Date(currentDate.setMinutes(new Date().getMinutes())));
 
     const date = currentDate.setMinutes(new Date().getMinutes());
-    dispatch(changeWeeklyCurrentDate(date));
+    dispatch(changeWeeklyCurrentDate(new Date(date)));
     return { currentDate };
   };
   /*
