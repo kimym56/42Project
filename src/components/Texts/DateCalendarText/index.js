@@ -9,6 +9,9 @@ export default function index(props) {
   const weeklyDate = useSelector((state) => {
     return state.dateReducer.weeklyDate;
   });
+  const monthlyDate = useSelector((state) => {
+    return state.dateReducer.monthlyDate;
+  });
   //console.log("cur@@", props.currentDate);
   weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   months = [
@@ -29,8 +32,8 @@ export default function index(props) {
     case "M":
       return (
         <Text style={styles.text}>
-          {months[props.selectDate.getMonth()]} &nbsp;
-          {props.selectDate.getFullYear()}
+          {months[monthlyDate.getMonth()]} &nbsp;
+          {monthlyDate.getFullYear()}
         </Text>
       );
     case "W":

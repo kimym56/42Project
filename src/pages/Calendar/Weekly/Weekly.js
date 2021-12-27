@@ -204,7 +204,7 @@ export default function Weekly(props) {
         }}
       >
         <PrevCalendarButton onPress={() => changeDate(-7)} />
-        <DateCalendarText isMWD="W" currentDate={currentDate} />
+        <DateCalendarText isMWD="W" />
         <NextCalendarButton onPress={() => changeDate(+7)} />
       </View>
       <View

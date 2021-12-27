@@ -23,7 +23,7 @@ export default function Monthly(props) {
   const generateMatrix = () => {
     var matrix = [];
     //matrix[0] = this.weekDays;
-
+    console.log("333333333", selectDate);
     var year = selectDate.getFullYear();
     var month = selectDate.getMonth();
     var firstDay = new Date(year, month, 1).getDay();
@@ -171,7 +171,7 @@ export default function Monthly(props) {
     <View style={{ flex: 1 }}>
       <View style={{ flex: 0.8, flexDirection: "row" }}>
         <PrevCalendarButton onPress={() => changeMonth(-1)} />
-        <DateCalendarText isMWD="M" selectDate={selectDate} />
+        <DateCalendarText isMWD="M" />
         <NextCalendarButton onPress={() => changeMonth(+1)} />
       </View>
       <View
