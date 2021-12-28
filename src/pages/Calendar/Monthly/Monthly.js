@@ -130,7 +130,7 @@ export default function Monthly(props) {
             borderBottomWidth: 0,
             flexDirection: "row",
             borderRightWidth: colIndex == 6 ? 1 : 0,
-            borderTopLeftRadius : colIndex == 0 && rowIndex == 1 ? 10 : 0
+            borderTopLeftRadius: colIndex == 0 && rowIndex == 1 ? 10 : 0,
           }}
         >
           <Text
@@ -138,7 +138,7 @@ export default function Monthly(props) {
               flex: 1,
               textAlign: "center",
               // Highlight header
-              backgroundColor: rowIndex == 0 ? "#ddd" : "#fff",
+              //backgroundColor: rowIndex == 0 ? "#ddd" : "#fff",
 
               // Highlight Sundays
               color:
@@ -182,7 +182,6 @@ export default function Monthly(props) {
           padding: 0,
           justifyContent: "space-around",
           borderBottomWidth: rowIndex == finalLineIndex ? 1 : 0,
-         
         }}
       >
         {rowItems}
@@ -209,7 +208,7 @@ export default function Monthly(props) {
       >
         {days}
       </View>
-      <View style={{ flex: 11  }}>{rows}</View>
+      <View style={{ flex: 11 }}>{rows}</View>
     </View>
   );
 
