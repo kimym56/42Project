@@ -13,8 +13,8 @@ import Home from "./pages/Home";
 import AddEvent from "./pages/AddEvent";
 import Calendar from "./pages/Calendar";
 import TotalList from "./pages/Feed/Total/TotalList";
-import {store} from "./rdx/store"
-import {Provider } from 'react-redux'
+import { store } from "./rdx/store";
+import { Provider } from "react-redux";
 
 const CalendarStack = createStackNavigator();
 
@@ -63,7 +63,10 @@ export class App extends PureComponent {
 */
         <Provider store={store}>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
+            <Stack.Navigator
+              initialRouteName="Home"
+              
+            >
               <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="Login" component={Login} />
 
