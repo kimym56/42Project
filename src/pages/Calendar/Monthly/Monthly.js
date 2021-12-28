@@ -113,11 +113,24 @@ export default function Monthly(props) {
   });
 
   var rows = [];
+  let finalLineIndex = -1;
   rows = matrix.map((row, rowIndex) => {
     var rowItems = row.map((item, colIndex) => {
+      console.log(item, nDays[selectDate.getMonth()]);
+      if (item == nDays[selectDate.getMonth()]) {
+        finalLineIndex = rowIndex;
+        console.log("UUUUUU", rowIndex);
+      }
       return (
         <TouchableOpacity
-          style={{ flex: 1, borderWidth: 1, flexDirection: "row" }}
+          style={{
+            flex: 1,
+            borderWidth: 1,
+            //borderRightWidth: 0,
+            borderBottomWidth: 0,
+            flexDirection: "row",
+            borderRightWidth: colIndex == 6 ? 1 : 0,
+          }}
         >
           <Text
             style={{
@@ -160,6 +173,7 @@ export default function Monthly(props) {
           flexDirection: "row",
           padding: 0,
           justifyContent: "space-around",
+          borderBottomWidth: rowIndex == finalLineIndex ? 1 : 0,
         }}
       >
         {rowItems}
