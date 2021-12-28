@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
+import Icon from "react-native-vector-icons/AntDesign";
 import styles from "./style.js";
 export default function NextCalendarButton(props) {
   return (
@@ -9,7 +10,9 @@ export default function NextCalendarButton(props) {
       style={styles.container}
       underlayColor="#fff"
     >
-      <Text style={styles.text}>Next</Text>
+      <Text style={styles.text}>
+        <Icon name="right" size={20} color="white" />
+      </Text>
     </TouchableOpacity>
   );
 }

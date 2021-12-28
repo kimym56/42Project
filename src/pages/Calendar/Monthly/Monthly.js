@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Touchable } from "react-native";
-
+import { Iconoir } from "iconoir-react";
+import Icon from "react-native-vector-icons/FontAwesome";
 import PrevCalendarButton from "components/Buttons/PrevCalendarButton";
 import NextCalendarButton from "components/Buttons/NextCalendarButton";
 import DateCalendarText from "components/Texts/DateCalendarText";
@@ -27,7 +28,7 @@ export default function Monthly(props) {
     var year = selectDate.getFullYear();
     var month = selectDate.getMonth();
     var firstDay = new Date(year, month, 1).getDay();
-    console.log('firstDay:',firstDay)
+    console.log("firstDay:", firstDay);
     var maxDays = nDays[month];
     if (month == 1) {
       // February
@@ -114,9 +115,11 @@ export default function Monthly(props) {
   });
 
   var rows = [];
-  let tempDate = selectDate
-  tempDate.setDate(1)
-  let finalLineIndex = Math.ceil((nDays[tempDate.getMonth()]-7+tempDate.getDay())/7+1);
+  let tempDate = selectDate;
+  tempDate.setDate(1);
+  let finalLineIndex = Math.ceil(
+    (nDays[tempDate.getMonth()] - 7 + tempDate.getDay()) / 7 + 1
+  );
   rows = matrix.map((row, rowIndex) => {
     var rowItems = row.map((item, colIndex) => {
       // console.log(item, nDays[selectDate.getMonth()]);
@@ -134,12 +137,14 @@ export default function Monthly(props) {
             flexDirection: "row",
             borderRightWidth: colIndex == 6 ? 1 : 0,
 
-          borderBottomWidth: rowIndex == finalLineIndex ? 1 : 0,
-            borderTopLeftRadius : colIndex == 0 && rowIndex == 1 ? 10 : 0,
-            borderTopRightRadius : colIndex == 6 && rowIndex == 1 ? 10 : 0,
-            borderBottomLeftRadius : colIndex == 0 && rowIndex == finalLineIndex ? 10 : 0,
-            borderBottomRightRadius : colIndex == 6 && rowIndex == finalLineIndex ? 10 : 0,
-            backgroundColor : "white"
+            borderBottomWidth: rowIndex == finalLineIndex ? 1 : 0,
+            borderTopLeftRadius: colIndex == 0 && rowIndex == 1 ? 10 : 0,
+            borderTopRightRadius: colIndex == 6 && rowIndex == 1 ? 10 : 0,
+            borderBottomLeftRadius:
+              colIndex == 0 && rowIndex == finalLineIndex ? 10 : 0,
+            borderBottomRightRadius:
+              colIndex == 6 && rowIndex == finalLineIndex ? 10 : 0,
+            backgroundColor: "white",
           }}
         >
           <Text
@@ -221,7 +226,7 @@ export default function Monthly(props) {
       >
         {days}
       </View>
-      <View style={{ flex: 11  }}>{rows}</View>
+      <View style={{ flex: 11 }}>{rows}</View>
     </View>
   );
 

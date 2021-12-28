@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
+import Icon from "react-native-vector-icons/AntDesign";
 import styles from "./style.js";
 export default function PrevCalendarButton(props) {
   return (
@@ -8,7 +9,9 @@ export default function PrevCalendarButton(props) {
       onPress={() => props.onPress()}
       style={styles.container}
     >
-      <Text style={styles.text}>Prev</Text>
+      <Text style={styles.text}>
+        <Icon name="left" size={20} color="white" />
+      </Text>
     </TouchableOpacity>
   );
 }
