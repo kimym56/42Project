@@ -117,7 +117,7 @@ export default function Monthly(props) {
     var rowItems = row.map((item, colIndex) => {
       return (
         <TouchableOpacity
-          style={{ flex: 1, borderWidth: 1, flexDirection: "row" }}
+          style={{flex: 1, borderWidth: 1,borderRightWidth:'0px',borderBottomWidth: 'Opx' , flexDirection: "row" }}
         >
           <Text
             style={{
@@ -185,7 +185,7 @@ export default function Monthly(props) {
       >
         {days}
       </View>
-      <View style={{ flex: 11, backgroundColor: "white" }}>{rows}</View>
+      <View style={{ flex: 11  }}>{rows}</View>
     </View>
   );
 
