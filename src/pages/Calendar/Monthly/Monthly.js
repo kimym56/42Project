@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Touchable } from "react-native";
-
+import { Iconoir } from "iconoir-react";
+import Icon from "react-native-vector-icons/FontAwesome";
 import PrevCalendarButton from "components/Buttons/PrevCalendarButton";
 import NextCalendarButton from "components/Buttons/NextCalendarButton";
 import DateCalendarText from "components/Texts/DateCalendarText";
