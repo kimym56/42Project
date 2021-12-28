@@ -96,7 +96,7 @@ export default function Monthly(props) {
           padding: 0,
           justifyContent: "space-around",
           alignItems: "center",
-          // backgroundColor: "white",
+          backgroundColor: "#B7CBE6",
         }}
       >
         <Text
@@ -150,15 +150,22 @@ export default function Monthly(props) {
               // backgroundColor: rowIndex == 0 ? "#ddd" : "#fff",
 
               // Highlight Sundays
-              color: colIndex == 0 ? "#a00" : "#000",
+              color:
+                colIndex == 0
+                  ? "#a00"
+                  : item == activeDate.getDate() &&
+                    activeDate.getMonth() == selectDate.getMonth()
+                  ? "blue"
+                  : "black",
               // Highlight current date
 
+              /*
               color:
                 item == activeDate.getDate() &&
                 activeDate.getMonth() == selectDate.getMonth()
                   ? "blue"
                   : "black",
-
+              */
               fontWeight:
                 item == activeDate.getDate() &&
                 activeDate.getMonth() == selectDate.getMonth()
@@ -208,6 +215,7 @@ export default function Monthly(props) {
           flexDirection: "row",
           alignItmes: "center",
           justifyContent: "center",
+
           //marginLeft: (width / 7.6) * 0.6,
         }}
       >
