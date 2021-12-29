@@ -32,8 +32,11 @@ export default function index(props) {
     case "M":
       return (
         <View
-          style={{flex : 1,
-            backgroundColor: "#d9ebfc",flexDirection: 'row', alignItems: 'center'
+          style={{
+            flex: 1,
+            backgroundColor: "#d9ebfc",
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
           <Text style={styles.text}>

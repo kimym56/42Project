@@ -227,6 +227,7 @@ export default function Monthly(props) {
         {days}
       </View>
       <View style={{ flex: 11 }}>{rows}</View>
+      <View style={{flex:0.5}}/>
     </View>
   );
 

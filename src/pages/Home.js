@@ -1,5 +1,5 @@
 import React from "react";
-
+import { StyleSheet, View } from 'react-native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {TabBarAdvancedButton} from '../components/Tabbar/TabBarAdvancedButton'
@@ -19,19 +19,16 @@ export default function home() {
     
       screenOptions={{
         tabBarIconStyle: { display: "none" },
-        tabBarStyle: {
-          position: "absolute",
-          elevation: 0,
-          borderRadius: 10,
-          height: 70,
-        },
+        tabBarStyle : 
+        styles.navigator,
+        
       }}
     >
       <Tab.Screen name="Calendar" component={Calendar} />
       <Tab.Screen name="AddEvent"  options={{
           tabBarButton: (props) => (
             <TabBarAdvancedButton
-              bgColor={'red'}
+              bgColor={'black'}
               {...props}
             />
           )
@@ -41,3 +38,33 @@ export default function home() {
     </Tab.Navigator>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  navigatorContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+  },
+  navigator: {
+    borderTopWidth: 0,
+    backgroundColor: 'transparent',
+    elevation: 30
+  },
+  xFillLine: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 34
+  }
+});

@@ -5,8 +5,10 @@ const styles = StyleSheet.create({
   container: {
     //flex: 1,
     //backgroundColor: "blue",
-    width: 50,
-    height: 36,
+    width: 60,
+
+    display: "flex",
+    //height: 36,
     backgroundColor: "#236db3",
     overflow: "visible",
     borderRadius: 10,
