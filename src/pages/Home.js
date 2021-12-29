@@ -15,14 +15,13 @@ export default function home() {
   return (
     <Tab.Navigator
     
+
+    
       screenOptions={{
         tabBarIconStyle: { display: "none" },
         tabBarStyle: {
-          position: "relative",
           position: "absolute",
-
           elevation: 0,
-          backgroundColor: "#ffffff",
           borderRadius: 10,
           height: 70,
         },
@@ -32,7 +31,7 @@ export default function home() {
       <Tab.Screen name="AddEvent"  options={{
           tabBarButton: (props) => (
             <TabBarAdvancedButton
-              bgColor={'black'}
+              bgColor={'red'}
               {...props}
             />
           )

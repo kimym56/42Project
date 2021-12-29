@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import styles from "./style";
 import { useSelector, useDispatch } from "react-redux";
 export default function index(props) {
@@ -31,10 +31,16 @@ export default function index(props) {
   switch (props.isMWD) {
     case "M":
       return (
-        <Text style={styles.text}>
-          {months[monthlyDate.getMonth()]} &nbsp;
-          {monthlyDate.getFullYear()}
-        </Text>
+        <View
+          style={{flex : 1,
+            backgroundColor: "#d9ebfc",flexDirection: 'row', alignItems: 'center'
+          }}
+        >
+          <Text style={styles.text}>
+            {months[monthlyDate.getMonth()]} &nbsp;
+            {monthlyDate.getFullYear()}
+          </Text>
+        </View>
       );
     case "W":
       return (

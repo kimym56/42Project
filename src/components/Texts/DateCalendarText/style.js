@@ -6,11 +6,10 @@ const styles = StyleSheet.create({
   text: {
     //textAlign: "center", flex: 1, backgroundColor: "green"
     flex: 1,
-    textAlign: "center",
+    textAlign : 'center',
     fontSize: 20,
     //width: 150,
     height: 36,
-    backgroundColor: "#d9ebfc",
     overflow: "visible",
     borderRadius: 10,
   },

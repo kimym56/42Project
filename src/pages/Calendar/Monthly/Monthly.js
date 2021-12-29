@@ -208,8 +208,8 @@ export default function Monthly(props) {
   });
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 0.8, flexDirection: "row" }}>
+    <View style={{ flex: 1, backgroundColor:"#F2F3F5" }} >
+      <View style={{ flex: 0.8, flexDirection: "row", }}>
         <PrevCalendarButton onPress={() => changeMonth(-1)} />
         <DateCalendarText isMWD="M" />
         <NextCalendarButton onPress={() => changeMonth(+1)} />
