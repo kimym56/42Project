@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 
     display: "flex",
     //height: 36,
-    backgroundColor: "#236db3",
+    //backgroundColor: "#236db3",
     overflow: "visible",
     borderRadius: 10,
     marginLeft: 20,

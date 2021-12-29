@@ -10,7 +10,7 @@ export default function PrevCalendarButton(props) {
       style={styles.container}
     >
       <Text style={styles.text}>
-        <Icon name="left" size={20} color="white" />
+        <Icon name="left" size={20} color="black" />
       </Text>
     </TouchableOpacity>
   );

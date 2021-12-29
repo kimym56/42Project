@@ -3,13 +3,22 @@ import { View, StyleSheet, Dimensions, Text } from "react-native";
 import Monthly from "./Monthly/Monthly";
 import Weekly from "./Weekly/Weekly";
 import Daily from "./Daily/Daily.js";
-import { TabView, SceneMap } from "react-native-tab-view";
+import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import AddEvent from "../AddEvent";
 
 const LazyPlaceholder = ({ route }) => (
   <View>
     <Text>Loading {route.title}…</Text>
   </View>
+);
+const renderTabBar = (props) => (
+  <TabBar
+    {...props}
+    indicatorStyle={{ backgroundColor: "white" }}
+    style={{ backgroundColor: "#52A0FF" }}
+    //inactiveColor="black"
+    //activeColor="black"
+  />
 );
 export default class Calendar extends Component {
   MonthlyRoute = () => <Monthly navigation={this.props.navigation} />;
@@ -36,6 +45,7 @@ export default class Calendar extends Component {
     console.log("calendar render");
     return (
       <TabView
+        renderTabBar={renderTabBar}
         lazy
         navigationState={this.state}
         renderScene={this.renderScene}
