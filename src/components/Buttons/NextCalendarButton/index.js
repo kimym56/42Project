@@ -11,7 +11,7 @@ export default function NextCalendarButton(props) {
       underlayColor="#fff"
     >
       <Text style={styles.text}>
-        <Icon name="right" size={20} color="white" />
+        <Icon name="right" size={20} color="black" />
       </Text>
     </TouchableOpacity>
   );

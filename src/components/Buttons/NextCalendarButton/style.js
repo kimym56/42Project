@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     //backgroundColor: "blue",
     width: 60,
     //height: 60,
-    backgroundColor: "#236db3",
+    //backgroundColor: "#236db3",
     overflow: "visible",
     borderRadius: 10,
     marginRight: 20,

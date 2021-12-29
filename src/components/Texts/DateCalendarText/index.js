@@ -34,14 +34,14 @@ export default function index(props) {
         <View
           style={{
             flex: 1,
-            backgroundColor: "#d9ebfc",
+            //backgroundColor: "#d9ebfc",
             flexDirection: "row",
             alignItems: "center",
           }}
         >
           <Text style={styles.text}>
-            {months[monthlyDate.getMonth()]} &nbsp;
-            {monthlyDate.getFullYear()}
+            {monthlyDate.getFullYear() + "년 "}
+            {monthlyDate.getMonth() + 1 + "월"}
           </Text>
         </View>
       );
