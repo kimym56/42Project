@@ -329,7 +329,7 @@ export default function TimeSlotSelector(props) {
                   (props.cellsPerRow == 8
                     ? index % props.cellsPerRow == new Date().getDay() + 1
                     : true)
-                    ? "silver"
+                    ? "rgba(0,0,0,0.1)"
                     : "white",
               }}
               pointerEvents="box-only"

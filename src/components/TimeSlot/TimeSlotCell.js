@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     //  backgroundColor: "skyblue",
     borderWidth: 1,
     borderColor: "white",
-    borderRightColor: "gray",
+    borderRightColor: "rgba(0,0,0,0.1)",
   },
   dayContainerOdd: {
     flex: 1,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     //    backgroundColor: "skyblue",
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: "rgba(0,0,0,0.1)",
     borderBottomWidth: 0.25,
   },
   dayContainerEven: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     //    backgroundColor: "skyblue",
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: "rgba(0,0,0,0.1)",
     borderTopWidth: 0.25,
   },
   firstActiveDayContainer: {

@@ -133,7 +133,7 @@ export default function Monthly(props) {
           style={{
             flex: 1,
             borderWidth: 1,
-            borderColor: 'rgba(0,0,0,0.1)',
+            borderColor: "rgba(0,0,0,0.1)",
             //borderRightWidth: 0,
             // borderBottomWidth: 0,
             flexDirection: "row",
@@ -213,7 +213,14 @@ export default function Monthly(props) {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <View style={{ flex: 0.8, flexDirection: "row", borderBottomWidth:1,borderColor:'rgba(0,0,0,0.1)' }}>
+      <View
+        style={{
+          flex: 0.8,
+          flexDirection: "row",
+          borderBottomWidth: 1,
+          borderColor: "rgba(0,0,0,0.1)",
+        }}
+      >
         <PrevCalendarButton onPress={() => changeMonth(-1)} />
         <DateCalendarText isMWD="M" />
         <NextCalendarButton onPress={() => changeMonth(+1)} />

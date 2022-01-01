@@ -8,6 +8,7 @@ import NextCalendarButton from "components/Buttons/NextCalendarButton";
 import DateCalendarText from "components/Texts/DateCalendarText";
 import { useSelector, useDispatch } from "react-redux";
 import { changeDailyCurrentDate } from "../../../rdx";
+import { BorderBottom } from "iconoir-react";
 export default function Daily(props) {
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   let days = [];
@@ -65,6 +66,9 @@ export default function Daily(props) {
           flex: 0.8,
           flexDirection: "row",
           justifyContent: "center",
+          backgroundColor:'white',
+          borderBottomWidth:1,
+          borderColor:'rgba(0,0,0,0.1)'
         }}
       >
         <PrevCalendarButton onPress={() => changeDate(-1)} />

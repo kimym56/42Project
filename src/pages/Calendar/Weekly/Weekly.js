@@ -145,11 +145,13 @@ export default function Weekly(props) {
           padding: 5,
           justifyContent: "space-around",
           alignItems: "center",
-          backgroundColor:'white'
+          backgroundColor: "white",
         }}
       >
         <Text
           style={{
+            fontFamily: "Pridi-Light",
+            fontSize: 15,
             flex: 1,
             height: 20,
             textAlign: "center",
@@ -183,6 +185,8 @@ export default function Weekly(props) {
       >
         <Text
           style={{
+            fontFamily: "Pridi-Light",
+            fontSize: 15,
             flex: 1,
             height: 20,
             textAlign: "center",
@@ -196,14 +200,14 @@ export default function Weekly(props) {
   });
 
   return (
-    <View style={{ flex: 1 ,
-      backgroundColor:'white'}}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
         style={{
           flex: 0.8,
           flexDirection: "row",
-          justifyContent: "center",
-          backgroundColor:'white',borderBottomWidth:1,borderColor:'rgba(0,0,0,0.1)'
+          backgroundColor: "white",
+          borderBottomWidth: 1,
+          borderColor: "rgba(0,0,0,0.1)",
         }}
       >
         <PrevCalendarButton onPress={() => changeDate(-7)} />
