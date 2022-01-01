@@ -15,6 +15,14 @@ import Calendar from "./pages/Calendar";
 import TotalList from "./pages/Feed/Total/TotalList";
 import { store } from "./rdx/store";
 import { Provider } from "react-redux";
+import * as Font from 'expo-font';
+
+Font.loadAsync({
+  'Pridi-ExtraLight': require('./assets/fonts/Pridi-ExtraLight.ttf'),
+
+  'Pridi-Light': require('./assets/fonts/Pridi-Light.ttf'),
+  'Pridi-Regular': require('./assets/fonts/Pridi-Regular.ttf')
+});
 
 const CalendarStack = createStackNavigator();
 

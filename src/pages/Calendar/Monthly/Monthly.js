@@ -102,6 +102,8 @@ export default function Monthly(props) {
       >
         <Text
           style={{
+
+    fontFamily : 'Pridi-ExtraLight',
             flex: 1,
             height: 20,
             textAlign: "center",
@@ -149,6 +151,8 @@ export default function Monthly(props) {
         >
           <Text
             style={{
+
+    fontFamily : 'Pridi-ExtraLight',
               flex: 1,
               textAlign: "center",
               // Highlight header

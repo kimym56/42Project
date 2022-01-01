@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   navigator: {
     borderTopWidth: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: 'green',
     elevation: 30
   },
   xFillLine: {

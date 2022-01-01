@@ -5,7 +5,11 @@ import Weekly from "./Weekly/Weekly";
 import Daily from "./Daily/Daily.js";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import AddEvent from "../AddEvent";
+import * as Font from "expo-font";
 
+Font.loadAsync({
+  "Pridi-ExtraLight": require("../../assets/fonts/Pridi-ExtraLight.ttf"),
+});
 const LazyPlaceholder = ({ route }) => (
   <View>
     <Text>Loading {route.title}…</Text>
@@ -14,10 +18,15 @@ const LazyPlaceholder = ({ route }) => (
 const renderTabBar = (props) => (
   <TabBar
     {...props}
-    indicatorStyle={{ backgroundColor: "white" }}
-    style={{ backgroundColor: "#52A0FF" }}
-    //inactiveColor="black"
-    //activeColor="black"
+    indicatorStyle={{ backgroundColor: "black" }}
+    style={{ backgroundColor: "white" }}
+    renderLabel={({ route,color }) => (
+      <Text style={{ color,fontFamily: "Pridi-Light", fontSize: 18 }}>
+        {route.title}
+      </Text>
+    )}
+    inactiveColor="rgba(0, 0, 0, 0.6)"
+    activeColor="black"
   />
 );
 export default class Calendar extends Component {

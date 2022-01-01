@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     display: "flex",
     overflow: "visible",
     borderRadius: 10,
+    fontFamily : 'Pridi-ExtraLight'
   },
 });
 
