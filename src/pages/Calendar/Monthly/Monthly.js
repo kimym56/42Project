@@ -97,13 +97,12 @@ export default function Monthly(props) {
           padding: 0,
           justifyContent: "space-around",
           alignItems: "center",
-          backgroundColor: "#B7CBE6",
+          backgroundColor: "white",
         }}
       >
         <Text
           style={{
-
-    fontFamily : 'Pridi-ExtraLight',
+            fontFamily: "Pridi-Light",
             flex: 1,
             height: 20,
             textAlign: "center",
@@ -134,6 +133,7 @@ export default function Monthly(props) {
           style={{
             flex: 1,
             borderWidth: 1,
+            borderColor: 'rgba(0,0,0,0.1)',
             //borderRightWidth: 0,
             // borderBottomWidth: 0,
             flexDirection: "row",
@@ -151,8 +151,8 @@ export default function Monthly(props) {
         >
           <Text
             style={{
-
-    fontFamily : 'Pridi-ExtraLight',
+              fontFamily: "Pridi-ExtraLight",
+              fontSize: 18,
               flex: 1,
               textAlign: "center",
               // Highlight header
@@ -212,8 +212,8 @@ export default function Monthly(props) {
   });
 
   return (
-    <View style={{ flex: 1, backgroundColor:"#F2F3F5" }} >
-      <View style={{ flex: 0.8, flexDirection: "row", }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
+      <View style={{ flex: 0.8, flexDirection: "row", borderBottomWidth:1,borderColor:'rgba(0,0,0,0.1)' }}>
         <PrevCalendarButton onPress={() => changeMonth(-1)} />
         <DateCalendarText isMWD="M" />
         <NextCalendarButton onPress={() => changeMonth(+1)} />
@@ -231,7 +231,7 @@ export default function Monthly(props) {
         {days}
       </View>
       <View style={{ flex: 11 }}>{rows}</View>
-      <View style={{flex:0.5}}/>
+      <View style={{ flex: 0.5 }} />
     </View>
   );
 

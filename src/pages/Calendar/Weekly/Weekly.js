@@ -145,6 +145,7 @@ export default function Weekly(props) {
           padding: 5,
           justifyContent: "space-around",
           alignItems: "center",
+          backgroundColor:'white'
         }}
       >
         <Text
@@ -195,12 +196,14 @@ export default function Weekly(props) {
   });
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 ,
+      backgroundColor:'white'}}>
       <View
         style={{
           flex: 0.8,
           flexDirection: "row",
           justifyContent: "center",
+          backgroundColor:'white',borderBottomWidth:1,borderColor:'rgba(0,0,0,0.1)'
         }}
       >
         <PrevCalendarButton onPress={() => changeDate(-7)} />

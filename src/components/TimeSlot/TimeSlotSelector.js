@@ -330,7 +330,7 @@ export default function TimeSlotSelector(props) {
                     ? index % props.cellsPerRow == new Date().getDay() + 1
                     : true)
                     ? "silver"
-                    : "skyblue",
+                    : "white",
               }}
               pointerEvents="box-only"
             >
@@ -347,7 +347,7 @@ export default function TimeSlotSelector(props) {
             onLayout={index === 0 ? onFirstcellLayout : () => {}}
           >
             <View
-              style={{ flex: 0.6, backgroundColor: "skyblue" }}
+              style={{ flex: 0.6, backgroundColor: "white" }}
               pointerEvents="box-only"
             >
               {props.renderCell(item)}
@@ -361,7 +361,7 @@ export default function TimeSlotSelector(props) {
             onLayout={index === 0 ? onFirstcellLayout : () => {}}
           >
             <View
-              style={{ flex: 0.08, backgroundColor: "skyblue" }}
+              style={{ flex: 0.08, backgroundColor: "white" }}
               pointerEvents="box-only"
             >
               {props.renderCell(item)}
