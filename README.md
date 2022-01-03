@@ -12,8 +12,8 @@ UI는 Framer에서 제작했습니다.
 
 https://framer.com/share/qj1u16Px9USZy14PWoHb/wtCQCJ9KD
 
-![UI](https://user-images.githubusercontent.com/74525390/147910430-8024da39-92e8-49b3-aab3-6bc8c1421cbf.png)
-![UI2](https://user-images.githubusercontent.com/74525390/147910436-637c2a20-dfff-4b00-95e9-9b616f0a0391.png)
+![UI](https://user-images.githubusercontent.com/74525390/147914658-7a378144-018e-44fd-a4ea-44f69197a8ce.png)
+![UI2](https://user-images.githubusercontent.com/74525390/147914586-f2b403a3-1b6d-4859-a037-e148e6c639f2.png)
 # Install
 ```
 $ npm i
