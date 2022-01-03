@@ -200,7 +200,7 @@ export default function Weekly(props) {
   });
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "#F2F3F5" }}>
       <View
         style={{
           flex: 0.8,
@@ -214,12 +214,14 @@ export default function Weekly(props) {
         <DateCalendarText isMWD="W" />
         <NextCalendarButton onPress={() => changeDate(+7)} />
       </View>
+      <View style={{flex:1, backgroundColor:'white'}}>
       <View
         style={{
           flex: 0.5,
           flexDirection: "row",
           alignItmes: "center",
           justifyContent: "center",
+          backgroundColor:'white',
           marginLeft: (width / 7.6) * 0.6,
         }}
       >
@@ -232,9 +234,12 @@ export default function Weekly(props) {
           alignItmes: "center",
           justifyContent: "center",
           marginLeft: (width / 7.6) * 0.6,
+          borderBottomWidth:1,
+          borderColor:'rgba(0,0,0,0.1)'
         }}
       >
         {dates}
+      </View>
       </View>
       <View style={{ flex: 10 }}>
         <Test

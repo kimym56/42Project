@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     //  backgroundColor: "skyblue",
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: "#F2F3F5",
     borderRightColor: "rgba(0,0,0,0.1)",
   },
   dayContainerOdd: {

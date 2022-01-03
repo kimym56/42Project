@@ -212,13 +212,14 @@ export default function Monthly(props) {
   });
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: '#F2F3F5' }}>
       <View
         style={{
           flex: 0.8,
           flexDirection: "row",
           borderBottomWidth: 1,
           borderColor: "rgba(0,0,0,0.1)",
+          backgroundColor: 'white'
         }}
       >
         <PrevCalendarButton onPress={() => changeMonth(-1)} />

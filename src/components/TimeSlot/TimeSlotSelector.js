@@ -347,7 +347,7 @@ export default function TimeSlotSelector(props) {
             onLayout={index === 0 ? onFirstcellLayout : () => {}}
           >
             <View
-              style={{ flex: 0.6, backgroundColor: "white" }}
+              style={{ flex: 0.6, backgroundColor: "#F2F3F5" }}
               pointerEvents="box-only"
             >
               {props.renderCell(item)}
@@ -361,7 +361,7 @@ export default function TimeSlotSelector(props) {
             onLayout={index === 0 ? onFirstcellLayout : () => {}}
           >
             <View
-              style={{ flex: 0.08, backgroundColor: "white" }}
+              style={{ flex: 0.08, backgroundColor: "#F2F3F5" }}
               pointerEvents="box-only"
             >
               {props.renderCell(item)}

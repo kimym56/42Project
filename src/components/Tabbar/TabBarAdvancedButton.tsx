@@ -22,10 +22,10 @@ export const TabBarAdvancedButton: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "red",
+    backgroundColor: '#F2F3F5',
     position: "relative",
     width: 140,
-    height: 70,
+    height: 78,
     alignItems: "center",
   },
   background: {
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 27,
     backgroundColor: "#E94F37",
+    top:8
   },
   buttonIcon: {
     fontSize: 16,
