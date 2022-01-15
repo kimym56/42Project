@@ -15,13 +15,14 @@ import Calendar from "./pages/Calendar";
 import TotalList from "./pages/Feed/Total/TotalList";
 import { store } from "./rdx/store";
 import { Provider } from "react-redux";
-import * as Font from 'expo-font';
+import * as Font from "expo-font";
+import EventDetail from "./pages/EventDetail";
 
 Font.loadAsync({
-  'Pridi-ExtraLight': require('./assets/fonts/Pridi-ExtraLight.ttf'),
+  "Pridi-ExtraLight": require("./assets/fonts/Pridi-ExtraLight.ttf"),
 
-  'Pridi-Light': require('./assets/fonts/Pridi-Light.ttf'),
-  'Pridi-Regular': require('./assets/fonts/Pridi-Regular.ttf')
+  "Pridi-Light": require("./assets/fonts/Pridi-Light.ttf"),
+  "Pridi-Regular": require("./assets/fonts/Pridi-Regular.ttf"),
 });
 
 const CalendarStack = createStackNavigator();
@@ -71,10 +72,7 @@ export class App extends PureComponent {
 */
         <Provider store={store}>
           <NavigationContainer>
-            <Stack.Navigator
-              initialRouteName="Home"
-              
-            >
+            <Stack.Navigator initialRouteName="Home">
               <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="Login" component={Login} />
 
@@ -87,6 +85,11 @@ export class App extends PureComponent {
                 name="AddEvent2"
                 component={AddEvent}
                 options={{ title: "AddEvent" }}
+              />
+              <Stack.Screen
+                name="EventDetail"
+                component={EventDetail}
+                options={{ title: "EventDetail" }}
               />
               <Stack.Screen
                 name="TotalList"

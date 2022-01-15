@@ -1,7 +1,10 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { BottomTabBar, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  BottomTabBar,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
 import { TabBarAdvancedButton } from "../components/Tabbar/TabBarAdvancedButton";
 import Calendar from "./Calendar";
 import AddEvent from "./AddEvent";
@@ -14,7 +17,6 @@ export default function home() {
   console.log("home render");
   return (
     <Tab.Navigator
-      
       screenOptions={{
         tabBarIconStyle: { display: "none" },
         tabBarStyle: styles.navigator,

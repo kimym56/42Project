@@ -66,7 +66,11 @@ export default function Monthly(props) {
     dispatch(changeMonthlyCurrentDate(new Date(selectDate.setDate(item))));
     goAddSchedule();
   };
-
+  const _onPressEvent = (item) => {
+    props.navigation.navigate("EventDetail", {
+      date: item,
+    });
+  };
   const changeMonth = (n) => {
     /*
     this.setState(() => {
@@ -132,11 +136,11 @@ export default function Monthly(props) {
         <TouchableOpacity
           style={{
             flex: 1,
+            flexDirection: "column",
             borderWidth: 1,
             borderColor: "rgba(0,0,0,0.1)",
             //borderRightWidth: 0,
             // borderBottomWidth: 0,
-            flexDirection: "row",
             borderRightWidth: colIndex == 6 ? 1 : 0,
 
             borderBottomWidth: rowIndex == finalLineIndex ? 1 : 0,
@@ -147,6 +151,13 @@ export default function Monthly(props) {
             borderBottomRightRadius:
               colIndex == 6 && rowIndex == finalLineIndex ? 10 : 0,
             backgroundColor: "white",
+          }}
+          onPress={() => {
+            // if-else문으로 _onPress2와 _onPressEvent 구별해야됨 !!!!! (22.01.15)
+            // localData 이후에 처리
+            if (item != -1) {
+              _onPress2(item);
+            }
           }}
         >
           <Text
@@ -181,15 +192,12 @@ export default function Monthly(props) {
                   ? "bold"
                   : "",
             }}
-            onPress={() => {
-              if (item != -1) {
-                _onPress2(item);
-              }
-            }}
           >
             {item != -1 ? item : ""}
             {/* {finalLineIndex} */}
           </Text>
+
+          <Text style={{ flex: 1 }}>event</Text>
         </TouchableOpacity>
       );
     });
@@ -212,14 +220,14 @@ export default function Monthly(props) {
   });
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#F2F3F5' }}>
+    <View style={{ flex: 1, backgroundColor: "#F2F3F5" }}>
       <View
         style={{
           flex: 0.8,
           flexDirection: "row",
           borderBottomWidth: 1,
           borderColor: "rgba(0,0,0,0.1)",
-          backgroundColor: 'white'
+          backgroundColor: "white",
         }}
       >
         <PrevCalendarButton onPress={() => changeMonth(-1)} />
