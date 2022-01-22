@@ -57,7 +57,7 @@ export default function Daily(props) {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  });
 
   return (
     <View style={{ flex: 1 }}>

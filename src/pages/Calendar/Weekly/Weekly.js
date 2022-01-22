@@ -29,7 +29,6 @@ export default function Weekly(props) {
 
   //let currentDate = new Date();
   let todayDate = new Date();
-  let tempDate = new Date();
   for (let i = 0; i < 384; i++) {
     days.push({
       id: Math.floor(48 * (i % 8) + (i / 8 + 1)),
@@ -51,9 +50,10 @@ export default function Weekly(props) {
   useEffect(() => {
     const interval = setInterval(() => getDate(), 60000);
     return () => {
+      console.log('return uE')
       clearInterval(interval);
     };
-  }, []);
+  });
   const getDate = () => {
     /*
     setState((state) => {
@@ -63,8 +63,10 @@ export default function Weekly(props) {
     */
     //setCurrentDate(new Date(currentDate.setMinutes(new Date().getMinutes())));
 
-    const date = currentDate.setMinutes(new Date().getMinutes());
-    dispatch(changeWeeklyCurrentDate(new Date(date)));
+    currentDate.setMinutes(new Date().getMinutes());
+    
+    console.log('date after setMinute : ',currentDate)
+    dispatch(changeWeeklyCurrentDate(new Date(currentDate)));
     return { currentDate };
   };
   /*
@@ -100,7 +102,7 @@ export default function Weekly(props) {
     });
     */
     const date = currentDate.setDate(currentDate.getDate() + n);
-    dispatch(changeWeeklyCurrentDate(new Date(date)));
+    dispatch(changeWeeklyCurrentDate(new Date(currentDate)));
     //setCurrentDate(new Date(currentDate.setDate(currentDate.getDate() + n)));
 
     console.log("cur!", currentDate);
@@ -117,11 +119,14 @@ export default function Weekly(props) {
       matrix[todayDay] = currentDate.getDate();
 
       for (let i = todayDay - 1; i >= 0; i--) {
+        let tempDate = new Date();
         tempDate.setMonth(currentDate.getMonth());
         tempDate.setDate(currentDate.getDate() - (todayDay - i));
         matrix[i] = tempDate.getDate();
+        console.log("tempDate : ", tempDate);
       }
       for (let i = todayDay + 1; i <= 6; i++) {
+        let tempDate = new Date();
         tempDate.setMonth(currentDate.getMonth());
         tempDate.setDate(currentDate.getDate() + (i - todayDay));
         matrix[i] = tempDate.getDate();
@@ -214,32 +219,32 @@ export default function Weekly(props) {
         <DateCalendarText isMWD="W" />
         <NextCalendarButton onPress={() => changeDate(+7)} />
       </View>
-      <View style={{flex:1, backgroundColor:'white'}}>
-      <View
-        style={{
-          flex: 0.5,
-          flexDirection: "row",
-          alignItmes: "center",
-          justifyContent: "center",
-          backgroundColor:'white',
-          marginLeft: (width / 7.6) * 0.6,
-        }}
-      >
-        {rows}
-      </View>
-      <View
-        style={{
-          flex: 0.5,
-          flexDirection: "row",
-          alignItmes: "center",
-          justifyContent: "center",
-          marginLeft: (width / 7.6) * 0.6,
-          borderBottomWidth:1,
-          borderColor:'rgba(0,0,0,0.1)'
-        }}
-      >
-        {dates}
-      </View>
+      <View style={{ flex: 1, backgroundColor: "white" }}>
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: "row",
+            alignItmes: "center",
+            justifyContent: "center",
+            backgroundColor: "white",
+            marginLeft: (width / 7.6) * 0.6,
+          }}
+        >
+          {rows}
+        </View>
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: "row",
+            alignItmes: "center",
+            justifyContent: "center",
+            marginLeft: (width / 7.6) * 0.6,
+            borderBottomWidth: 1,
+            borderColor: "rgba(0,0,0,0.1)",
+          }}
+        >
+          {dates}
+        </View>
       </View>
       <View style={{ flex: 10 }}>
         <Test
