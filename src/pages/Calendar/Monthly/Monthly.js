@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component,useState,useEffect } from "react";
 import { View, Text, TouchableOpacity, Touchable } from "react-native";
 import { Iconoir } from "iconoir-react";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -9,18 +9,43 @@ import Calendar from "..";
 import { useSelector, useDispatch } from "react-redux";
 import { changeMonthlyCurrentDate } from "../../../rdx";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Monthly(props) {
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
   const nDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
   const activeDate = new Date();
   const selectDate = useSelector((state) => {
     return state.dateReducer.monthlyDate;
   });
+  const [newState, setnewState] = useState("");
+  async function getData() {
+    try {
+      console.log("yyyyyyyyyyyyyyyyyyyyyyyyyy");
+      const mystate = await AsyncStorage.getItem("@diary:state");
+      if (mystate !== null) {
+        console.log("qqqqqqqqqqqqqqqqqqqqqqqqq");
+        setnewState(JSON.parse(mystate));
+      }
+    } catch (e) {}
+  }
+  useEffect(() => {
+    getData()
+    console.log('newState: ', newState)
+  },[])
+  let events = [
+    {startDate : '2022-3-11T13:24:00', endDate : '2022-03-11T17:24:00', contents: 'E1'},
+    {startDate : '2022-3-12T14:25:00', endDate : '2022-03-12T18:25:00', contents: 'E2'},
+    {startDate : '2022-3-13T15:26:00', endDate : '2022-03-13T19:26:00', contents: 'E3'},
 
+  ]
+
+  const getEvent = (date)=>{
+    // console.log('date in getEvent: ', date)
+    let result = events.filter(it => it.startDate.includes(date));
+    console.log(result[0]?result[0].contents:'');
+    return result[0]?result[0].contents:'';
+  }
   const dispatch = useDispatch();
-
   const generateMatrix = () => {
     var matrix = [];
     //matrix[0] = this.weekDays;
@@ -28,7 +53,7 @@ export default function Monthly(props) {
     var year = selectDate.getFullYear();
     var month = selectDate.getMonth();
     var firstDay = new Date(year, month, 1).getDay();
-    console.log("firstDay:", firstDay);
+    // console.log("firstDay:", firstDay);
     var maxDays = nDays[month];
     if (month == 1) {
       // February
@@ -89,6 +114,7 @@ export default function Monthly(props) {
     });
   };
   console.log("monthly render");
+  
   var matrix = generateMatrix();
   var dayMatrix = weekDays;
   var days = [];
@@ -132,6 +158,7 @@ export default function Monthly(props) {
       //   finalLineIndex = rowIndex;
       //   // console.log("UUUUUU", rowIndex);
       // }
+      let date = selectDate.getFullYear()+'-'+(selectDate.getMonth()+1)+'-'+item;
       return (
         <TouchableOpacity
           style={{
@@ -168,7 +195,6 @@ export default function Monthly(props) {
               textAlign: "center",
               // Highlight header
               // backgroundColor: rowIndex == 0 ? "#ddd" : "#fff",
-
               // Highlight Sundays
               color:
                 colIndex == 0
@@ -178,7 +204,6 @@ export default function Monthly(props) {
                   ? "blue"
                   : "black",
               // Highlight current date
-
               /*
               color:
                 item == activeDate.getDate() &&
@@ -196,8 +221,8 @@ export default function Monthly(props) {
             {item != -1 ? item : ""}
             {/* {finalLineIndex} */}
           </Text>
-
-          <Text style={{ flex: 1 }}>event</Text>
+          <Text style={{ flex: 1 }}>
+            {getEvent(date)}</Text>
         </TouchableOpacity>
       );
     });
