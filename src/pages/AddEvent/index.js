@@ -161,26 +161,26 @@ export default function AddEvent(props) {
     onChangeETText(date.format("a/p  hh:mm"));
   };
 
-  async function storeData() {
-    console.log("@@@@@@: ", contents);
+  async function storeData(newCont) {
     try {
-      console.log("tttttttttt");
-      await AsyncStorage.setItem("@diary:state", JSON.stringify(contents));
+      await AsyncStorage.setItem("@diary:state", JSON.stringify(newCont));
     } catch (e) {}
   }
   async function getData() {
     try {
-      console.log("yyyyyyyyyyyyyyyyyyyyyyyyyy");
+     
       const mystate = await AsyncStorage.getItem("@diary:state");
       if (mystate !== null) {
-        console.log("qqqqqqqqqqqqqqqqqqqqqqqqq");
-        setnewState(JSON.parse(mystate));
+        setContents(JSON.parse(mystate));
       }
     } catch (e) {}
   }
-  function isCorrect(n) {
-    setContents(contents.concat({ content: newcontents }));
-    storeData();
+  
+  async function isCorrect(n) {
+   try{
+    var newCont = contents.concat({ content: newcontents })
+    setContents(newCont)
+    await storeData(newCont)
     if (n == 1) {
       //Toast.show("Success");
       props.navigation.goBack();
@@ -188,7 +188,10 @@ export default function AddEvent(props) {
       Alert.alert("error");
     }
   }
+  catch{
 
+  }
+}
   function save() {
     if (contents != "") {
       const id = "1";
@@ -205,7 +208,6 @@ export default function AddEvent(props) {
   }
   useEffect(() => {
     getData();
-    console.log("new$$$$$$$$$$$: ", newState);
   }, [contents]);
   return (
     <View style={{ flex: 1 }}>
@@ -315,6 +317,7 @@ export default function AddEvent(props) {
         <Button
           title={"AddEvent"}
           onPress={() => {
+            console.log('newCont: ',newcontents)
             isCorrect(
               startDate.format("yyyyMMddHHmm") <=
                 endDate.format("yyyyMMddHHmm") && contents != ""

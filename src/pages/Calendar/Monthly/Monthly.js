@@ -20,10 +20,9 @@ export default function Monthly(props) {
   const [newState, setnewState] = useState("");
   async function getData() {
     try {
-      console.log("yyyyyyyyyyyyyyyyyyyyyyyyyy");
       const mystate = await AsyncStorage.getItem("@diary:state");
+      console.log('getData : ', mystate)
       if (mystate !== null) {
-        console.log("qqqqqqqqqqqqqqqqqqqqqqqqq");
         setnewState(JSON.parse(mystate));
       }
     } catch (e) {}
@@ -31,14 +30,12 @@ export default function Monthly(props) {
   useEffect(() => {
     getData()
     console.log('newState: ', newState)
-  },[])
+  },[selectDate])
   let events = [
     {startDate : '2022-3-11T13:24:00', endDate : '2022-03-11T17:24:00', contents: 'E1'},
     {startDate : '2022-3-12T14:25:00', endDate : '2022-03-12T18:25:00', contents: 'E2'},
     {startDate : '2022-3-13T15:26:00', endDate : '2022-03-13T19:26:00', contents: 'E3'},
-
   ]
-
   const getEvent = (date)=>{
     // console.log('date in getEvent: ', date)
     let result = events.filter(it => it.startDate.includes(date));
