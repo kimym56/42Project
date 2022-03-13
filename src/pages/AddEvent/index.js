@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 //import Toast from "react-native-simple-toast";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 Date.prototype.format = function (f) {
   if (!this.valueOf()) return " ";
@@ -82,7 +83,13 @@ export default function AddEvent(props) {
     return reSet;
   }, [[props.navigation]]);*/
 
-  const [contents, setContents] = useState("");
+  const [contents, setContents] = useState([
+    {
+      content: "hello",
+    },
+  ]);
+  const [newcontents, setnewContents] = useState("");
+  const [newState, setnewState] = useState("");
   //console.log(props);
   const [startDate, setStartDate] = useState(
     //new Date(props.route.params.startdateValue.setMinutes(0))
@@ -154,7 +161,26 @@ export default function AddEvent(props) {
     onChangeETText(date.format("a/p  hh:mm"));
   };
 
+  async function storeData() {
+    console.log("@@@@@@: ", contents);
+    try {
+      console.log("tttttttttt");
+      await AsyncStorage.setItem("@diary:state", JSON.stringify(contents));
+    } catch (e) {}
+  }
+  async function getData() {
+    try {
+      console.log("yyyyyyyyyyyyyyyyyyyyyyyyyy");
+      const mystate = await AsyncStorage.getItem("@diary:state");
+      if (mystate !== null) {
+        console.log("qqqqqqqqqqqqqqqqqqqqqqqqq");
+        setnewState(JSON.parse(mystate));
+      }
+    } catch (e) {}
+  }
   function isCorrect(n) {
+    setContents(contents.concat({ content: newcontents }));
+    storeData();
     if (n == 1) {
       //Toast.show("Success");
       props.navigation.goBack();
@@ -163,6 +189,24 @@ export default function AddEvent(props) {
     }
   }
 
+  function save() {
+    if (contents != "") {
+      const id = "1";
+
+      const newContent = {
+        id: id,
+        content: contents,
+        date: startDate,
+      };
+      //setContents("");
+      //return newContent;
+      //setContents({ contents: contents.concat(newcontent) }, storeData);
+    }
+  }
+  useEffect(() => {
+    getData();
+    console.log("new$$$$$$$$$$$: ", newState);
+  }, [contents]);
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.container}>
@@ -256,7 +300,7 @@ export default function AddEvent(props) {
           style={styles.input}
           placeholder="내용"
           //secureTextEntry={true}
-          onChangeText={(contents) => setContents(contents)}
+          onChangeText={(newcontents) => setnewContents(newcontents)}
         />
       </View>
       <View style={{ backgroundColor: "skyblue", flex: 7 }}>
@@ -266,6 +310,8 @@ export default function AddEvent(props) {
         {startDate.format("yyyyMMddHHmm") != endDate.format("yyyyMMddHHmm") && (
           <Text>different</Text>
         )}
+        <Text>{contents[0].content}</Text>
+        <Text>{newcontents}</Text>
         <Button
           title={"AddEvent"}
           onPress={() => {
