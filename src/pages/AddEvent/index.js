@@ -86,6 +86,7 @@ export default function AddEvent(props) {
   const [contents, setContents] = useState([
     {
       content: "hello",
+      startDate: "1800/07/08"
     },
   ]);
   const [newcontents, setnewContents] = useState("");
@@ -162,35 +163,30 @@ export default function AddEvent(props) {
   };
 
   async function storeData(newCont) {
-    try {
+    
       await AsyncStorage.setItem("@diary:state", JSON.stringify(newCont));
-    } catch (e) {}
+    
   }
   async function getData() {
-    try {
-     
+    
       const mystate = await AsyncStorage.getItem("@diary:state");
       if (mystate !== null) {
         setContents(JSON.parse(mystate));
       }
-    } catch (e) {}
+    
   }
   
-  async function isCorrect(n) {
-   try{
-    var newCont = contents.concat({ content: newcontents })
+  function isCorrect(n) {
+    var newCont = contents.concat({ content: newcontents, startDate:startDate })
     setContents(newCont)
-    await storeData(newCont)
+    storeData(newCont)
     if (n == 1) {
       //Toast.show("Success");
       props.navigation.goBack();
     } else {
       Alert.alert("error");
     }
-  }
-  catch{
-
-  }
+  
 }
   function save() {
     if (contents != "") {
@@ -224,7 +220,7 @@ export default function AddEvent(props) {
             value={startDateText}
           />
           <DateTimePickerModal
-            minimumDate={new Date()}
+            // minimumDate={new Date()}
             date={startDate}
             isVisible={startDateVisible}
             mode="date"

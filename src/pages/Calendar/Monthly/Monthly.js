@@ -17,13 +17,16 @@ export default function Monthly(props) {
   const selectDate = useSelector((state) => {
     return state.dateReducer.monthlyDate;
   });
+  const [i, setI] = useState(0);
   const [newState, setnewState] = useState("");
+  
   async function getData() {
     try {
       const mystate = await AsyncStorage.getItem("@diary:state");
       console.log('getData : ', mystate)
-      if (mystate !== null) {
+      if (i==0) {
         setnewState(JSON.parse(mystate));
+        setI(1)
       }
     } catch (e) {}
   }
@@ -31,16 +34,23 @@ export default function Monthly(props) {
     getData()
     console.log('newState: ', newState)
   },[selectDate])
+
+  
   let events = [
-    {startDate : '2022-3-11T13:24:00', endDate : '2022-03-11T17:24:00', contents: 'E1'},
-    {startDate : '2022-3-12T14:25:00', endDate : '2022-03-12T18:25:00', contents: 'E2'},
-    {startDate : '2022-3-13T15:26:00', endDate : '2022-03-13T19:26:00', contents: 'E3'},
+    {startDate : '2022-03-11T13:24:00', endDate : '2022-03-11T17:24:00', contents: 'E1'},
+    {startDate : '2022-03-12T14:25:00', endDate : '2022-03-12T18:25:00', contents: 'E2'},
+    {startDate : '2022-03-13T15:26:00', endDate : '2022-03-13T19:26:00', contents: 'E3'},
   ]
   const getEvent = (date)=>{
     // console.log('date in getEvent: ', date)
-    let result = events.filter(it => it.startDate.includes(date));
-    console.log(result[0]?result[0].contents:'');
-    return result[0]?result[0].contents:'';
+    if (newState)
+    {
+    let result = newState.filter(it => it.startDate.includes(date));
+    console.log(result[0]?result[0].content:'');
+    return result[0]?result[0].content:'';
+  }
+    else{
+    return '';}
   }
   const dispatch = useDispatch();
   const generateMatrix = () => {
@@ -155,7 +165,7 @@ export default function Monthly(props) {
       //   finalLineIndex = rowIndex;
       //   // console.log("UUUUUU", rowIndex);
       // }
-      let date = selectDate.getFullYear()+'-'+(selectDate.getMonth()+1)+'-'+item;
+      let date = selectDate.getFullYear()+'-'+(selectDate.getMonth()+1).toString().padStart(2,'0')+'-'+item.toString().padStart(2,'0');
       return (
         <TouchableOpacity
           style={{
