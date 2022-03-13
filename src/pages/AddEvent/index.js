@@ -168,13 +168,18 @@ export default function AddEvent(props) {
     
   }
   async function getData() {
+<<<<<<< HEAD
     
+=======
+    try {
+>>>>>>> cbd8aa5c17bf260e539f091d5f1d3a2d7084c015
       const mystate = await AsyncStorage.getItem("@diary:state");
       if (mystate !== null) {
         setContents(JSON.parse(mystate));
       }
     
   }
+<<<<<<< HEAD
   
   function isCorrect(n) {
     var newCont = contents.concat({ content: newcontents, startDate:startDate })
@@ -188,6 +193,22 @@ export default function AddEvent(props) {
     }
   
 }
+=======
+
+  async function isCorrect(n) {
+    try {
+      var newCont = contents.concat({ content: newcontents });
+      setContents(newCont);
+      await storeData(newCont);
+      if (n == 1) {
+        //Toast.show("Success");
+        props.navigation.goBack();
+      } else {
+        Alert.alert("error");
+      }
+    } catch {}
+  }
+>>>>>>> cbd8aa5c17bf260e539f091d5f1d3a2d7084c015
   function save() {
     if (contents != "") {
       const id = "1";
@@ -313,7 +334,7 @@ export default function AddEvent(props) {
         <Button
           title={"AddEvent"}
           onPress={() => {
-            console.log('newCont: ',newcontents)
+            console.log("newCont: ", newcontents);
             isCorrect(
               startDate.format("yyyyMMddHHmm") <=
                 endDate.format("yyyyMMddHHmm") && contents != ""
